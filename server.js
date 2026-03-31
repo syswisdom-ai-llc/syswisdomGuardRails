@@ -471,7 +471,11 @@ app.get('/training-export', (_req, res) => {
 });
 
 // ── Start ──────────────────────────────────────────────────────────────────────
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Check if this module is being run directly (not imported)
+const isMainModule = import.meta.url === `file://${process.argv[1]}` || 
+                     process.argv[1]?.endsWith('server.js');
+
+if (isMainModule) {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log('\n  ╔═══════════════════════════════════════════╗');
