@@ -1,0 +1,239 @@
+# SysWisdom Guardrails - Commercial License Agreement
+
+**© 2024 SysWisdom.AI LLC • Building with heart in Georgia**
+
+---
+
+## 1. GRANT OF LICENSE
+
+SysWisdom.AI LLC ("**Company**") grants you a limited, non-exclusive, non-transferable license to use the SysWisdom Guardrails platform (the "**Software**") subject to the terms and conditions of this License Agreement.
+
+This Software includes:
+- Source code and compiled binaries
+- Documentation and training materials
+- ML models and drift detection algorithms
+- UI/UX frameworks and components
+- All associated data, configurations, and specifications
+
+---
+
+## 2. PERMITTED USE
+
+You may use the Software for:
+- ✅ Internal business purposes (within your organization)
+- ✅ Evaluation and testing (up to 30 days)
+- ✅ Integration with your proprietary systems
+- ✅ Custom modifications for your own use case
+
+---
+
+## 3. RESTRICTIONS
+
+You **MAY NOT**:
+- ❌ Reproduce, copy, or distribute the Software without written permission
+- ❌ Reverse engineer, decompile, or attempt to derive source code
+- ❌ Rent, lease, transfer, or sublicense the Software
+- ❌ Remove or alter any proprietary notices, labels, or marks
+- ❌ Use the Software to create competing products or services
+- ❌ Publicly disclose performance metrics, benchmarks, or results
+- ❌ Sell access to or resell the Software
+- ❌ Create derivative works for commercial purposes
+- ❌ Use the Software in breach of any law or regulation
+
+---
+
+## 4. INTELLECTUAL PROPERTY RIGHTS
+
+### Ownership
+
+All intellectual property rights in the Software are owned exclusively by SysWisdom.AI LLC, including:
+- Drift detection algorithms and models
+- Training data generation logic
+- Quality assessment methodologies
+- CO-INTELLIGENCE framework
+- All improvements, modifications, and enhancements
+
+### Your Modifications
+
+Modifications you make to the Software for internal use remain your property. However:
+- You cannot distribute, sell, or license modifications
+- Feedback and suggestions may be incorporated into the Software at Company's discretion
+- You grant Company a non-exclusive right to use improvements you share
+
+---
+
+## 5. CONFIDENTIAL INFORMATION
+
+The Software contains proprietary and confidential information. You agree to:
+- Keep the Software and its contents confidential
+- Limit access to authorized employees and contractors
+- Use industry-standard security measures to protect it
+- Not disclose contents, architecture, or methodologies
+
+---
+
+## 6. COMMERCIAL LICENSING
+
+### For Commercial Use
+
+If you wish to:
+- Integrate the Software into products you sell
+- Use the Software as part of a SaaS offering
+- White-label or rebrand the Software
+- Deploy the Software beyond internal use
+
+**You must obtain a separate Commercial License Agreement.**
+
+Contact: **sales@syswisdom.ai**
+
+### Evaluation License
+
+Free 30-day evaluation license available. After 30 days, you must:
+- Purchase a Commercial License, or
+- Delete the Software entirely
+
+---
+
+## 7. SUPPORT & UPDATES
+
+- Updates and patches provided as available
+- Support (if applicable) subject to separate agreement
+- Company may modify or discontinue features
+- No guarantee of continued availability
+
+---
+
+## 8. DISCLAIMERS
+
+### AS-IS BASIS
+
+THE SOFTWARE IS PROVIDED "AS-IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING:
+- Warranties of merchantability or fitness for a particular purpose
+- Warranties of non-infringement or title
+- Warranties that the Software is error-free or uninterrupted
+
+### LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL SYSWISDOM.AI LLC BE LIABLE FOR:
+- Lost profits, revenue, or business opportunity
+- Indirect, incidental, consequential, or punitive damages
+- Damage to data or systems
+- Any liability arising from use of the Software
+
+Your exclusive remedy is discontinuation of use.
+
+---
+
+## 9. DATA & PRIVACY
+
+Your use of the Software is subject to:
+- **Privacy Policy:** https://www.syswisdom.ai/privacy
+- **Terms of Service:** https://docs.google.com/document/d/e/2PACX-1vSeNXJb2ED03yonMIF5rTx-U_4wrI75HsCCW8lEb5Wv-tbVkqRNjpH6pQnw9S2_wakjTsUAoxbcBbZ7/pub
+
+By using the Software, you agree to these policies.
+
+---
+
+## 10. COMPLIANCE & REGULATIONS
+
+You agree to use the Software in compliance with:
+- All applicable federal, state, and local laws
+- Data protection and privacy regulations (GDPR, CCPA, etc.)
+- Industry-specific requirements
+- Ethical guidelines for AI/ML systems
+
+---
+
+## 11. TERM & TERMINATION
+
+### Term
+
+This license is effective upon acceptance and continues unless terminated.
+
+### Termination
+
+Company may terminate this license immediately if you:
+- Breach any material term of this Agreement
+- Attempt to reverse engineer or circumvent restrictions
+- Use the Software for prohibited purposes
+
+Upon termination, you must:
+- Cease using the Software immediately
+- Delete all copies (except backups for 30 days)
+- Certify destruction in writing
+
+---
+
+## 12. FEEDBACK & IMPROVEMENTS
+
+Any feedback, suggestions, or reports you provide regarding the Software:
+- May be used by Company without compensation
+- Becomes the property of Company
+- May be incorporated into future versions
+
+---
+
+## 13. ENTIRE AGREEMENT
+
+This License constitutes the entire agreement between you and Company regarding use of the Software. It supersedes all prior agreements. Modifications require written consent from Company.
+
+---
+
+## 14. SEVERABILITY
+
+If any provision is found unenforceable, the remaining provisions remain in full force and effect.
+
+---
+
+## 15. GOVERNING LAW
+
+This License is governed by the laws of the State of Georgia, without regard to conflicts of law principles. Any legal action must be brought in Georgia courts.
+
+---
+
+## 16. CONTACT INFORMATION
+
+For questions, licensing inquiries, or support:
+
+**General Information:**
+```
+info@syswisdom.ai
+```
+
+**Commercial Licensing & Sales:**
+```
+sales@syswisdom.ai
+```
+
+**Company Website:**
+```
+https://www.syswisdom.ai
+```
+
+**Privacy Policy:**
+```
+https://www.syswisdom.ai/privacy
+```
+
+**Terms of Service:**
+```
+https://docs.google.com/document/d/e/2PACX-1vSeNXJb2ED03yonMIF5rTx-U_4wrI75HsCCW8lEb5Wv-tbVkqRNjpH6pQnw9S2_wakjTsUAoxbcBbZ7/pub
+```
+
+---
+
+## ACKNOWLEDGMENT
+
+By using the SysWisdom Guardrails Software, you acknowledge that you:
+- Have read this License Agreement
+- Understand its terms and restrictions
+- Agree to be bound by its provisions
+- Accept that use constitutes acceptance
+
+---
+
+**© 2024 SysWisdom.AI LLC**
+
+*Building with heart in Georgia*
+
+Last Updated: March 31, 2026
