@@ -1,20 +1,30 @@
-require('dotenv').config();
-const express = require('express');
-const multer  = require('multer');
-const FormData = require('form-data');
-const axios   = require('axios');
-const fs      = require('fs');
-const path    = require('path');
-const { v4: uuidv4 } = require('uuid');
+import 'dotenv/config.js';
+import express from 'express';
+import multer from 'multer';
+import FormData from 'form-data';
+import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'node:url';
+import { v4 as uuidv4 } from 'uuid';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 
 // ── Data storage ───────────────────────────────────────────────────────────────
-const DATA_DIR       = path.join(__dirname, 'data');
-const ANALYSES_FILE  = path.join(DATA_DIR, 'analyses.json');
-const LIBRARY_FILE   = path.join(DATA_DIR, 'fix-library.json');
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
+
+// Dynamic getters for test environment variable support (tests set these in before() hook)
+const getAnalysesFile = () => process.env.ANALYSES_FILE || path.join(DATA_DIR, 'analyses.json');
+const getLibraryFile = () => process.env.LIBRARY_FILE || path.join(DATA_DIR, 'fix-library.json');
+
+// Export both static versions (for compatibility) and dynamic getters
+const ANALYSES_FILE = getAnalysesFile();
+const LIBRARY_FILE = getLibraryFile();
 
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(ANALYSES_FILE)) fs.writeFileSync(ANALYSES_FILE, JSON.stringify({ records: [] }, null, 2));
@@ -107,7 +117,7 @@ app.post('/analyze', upload.single('file'), async (req, res) => {
     });
 
     const issues   = normalizeIssues(api);
-    const analyses = readJSON(ANALYSES_FILE, { records: [] });
+    const analyses = readJSON(getAnalysesFile(), { records: [] });
 
     const record = {
       id:                uuidv4(),
@@ -125,7 +135,7 @@ app.post('/analyze', upload.single('file'), async (req, res) => {
 
     analyses.records.unshift(record);
     if (analyses.records.length > 200) analyses.records.length = 200;
-    writeJSON(ANALYSES_FILE, analyses);
+    writeJSON(getAnalysesFile(), analyses);
 
     res.json(record);
   } catch (err) {
@@ -145,7 +155,7 @@ app.post('/approval', (req, res) => {
     return res.status(400).json({ error: 'Required: analysis_id, issue_id, is_real (boolean), submitted_by' });
   }
 
-  const analyses = readJSON(ANALYSES_FILE, { records: [] });
+  const analyses = readJSON(getAnalysesFile(), { records: [] });
   const record   = analyses.records.find(a => a.id === analysis_id);
   if (!record) return res.status(404).json({ error: 'Analysis not found' });
 
@@ -167,7 +177,7 @@ app.post('/approval', (req, res) => {
     confidence_after:  confAfter
   };
 
-  writeJSON(ANALYSES_FILE, analyses);
+  writeJSON(getAnalysesFile(), analyses);
 
   // Auto-add to fix library when approved with a usable fix
   if (is_real && (fix_quality === 'good' || issue.approval.better_fix)) {
@@ -191,7 +201,7 @@ app.post('/approval', (req, res) => {
       times_applied:     0,
       effectiveness_rating: 0
     });
-    writeJSON(LIBRARY_FILE, lib);
+    writeJSON(getLibraryFile(), lib);
   }
 
   res.json({ success: true, issue });
@@ -201,7 +211,7 @@ app.post('/approval', (req, res) => {
 // PHASE 3 — Fix Library
 // ══════════════════════════════════════════════════════════════════════════════
 app.get('/fix-library', (req, res) => {
-  const lib   = readJSON(LIBRARY_FILE, { fixes: [] });
+  const lib   = readJSON(getLibraryFile(), { fixes: [] });
   const fixes = [...(lib.fixes || [])];
   const sort  = req.query.sort_by || 'votes';
   fixes.sort((a, b) => ((b[sort] ?? 0) - (a[sort] ?? 0)));
@@ -213,7 +223,7 @@ app.post('/fix-library', (req, res) => {
   if (!issue?.trim() || !fix?.trim() || !created_by?.trim()) {
     return res.status(400).json({ error: 'issue, fix, and created_by are required' });
   }
-  const lib = readJSON(LIBRARY_FILE, { fixes: [] });
+  const lib = readJSON(getLibraryFile(), { fixes: [] });
   if (!lib.fixes) lib.fixes = [];
   const newFix = {
     id:                `fix_${uuidv4().split('-')[0].toUpperCase()}`,
@@ -234,7 +244,7 @@ app.post('/fix-library', (req, res) => {
     effectiveness_rating: 0
   };
   lib.fixes.unshift(newFix);
-  writeJSON(LIBRARY_FILE, lib);
+  writeJSON(getLibraryFile(), lib);
   res.json({ success: true, fix: newFix });
 });
 
@@ -243,11 +253,11 @@ app.post('/fix-library/vote', (req, res) => {
   if (!fix_id || !['up', 'down'].includes(direction)) {
     return res.status(400).json({ error: 'fix_id and direction (up|down) required' });
   }
-  const lib = readJSON(LIBRARY_FILE, { fixes: [] });
+  const lib = readJSON(getLibraryFile(), { fixes: [] });
   const fix = (lib.fixes || []).find(f => f.id === fix_id);
   if (!fix) return res.status(404).json({ error: 'Fix not found' });
   fix.votes = (fix.votes || 0) + (direction === 'up' ? 1 : -1);
-  writeJSON(LIBRARY_FILE, lib);
+  writeJSON(getLibraryFile(), lib);
   res.json({ success: true, votes: fix.votes });
 });
 
@@ -255,7 +265,7 @@ app.post('/fix-library/vote', (req, res) => {
 // REPORT — Plain-text export
 // ══════════════════════════════════════════════════════════════════════════════
 app.get('/report/:id', (req, res) => {
-  const analyses = readJSON(ANALYSES_FILE, { records: [] });
+  const analyses = readJSON(getAnalysesFile(), { records: [] });
   const record   = analyses.records.find(a => a.id === req.params.id);
   if (!record) return res.status(404).json({ error: 'Analysis not found' });
 
@@ -333,7 +343,7 @@ app.get('/report/:id', (req, res) => {
 // HISTORY
 // ══════════════════════════════════════════════════════════════════════════════
 app.get('/history', (_req, res) => {
-  const analyses = readJSON(ANALYSES_FILE, { records: [] });
+  const analyses = readJSON(getAnalysesFile(), { records: [] });
   const records  = (analyses.records || []).map(a => ({
     id:            a.id,
     filename:      a.filename,
@@ -461,7 +471,7 @@ app.get('/training-export', (_req, res) => {
 });
 
 // ── Start ──────────────────────────────────────────────────────────────────────
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log('\n  ╔═══════════════════════════════════════════╗');
@@ -473,4 +483,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { app, normalizeIssues, readJSON, writeJSON, ANALYSES_FILE, LIBRARY_FILE };
+export { app, normalizeIssues, readJSON, writeJSON, getAnalysesFile, getLibraryFile, ANALYSES_FILE, LIBRARY_FILE };

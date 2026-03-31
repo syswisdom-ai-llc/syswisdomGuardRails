@@ -1,4 +1,3 @@
-'use strict';
 /**
  * SysWisdom Guardrails — Unit Tests
  * Run with: npm test
@@ -14,19 +13,25 @@
  *   Test 5 — GET /fix-library: returns seeded fixes sorted by votes with total count
  */
 
-const { test, before, after } = require('node:test');
-const assert = require('node:assert/strict');
-const http   = require('node:http');
-const path   = require('node:path');
-const fs     = require('node:fs');
-const os     = require('node:os');
+import { test, before, after } from 'node:test';
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import path from 'node:path';
+import fs from 'node:fs';
+import os from 'node:os';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ── Boot the app on an ephemeral port ─────────────────────────────────────────
-const { app, normalizeIssues } = require('../server');
+import { app, normalizeIssues, readJSON, writeJSON, ANALYSES_FILE, LIBRARY_FILE } from '../server.js';
 
 let server;
 let BASE_URL;
 let TMP_DATA;
+let TEST_ANALYSES_FILE;
+let TEST_LIBRARY_FILE;
 
 // Real API response shape returned by SysWisdom (matches test.csv result)
 const SAMPLE_API_RESPONSE = {
@@ -123,12 +128,30 @@ function requestMultipart(urlPath, filename, fileBuffer, mimeType) {
 before(async () => {
   // Use a temp analyses file so tests never clobber real recorded data
   TMP_DATA = fs.mkdtempSync(path.join(os.tmpdir(), 'guardrails-test-'));
-  const analysesPath = path.join(TMP_DATA, 'analyses.json');
-  fs.writeFileSync(analysesPath, JSON.stringify({ records: [] }, null, 2));
+  TEST_ANALYSES_FILE = path.join(TMP_DATA, 'analyses.json');
+  TEST_LIBRARY_FILE = path.join(TMP_DATA, 'fix-library.json');
+  
+  fs.writeFileSync(TEST_ANALYSES_FILE, JSON.stringify({ records: [] }, null, 2));
+  
+  // Seed the fix library with one example fix for TEST 5
+  const seededLibrary = {
+    fixes: [
+      {
+        id: 'seed-fix-001',
+        issue: 'Missing Values in "Email"',
+        fix: 'Backfill from CRM database using phone number lookup',
+        quality_principle: 'completeness',
+        team_confidence: 92,
+        votes: 5,
+        created_at: new Date().toISOString()
+      }
+    ]
+  };
+  fs.writeFileSync(TEST_LIBRARY_FILE, JSON.stringify(seededLibrary, null, 2));
 
-  // Override ANALYSES_FILE constant in the loaded module
-  const srv = require('../server');
-  Object.assign(srv, { ANALYSES_FILE: analysesPath });
+  // Set environment variables BEFORE app starts so server reads from temp files
+  process.env.ANALYSES_FILE = TEST_ANALYSES_FILE;
+  process.env.LIBRARY_FILE = TEST_LIBRARY_FILE;
 
   server = app.listen(0); // port 0 = random available port
   await new Promise(resolve => server.once('listening', resolve));
@@ -269,12 +292,7 @@ test('TEST 5 — GET /fix-library returns fixes sorted by votes with correct tot
 // TEST 6 — GET /report/:id: returns report string with score and branding
 // ═════════════════════════════════════════════════════════════════════════════
 test('TEST 6 — GET /report/:id returns plain-text report with score and branding', async () => {
-  const { readJSON, writeJSON } = require('../server');
-  // Construct the real path — the export's ANALYSES_FILE was overwritten by before() to temp dir
-  const REAL_ANALYSES = path.join(__dirname, '..', 'data', 'analyses.json');
-
-  // Seed a known record into the real analyses file (preserve existing records)
-  const original = readJSON(REAL_ANALYSES, { records: [] });
+  // Use the test temp analyses file
   const testId = 'test-report-unit-001';
   const testRecord = {
     id:                 testId,
@@ -302,28 +320,25 @@ test('TEST 6 — GET /report/:id returns plain-text report with score and brandi
     ]
   };
 
-  writeJSON(REAL_ANALYSES, { records: [testRecord, ...original.records] });
+  // Write test record to temp analyses file
+  const analyses = readJSON(TEST_ANALYSES_FILE, { records: [] });
+  writeJSON(TEST_ANALYSES_FILE, { records: [testRecord, ...analyses.records] });
 
-  try {
-    const res = await request('GET', `/report/${testId}`, null);
+  const res = await request('GET', `/report/${testId}`, null);
 
-    assert.equal(res.status, 200, 'Report endpoint should return 200');
-    assert.ok(typeof res.body.report === 'string', 'Response body.report should be a string');
-    assert.ok(res.body.report.length > 0,               'Report text should be non-empty');
-    assert.ok(res.body.report.includes('unit-test-report.csv'), 'Report should contain the filename');
-    assert.ok(res.body.report.includes('91'),            'Report should contain overall score 91');
-    assert.ok(res.body.report.includes('SysWisdom'),     'Report should include SysWisdom branding');
-    assert.ok(res.body.report.includes('AWAITING HUMAN REVIEW'), 'Pending issue should appear in report');
-    assert.ok(res.body.record,                           'Response should include the full record object');
-    assert.equal(res.body.record.id, testId,             'record.id should match the requested id');
+  assert.equal(res.status, 200, 'Report endpoint should return 200');
+  assert.ok(typeof res.body.report === 'string', 'Response body.report should be a string');
+  assert.ok(res.body.report.length > 0,               'Report text should be non-empty');
+  assert.ok(res.body.report.includes('unit-test-report.csv'), 'Report should contain the filename');
+  assert.ok(res.body.report.includes('91'),            'Report should contain overall score 91');
+  assert.ok(res.body.report.includes('SysWisdom'),     'Report should include SysWisdom branding');
+  assert.ok(res.body.report.includes('AWAITING HUMAN REVIEW'), 'Pending issue should appear in report');
+  assert.ok(res.body.record,                           'Response should include the full record object');
+  assert.equal(res.body.record.id, testId,             'record.id should match the requested id');
 
-    // 404 for unknown id
-    const resNotFound = await request('GET', '/report/nonexistent-analysis-id', null);
-    assert.equal(resNotFound.status, 404, 'Unknown analysis id should return 404');
-  } finally {
-    // Restore original file — test never pollutes real data permanently
-    writeJSON(REAL_ANALYSES, original);
-  }
+  // 404 for unknown id
+  const resNotFound = await request('GET', '/report/nonexistent-analysis-id', null);
+  assert.equal(resNotFound.status, 404, 'Unknown analysis id should return 404');
 });
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -359,9 +374,7 @@ test('TEST 7 — GET /history returns records array with correct summary shape',
 // TEST 8 — POST /fix-library/vote: increments and decrements votes correctly
 // ═════════════════════════════════════════════════════════════════════════════
 test('TEST 8 — POST /fix-library/vote increments and decrements votes correctly', async () => {
-  const { readJSON, LIBRARY_FILE } = require('../server');
-
-  const lib = readJSON(LIBRARY_FILE, { fixes: [] });
+  const lib = readJSON(TEST_LIBRARY_FILE, { fixes: [] });
   assert.ok(lib.fixes.length > 0, 'Fix library must have at least one fix to test voting');
 
   const target = lib.fixes[0];
@@ -391,8 +404,6 @@ test('TEST 8 — POST /fix-library/vote increments and decrements votes correctl
 // TEST 9 — POST /fix-library: validates required fields and creates new fix
 // ═════════════════════════════════════════════════════════════════════════════
 test('TEST 9 — POST /fix-library validates required fields and creates a new fix', async () => {
-  const { readJSON, writeJSON, LIBRARY_FILE } = require('../server');
-
   // Missing all required fields → 400
   const resEmpty = await request('POST', '/fix-library', {});
   assert.equal(resEmpty.status, 400, 'Empty body should return 400');
@@ -429,9 +440,9 @@ test('TEST 9 — POST /fix-library validates required fields and creates a new f
   assert.equal(resOk.body.fix.votes, 0,               'New fix starts with 0 votes');
 
   // Clean up — remove the test fix so real data stays clean
-  const lib = readJSON(LIBRARY_FILE, { fixes: [] });
+  const lib = readJSON(TEST_LIBRARY_FILE, { fixes: [] });
   lib.fixes = lib.fixes.filter(f => f.id !== resOk.body.fix.id);
-  writeJSON(LIBRARY_FILE, lib);
+  writeJSON(TEST_LIBRARY_FILE, lib);
 });
 
 // ══════════════════════════════════════════════════════════════════════════════
