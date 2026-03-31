@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SysWisdom Guardrails — CO-INTELLIGENCE</title>
+<style>
+:root {
+  --navy:    #0f172a;
+  --navy2:   #1e293b;
+  --teal:    #0ea5e9;
+  --teal2:   #06b6d4;
+  --green:   #10b981;
+  --yellow:  #f59e0b;
+  --red:     #ef4444;
+  --orange:  #f97316;
+  --purple:  #8b5cf6;
+  --bg:      #f1f5f9;
+  --card:    #ffffff;
+  --border:  #e2e8f0;
+  --text:    #0f172a;
+  --muted:   #64748b;
+  --radius:  10px;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ── Header ── */
+header {
+  background: var(--navy);
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(0,0,0,.45);
+  border-bottom: 2px solid var(--teal2);
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-mark { width: 36px; height: 36px; background: linear-gradient(135deg, var(--teal), var(--green)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; color: #fff; }
+.logo-text h1 { font-size: 16px; font-weight: 700; letter-spacing: .3px; }
+.logo-text p  { font-size: 11px; color: #94a3b8; }
+.reviewer-wrap { display: flex; align-items: center; gap: 8px; }
+.reviewer-wrap label { font-size: 12px; color: #94a3b8; }
+#reviewerName {
+  background: var(--navy2); border: 1px solid #334155; color: #fff;
+  padding: 6px 12px; border-radius: 6px; font-size: 13px; width: 180px;
+}
+#reviewerName:focus { outline: none; border-color: var(--teal); }
+.wisdom-pill { background: rgba(14,165,233,.15); border: 1px solid rgba(14,165,233,.3); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--teal2); white-space: nowrap; }
+
+/* ── Tabs ── */
+nav.tabs {
+  background: var(--navy2);
+  display: flex;
+  gap: 2px;
+  padding: 0 24px;
+  overflow-x: auto;
+}
+.tab-btn {
+  background: none; border: none; color: #94a3b8;
+  padding: 13px 18px; font-size: 13px; font-weight: 500;
+  cursor: pointer; border-bottom: 3px solid transparent;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: #e2e8f0; }
+.tab-btn.active { color: var(--teal2); border-bottom-color: var(--teal2); }
+.tab-btn .badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--orange); color: #fff; border-radius: 10px;
+  font-size: 10px; font-weight: 700; min-width: 18px; height: 18px;
+  padding: 0 5px; margin-left: 6px;
+}
+
+/* ── Layout ── */
+main { max-width: 960px; margin: 0 auto; padding: 28px 20px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display: block; }
+
+/* ── Cards ── */
+.card {
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 22px; margin-bottom: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+/* ── Upload Zone ── */
+.upload-hero { text-align: center; margin-bottom: 28px; }
+.upload-hero h2 { font-size: 24px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.upload-hero p  { color: var(--muted); font-size: 14px; max-width: 480px; margin: 0 auto; }
+.drop-zone {
+  border: 2px dashed #cbd5e1; border-radius: 16px;
+  padding: 52px 32px; text-align: center; cursor: pointer;
+  transition: border-color .2s, background .2s;
+  background: #f8fafc;
+}
+.drop-zone.drag-over { border-color: var(--teal2); background: #f0f9ff; }
+.drop-zone:hover { border-color: #94a3b8; }
+.drop-zone .drop-icon { font-size: 48px; margin-bottom: 14px; }
+.drop-zone h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+.drop-zone p  { color: var(--muted); font-size: 13px; }
+.file-types { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+.file-type-badge { background: var(--navy); color: #fff; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; }
+#fileInput { display: none; }
+#selectedFile {
+  margin-top: 16px; padding: 12px 18px; background: #f0f9ff;
+  border: 1px solid var(--teal); border-radius: 8px; font-size: 13px;
+  display: none; align-items: center; gap: 10px;
+}
+#selectedFile .file-name { font-weight: 600; color: var(--navy); flex: 1; }
+#selectedFile .file-size { color: var(--muted); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 8px; font-size: 14px;
+  font-weight: 600; cursor: pointer; border: none; transition: opacity .2s, transform .1s;
+}
+.btn:hover { opacity: .88; }
+.btn:active { transform: scale(.98); }
+.btn-primary { background: var(--teal); color: #fff; }
+.btn-success { background: var(--green); color: #fff; }
+.btn-danger  { background: var(--red);  color: #fff; }
+.btn-outline { background: none; border: 2px solid var(--border); color: var(--text); }
+.btn-sm      { padding: 7px 14px; font-size: 13px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+#analyzeBtn { margin-top: 20px; width: 100%; justify-content: center; font-size: 16px; padding: 15px; }
+
+/* ── Spinner ── */
+.spinner { display: none; flex-direction: column; align-items: center; gap: 12px; padding: 40px; }
+.spinner.show { display: flex; }
+.spin-ring {
+  width: 48px; height: 48px; border: 4px solid #e2e8f0;
+  border-top-color: var(--teal); border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Score Dashboard ── */
+.score-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.score-card { background: var(--card); border: 2px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+.score-card .label { font-size: 12px; color: #000; font-weight: 900; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
+.score-ring-wrap { position: relative; width: 80px; height: 80px; margin: 0 auto 10px; }
+.score-ring-wrap svg { transform: rotate(-90deg); }
+.score-ring-bg { fill: none; stroke: #e2e8f0; stroke-width: 7; }
+.score-ring-fg { fill: none; stroke-width: 7; stroke-linecap: round; transition: stroke-dasharray .8s ease; }
+.score-ring-number { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; color: var(--green); }
+.score-card .sub { font-size: 12px; color: var(--navy2); margin-top: 4px; font-weight: 500; }
+
+/* ── Issue Cards ── */
+.issues-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+.issues-header h2 { font-size: 18px; font-weight: 700; }
+.progress-info { font-size: 13px; color: var(--muted); }
+.issue-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  border-left: 5px solid var(--border);
+}
+.issue-card.severity-CRITICAL { border-left-color: var(--red); }
+.issue-card.severity-HIGH     { border-left-color: var(--orange); }
+.issue-card.severity-MEDIUM   { border-left-color: var(--yellow); }
+.issue-card.severity-INFORMATIONAL { border-left-color: var(--purple); }
+.issue-card.approved   { border-left-color: var(--green); opacity: .9; }
+.issue-card.rejected   { border-left-color: var(--muted); opacity: .75; }
+.issue-top { padding: 18px 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.issue-meta { flex: 1; }
+.issue-meta h3 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+.issue-meta .detail { font-size: 13px; color: var(--muted); }
+.issue-badges { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.badge {
+  display: inline-block; border-radius: 5px; padding: 3px 9px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px;
+}
+.badge-critical     { background: #fef2f2; color: var(--red); border: 1px solid #fecaca; }
+.badge-high         { background: #fff7ed; color: var(--orange); border: 1px solid #fed7aa; }
+.badge-medium       { background: #fffbeb; color: var(--yellow); border: 1px solid #fde68a; }
+.badge-informational{ background: #f5f3ff; color: var(--purple); border: 1px solid #ddd6fe; }
+.badge-type         { background: #f0f9ff; color: var(--teal); border: 1px solid #bae6fd; }
+.badge-confidence   { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; }
+.badge-approved     { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; font-size: 12px; }
+.badge-rejected     { background: #f8fafc; color: var(--muted); border: 1px solid var(--border); font-size: 12px; }
+.confidence-bar { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.conf-track { flex: 1; height: 4px; background: #e2e8f0; border-radius: 2px; max-width: 120px; }
+.conf-fill  { height: 100%; border-radius: 2px; background: var(--teal2); transition: width .6s ease; }
+.conf-label { font-size: 11px; color: var(--muted); }
+.issue-actions { padding: 0 20px 18px; }
+.action-row { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.action-row .btn { flex: 1; min-width: 130px; justify-content: center; }
+.approval-form { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 18px; display: none; flex-direction: column; gap: 14px; }
+.approval-form.show { display: flex; }
+.form-row { display: flex; flex-direction: column; gap: 5px; }
+.form-row label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+.form-row textarea, .form-row select, .form-row input[type=text] {
+  border: 1px solid var(--border); border-radius: 7px;
+  padding: 9px 12px; font-size: 13px; font-family: inherit;
+  background: #fff; color: var(--text); resize: vertical;
+}
+.form-row textarea:focus, .form-row select:focus { outline: none; border-color: var(--teal); }
+.fix-quality-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.fix-quality-btn {
+  flex: 1; min-width: 90px; padding: 9px; border-radius: 7px;
+  border: 2px solid var(--border); background: #fff; cursor: pointer;
+  font-size: 12px; font-weight: 600; text-align: center; transition: all .15s;
+}
+.fix-quality-btn.selected-good   { border-color: var(--green);  background: #f0fdf4; color: var(--green); }
+.fix-quality-btn.selected-meh    { border-color: var(--yellow); background: #fffbeb; color: var(--yellow); }
+.fix-quality-btn.selected-wrong  { border-color: var(--red);    background: #fef2f2; color: var(--red); }
+.suggested-fix { background: #fff; border: 1px solid #bae6fd; border-radius: 7px; padding: 10px 14px; font-size: 13px; color: var(--navy2); }
+.approved-summary, .rejected-summary { padding: 14px 18px; border-radius: 8px; font-size: 13px; display: flex; align-items: flex-start; gap: 12px; }
+.approved-summary { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.rejected-summary { background: #f8fafc; border: 1px solid var(--border); }
+
+/* ── Fix Library ── */
+.library-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+.library-controls select { padding: 8px 12px; border-radius: 7px; border: 1px solid var(--border); font-size: 13px; background: #fff; }
+.fix-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.fix-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.fix-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.fix-card-header h4 { font-size: 14px; font-weight: 700; line-height: 1.4; }
+.principle-badge { border-radius: 5px; padding: 3px 8px; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+.principle-data_integrity  { background: #f0f9ff; color: var(--teal); border: 1px solid #bae6fd; }
+.principle-consistency     { background: #f5f3ff; color: var(--purple); border: 1px solid #ddd6fe; }
+.principle-domain_knowledge{ background: #fff7ed; color: var(--orange); border: 1px solid #fed7aa; }
+.principle-compliance      { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; }
+.principle-security        { background: #fef2f2; color: var(--red); border: 1px solid #fecaca; }
+.principle-manual          { background: #f8fafc; color: var(--muted); border: 1px solid var(--border); }
+.fix-text { font-size: 13px; color: var(--teal2); font-weight: 600; background: #f0f9ff; border-radius: 6px; padding: 8px 12px; margin-bottom: 10px; }
+.fix-context { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+.fix-footer { display: flex; align-items: center; justify-content: space-between; }
+.fix-meta { font-size: 11px; color: var(--muted); }
+.vote-row { display: flex; align-items: center; gap: 6px; }
+.vote-btn { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 13px; transition: background .15s; }
+.vote-btn:hover { background: #f1f5f9; }
+.vote-count { font-size: 13px; font-weight: 700; min-width: 24px; text-align: center; }
+.confidence-chip { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; border-radius: 12px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+.add-fix-form { background: var(--card); border: 2px dashed var(--border); border-radius: var(--radius); padding: 22px; margin-top: 20px; }
+.add-fix-form h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+.form-grid .full { grid-column: 1 / -1; }
+
+/* ── Report ── */
+.report-controls { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.report-text {
+  font-family: 'Courier New', monospace; font-size: 12.5px;
+  background: var(--navy); color: #e2e8f0;
+  border-radius: var(--radius); padding: 24px; white-space: pre;
+  overflow-x: auto; line-height: 1.6; min-height: 320px;
+  border: 1px solid #334155;
+}
+.report-placeholder { color: #475569; font-style: italic; }
+
+/* ── History ── */
+.history-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.history-table th { text-align: left; padding: 10px 14px; background: #f8fafc; border-bottom: 2px solid var(--border); font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .4px; }
+.history-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.history-table tr:hover td { background: #f8fafc; cursor: pointer; }
+.history-score { font-weight: 700; }
+.history-pending { color: var(--orange); font-weight: 600; }
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+.empty-state .icon { font-size: 48px; margin-bottom: 16px; }
+.empty-state h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+
+/* ── Toast ── */
+#toast {
+  position: fixed; bottom: 28px; right: 28px;
+  padding: 13px 20px; border-radius: 10px; font-size: 14px; font-weight: 500;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2); z-index: 999;
+  transform: translateY(80px); opacity: 0; transition: all .3s ease;
+  max-width: 380px;
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+#toast.success { background: var(--green); color: #fff; }
+#toast.error   { background: var(--red);   color: #fff; }
+#toast.info    { background: var(--teal);  color: #fff; }
+
+/* ── Wisdom callout ── */
+.wisdom-callout {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #e2e8f0; border-radius: var(--radius); padding: 20px 24px;
+  margin-bottom: 24px; border: 1px solid #334155;
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.wisdom-callout .formula { font-family: 'Courier New', monospace; color: var(--teal2); font-weight: 700; font-size: 15px; }
+.wisdom-callout p { font-size: 13px; color: #94a3b8; flex: 1; min-width: 200px; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+/* ── Analysis summary bar ── */
+.analysis-bar {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 20px;
+  margin-bottom: 20px; display: flex; align-items: center;
+  gap: 16px; flex-wrap: wrap;
+}
+.analysis-bar .filename { font-weight: 700; font-size: 15px; flex: 1; }
+.analysis-bar .timestamp { font-size: 12px; color: var(--muted); }
+
+@media (max-width: 640px) {
+  header { padding: 12px 16px; }
+  main { padding: 18px 14px; }
+  .score-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">SW</div>
+    <div class="logo-text">
+      <h1>SysWisdom Guardrails</h1>
+      <p>CO-INTELLIGENCE Data Quality Platform</p>
+    </div>
+  </div>
+  <div class="reviewer-wrap">
+    <label for="reviewerName">Reviewer:</label>
+    <input type="text" id="reviewerName" placeholder="Your name..." autocomplete="off">
+  </div>
+  <div class="wisdom-pill">Systemic Wisdom = (Experience / Wisdom) ^ Time</div>
+</header>
+
+<!-- ═══════════ TABS ═══════════ -->
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="upload">📤 Upload</button>
+  <button class="tab-btn" data-tab="review" id="reviewTab">✅ Review Issues <span class="badge" id="pendingBadge" style="display:none">0</span></button>
+  <button class="tab-btn" data-tab="library">📚 Fix Library</button>
+  <button class="tab-btn" data-tab="report">📋 Report</button>
+  <button class="tab-btn" data-tab="history">🕐 History</button>
+  <button class="tab-btn" data-tab="drift">⚠️ Drift Monitor</button>
+</nav>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main>
+
+  <!-- ── PHASE 1: Upload ── -->
+  <div class="tab-panel active" id="tab-upload">
+    <div class="upload-hero">
+      <h2>First Your Data.</h2>
+      <p>Every file analyzed teaches the system your organization's quality standards. Drop a file to begin.</p>
+    </div>
+
+    <div class="wisdom-callout">
+      <div>
+        <div class="formula">Consistency + Validity + Completeness = Wisdom</div>
+      </div>
+      <p>AI detects patterns (Consistency). You validate what's real for your domain (Validity). Together you build institutional knowledge that compounds over time.</p>
+    </div>
+
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-icon">📊</div>
+      <h3>Drag &amp; drop your data file here</h3>
+      <p>or click to browse</p>
+      <div class="file-types">
+        <span class="file-type-badge">.CSV</span>
+        <span class="file-type-badge">.JSON</span>
+        <span class="file-type-badge">.XLSX</span>
+      </div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".csv,.json,.xlsx">
+    <div id="selectedFile">
+      <span>📄</span>
+      <span class="file-name" id="selectedFileName"></span>
+      <span class="file-size" id="selectedFileSize"></span>
+      <button class="btn btn-outline btn-sm" onclick="clearFile()">✕ Remove</button>
+    </div>
+
+    <button class="btn btn-primary" id="analyzeBtn" disabled onclick="analyzeFile()">
+      🔍 Analyze File for Quality Issues
+    </button>
+
+    <div class="spinner" id="spinner">
+      <div class="spin-ring"></div>
+      <p style="color:var(--muted);font-size:14px">Analyzing with SysWisdom API…</p>
+    </div>
+  </div>
+
+  <!-- ── PHASE 2: Review Issues ── -->
+  <div class="tab-panel" id="tab-review">
+    <div id="reviewContent">
+      <div class="empty-state">
+        <div class="icon">📤</div>
+        <h3>No analysis yet</h3>
+        <p>Upload a file on the Upload tab to get started.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 3: Fix Library ── -->
+  <div class="tab-panel" id="tab-library">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:20px;font-weight:800">Fix Library</h2>
+        <p style="font-size:13px;color:var(--muted);margin-top:3px">Institutional wisdom repository — team-approved solutions ranked by confidence</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="toggleAddFixForm()">＋ Add Fix Manually</button>
+    </div>
+
+    <div class="library-controls">
+      <label style="font-size:13px;font-weight:600;color:var(--muted);">Sort by:</label>
+      <select id="libSort" onchange="loadLibrary()">
+        <option value="votes">👍 Votes</option>
+        <option value="approvals">✅ Approvals</option>
+        <option value="team_confidence">📊 Confidence</option>
+      </select>
+    </div>
+
+    <div class="fix-grid" id="fixGrid">
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="icon">📚</div>
+        <h3>Library is empty</h3>
+        <p>Approve issues with fixes to auto-populate the library.</p>
+      </div>
+    </div>
+
+    <!-- Add Fix Form -->
+    <div class="add-fix-form" id="addFixForm" style="display:none">
+      <h3>➕ Add Fix to Library</h3>
+      <div class="form-grid">
+        <div class="form-row full">
+          <label>Issue Description *</label>
+          <input type="text" id="newIssue" placeholder="e.g. Missing Email Values in customer table">
+        </div>
+        <div class="form-row full">
+          <label>Recommended Fix *</label>
+          <textarea id="newFix" rows="2" placeholder="e.g. Backfill with default@company.com from CRM system"></textarea>
+        </div>
+        <div class="form-row">
+          <label>Quality Principle</label>
+          <select id="newPrinciple">
+            <option value="data_integrity">Data Integrity</option>
+            <option value="consistency">Consistency</option>
+            <option value="compliance">Compliance</option>
+            <option value="security">Security</option>
+            <option value="domain_knowledge">Domain Knowledge</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Severity</label>
+          <select id="newSeverity">
+            <option value="CRITICAL">Critical</option>
+            <option value="HIGH">High</option>
+            <option value="MEDIUM" selected>Medium</option>
+            <option value="INFORMATIONAL">Informational</option>
+          </select>
+        </div>
+        <div class="form-row full">
+          <label>Context / Why This Matters</label>
+          <textarea id="newContext" rows="2" placeholder="Explain when this applies and why it matters to your team"></textarea>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:6px">
+        <button class="btn btn-success" onclick="submitNewFix()">Save to Library</button>
+        <button class="btn btn-outline" onclick="toggleAddFixForm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── REPORT ── -->
+  <div class="tab-panel" id="tab-report">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:20px;font-weight:800">Quality Report</h2>
+        <p style="font-size:13px;color:var(--muted);margin-top:3px">Plain-text export of all confirmed issues, false positives, and team wisdom</p>
+      </div>
+      <div class="report-controls">
+        <button class="btn btn-outline btn-sm" onclick="copyReport()" id="copyBtn" disabled>📋 Copy</button>
+        <button class="btn btn-outline btn-sm" onclick="downloadReport()" id="downloadBtn" disabled>⬇ Download .txt</button>
+        <button class="btn btn-primary btn-sm" onclick="generateReport()" id="genReportBtn" disabled>🔄 Generate Report</button>
+      </div>
+    </div>
+    <pre class="report-text" id="reportText"><span class="report-placeholder">Upload and review a file to generate a report.</span></pre>
+  </div>
+
+  <!-- ── HISTORY ── -->
+  <div class="tab-panel" id="tab-history">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:20px;font-weight:800">Analysis History</h2>
+        <p style="font-size:13px;color:var(--muted);margin-top:3px">Every analysis adds to your team's quality knowledge base</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="loadHistory()">🔄 Refresh</button>
+    </div>
+    <div id="historyContent">
+      <div class="empty-state">
+        <div class="icon">🕐</div>
+        <h3>No history yet</h3>
+        <p>Analyses will appear here as your team reviews files.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DRIFT MONITOR ── -->
+  <div class="tab-panel" id="tab-drift">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h2 style="font-size:20px;font-weight:800">Model Drift Monitor</h2>
+        <p style="font-size:13px;color:var(--muted);margin-top:3px">Track model accuracy over time and export labeled data for retraining</p>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="loadDriftAnalysis()">🔄 Refresh</button>
+    </div>
+
+    <div id="driftContent" style="display:flex;flex-direction:column;gap:20px;">
+      <!-- Drift Status Alert -->
+      <div id="driftAlert" style="display:none;background:#fef2f2;border:2px solid #fecaca;border-radius:8px;padding:16px;">
+        <div style="display:flex;align-items:flex-start;gap:12px;">
+          <div style="font-size:24px">⚠️</div>
+          <div>
+            <div style="font-weight:700;color:#dc2626;margin-bottom:4px" id="driftAlertTitle">Model Drift Detected</div>
+            <div style="font-size:13px;color:#991b1b" id="driftAlertMessage"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Accuracy Trend -->
+      <div class="card">
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Monthly Accuracy Trend</h3>
+        <div id="accuracyTrend" style="display:flex;flex-direction:column;gap:12px;">
+          <div style="color:var(--muted);font-size:13px">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Dataset Statistics -->
+      <div class="card">
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Training Dataset Statistics</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px;">
+          <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px;">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;">Total Analyses</div>
+            <div style="font-size:20px;font-weight:800;color:var(--teal);" id="statAnalyses">—</div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;">Real Issues</div>
+            <div style="font-size:20px;font-weight:800;color:var(--green);" id="statReal">—</div>
+          </div>
+          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;">False Positives</div>
+            <div style="font-size:20px;font-weight:800;color:var(--red);" id="statFalse">—</div>
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:12px;">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;">True Positive Rate</div>
+            <div style="font-size:20px;font-weight:800;color:var(--orange);" id="statRate">—</div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.5;">
+          This dataset represents all issues your team has validated. Export it to retrain custom models on your domain data.
+        </p>
+      </div>
+
+      <!-- Export Button -->
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-success" onclick="exportTrainingData()">
+          📥 Export Training Data (JSON)
+        </button>
+        <button class="btn btn-outline" onclick="exportTrainingData('csv')">
+          📊 Export as CSV
+        </button>
+      </div>
+
+      <div id="exportStatus" style="display:none;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px;font-size:13px;color:#0369a1;">
+        <span id="exportStatusText"></span>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── Toast ── -->
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const state = {
+  analysis: null,
+  file: null,
+  reportText: ''
+};
+
+const PRINCIPLES = {
+  data_integrity:   'Data Integrity',
+  consistency:      'Consistency',
+  domain_knowledge: 'Domain Knowledge',
+  compliance:       'Compliance',
+  security:         'Security',
+  manual:           'Manual'
+};
+
+const SEVERITY_COLOR = {
+  CRITICAL:     'critical',
+  HIGH:         'high',
+  MEDIUM:       'medium',
+  INFORMATIONAL:'informational'
+};
+
+// ═══════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => showTab(btn.dataset.tab));
+});
+
+function showTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `tab-${name}`));
+  if (name === 'library') loadLibrary();
+  if (name === 'history') loadHistory();
+  if (name === 'drift') loadDriftAnalysis();
+  if (name === 'report' && state.analysis) {
+    document.getElementById('genReportBtn').disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// PHASE 1 — Upload & Analyze
+// ═══════════════════════════════════════════════════════
+const dropZone   = document.getElementById('dropZone');
+const fileInput  = document.getElementById('fileInput');
+const analyzeBtn = document.getElementById('analyzeBtn');
+
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) setFile(f);
+});
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) setFile(fileInput.files[0]); });
+
+function setFile(f) {
+  const allowed = ['.csv', '.json', '.xlsx'];
+  const ext = f.name.split('.').pop().toLowerCase();
+  if (!allowed.includes('.' + ext)) { showToast('Only .csv, .json, .xlsx files allowed', 'error'); return; }
+  state.file = f;
+  document.getElementById('selectedFileName').textContent = f.name;
+  document.getElementById('selectedFileSize').textContent = formatSize(f.size);
+  document.getElementById('selectedFile').style.display = 'flex';
+  analyzeBtn.disabled = false;
+}
+
+function clearFile() {
+  state.file = null;
+  fileInput.value = '';
+  document.getElementById('selectedFile').style.display = 'none';
+  analyzeBtn.disabled = true;
+}
+
+async function analyzeFile() {
+  const reviewer = document.getElementById('reviewerName').value.trim();
+  if (!reviewer) { showToast('Please enter your name as the reviewer first', 'error'); document.getElementById('reviewerName').focus(); return; }
+  if (!state.file) return;
+
+  analyzeBtn.disabled = true;
+  document.getElementById('spinner').classList.add('show');
+
+  try {
+    const form = new FormData();
+    form.append('file', state.file);
+    const res  = await fetch('/analyze', { method: 'POST', body: form });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Analysis failed');
+
+    state.analysis = data;
+    renderReview(data);
+    updatePendingBadge();
+    showToast(`Analysis complete — ${data.issues.length} issues detected`, 'success');
+    clearFile();
+    showTab('review');
+
+    // Enable report generation
+    document.getElementById('genReportBtn').disabled = false;
+    document.getElementById('copyBtn').disabled = false;
+    document.getElementById('downloadBtn').disabled = false;
+
+  } catch (err) {
+    showToast(err.message, 'error');
+  } finally {
+    analyzeBtn.disabled = false;
+    document.getElementById('spinner').classList.remove('show');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// PHASE 1 — Render score dashboard
+// ═══════════════════════════════════════════════════════
+function renderReview(analysis) {
+  const pending = analysis.issues.filter(i => !i.approval).length;
+
+  const html = `
+    <div class="analysis-bar">
+      <span class="filename">📄 ${analysis.filename}</span>
+      <span class="timestamp">${new Date(analysis.timestamp).toLocaleString()}</span>
+      <span class="badge badge-type">${analysis.row_count} rows · ${analysis.column_count} cols</span>
+    </div>
+
+    <div class="score-grid">
+      ${scoreCard('Overall', analysis.overall_score, 'Your combined data quality score')}
+      ${scoreCard('Completeness', analysis.completeness_score, 'Are all values present?')}
+      ${scoreCard('Consistency', analysis.consistency_score, 'Are formats uniform?')}
+      ${scoreCard('Validity', analysis.validity_score, 'Are values in range?')}
+    </div>
+
+    <div class="issues-header">
+      <h2>Issues Requiring Human Review</h2>
+      <span class="progress-info" id="progressInfo">${analysis.issues.length - pending} of ${analysis.issues.length} reviewed</span>
+    </div>
+
+    <div id="issueCards">
+      ${analysis.issues.map(issue => renderIssueCard(issue, analysis.id)).join('')}
+    </div>
+
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="generateReport();showTab('report')">📋 Generate Quality Report</button>
+      <button class="btn btn-outline" onclick="showTab('library')">📚 View Fix Library</button>
+    </div>
+  `;
+  document.getElementById('reviewContent').innerHTML = html;
+}
+
+function scoreCard(label, score, sub) {
+  const color = score >= 85 ? '#10b981' : score >= 70 ? '#f59e0b' : '#ef4444';
+  const dash  = `${Math.round(score * 1.1)}, 110`;
+  return `
+    <div class="score-card">
+      <div class="label">${label}</div>
+      <div class="score-ring-wrap">
+        <svg viewBox="0 0 36 36" width="80" height="80">
+          <circle class="score-ring-bg" cx="18" cy="18" r="17.5"/>
+          <circle class="score-ring-fg" cx="18" cy="18" r="17.5"
+            stroke="${color}" stroke-dasharray="${dash}"
+            style="transform:rotate(-90deg);transform-origin:50% 50%"/>
+        </svg>
+        <div class="score-ring-number" style="color:${color}">${Math.round(score) ?? '—'}%</div>
+      </div>
+      <div class="sub">${sub}</div>
+    </div>`;
+}
+
+function renderIssueCard(issue, analysisId) {
+  const sevClass = SEVERITY_COLOR[issue.severity] || 'medium';
+  const approved = issue.approval?.is_real === true;
+  const rejected = issue.approval?.is_real === false;
+  const statusClass = approved ? 'approved' : rejected ? 'rejected' : '';
+
+  let actionsHtml = '';
+  if (approved) {
+    actionsHtml = `
+      <div class="approved-summary">
+        <span style="font-size:20px">✅</span>
+        <div>
+          <strong>Confirmed Real Issue</strong> — ${issue.approval.submitted_by}<br>
+          <span style="color:var(--muted);font-size:12px">${issue.approval.comment || 'No context added'}</span><br>
+          <span style="color:var(--teal2);font-size:12px">Fix: ${issue.approval.better_fix || issue.suggested_fix}</span><br>
+          <span style="color:var(--green);font-size:11px">Team Confidence: ${issue.approval.confidence_after}%</span>
+        </div>
+      </div>`;
+  } else if (rejected) {
+    actionsHtml = `
+      <div class="rejected-summary">
+        <span style="font-size:20px">❌</span>
+        <div>
+          <strong>Rejected as False Positive</strong> — ${issue.approval.submitted_by}<br>
+          <span style="color:var(--muted);font-size:12px">Domain Context: ${issue.approval.comment || 'None provided'}</span><br>
+          <span style="color:var(--muted);font-size:11px">Machine confidence dropped to ${issue.approval.confidence_after}%</span>
+        </div>
+      </div>`;
+  } else {
+    actionsHtml = `
+      <div class="action-row">
+        <button class="btn btn-success" onclick="startApproval('${issue.id}','real')">✓ Real Issue</button>
+        <button class="btn btn-danger"  onclick="startApproval('${issue.id}','false')">✗ False Positive</button>
+      </div>
+      <div class="approval-form" id="form-${issue.id}">
+        <div class="form-row">
+          <label>Why does this matter to your team? (Context)</label>
+          <textarea id="comment-${issue.id}" rows="2" placeholder="e.g. This field is required by our CRM integration..."></textarea>
+        </div>
+
+        <div class="form-row" id="fix-section-${issue.id}" style="display:none">
+          <label>AI's Suggested Fix</label>
+          <div class="suggested-fix">💡 ${issue.suggested_fix}</div>
+          <label style="margin-top:10px">Rate this fix:</label>
+          <div class="fix-quality-row">
+            <button class="fix-quality-btn" data-quality="good"  onclick="selectFixQuality('${issue.id}','good')">👍 Good Fix</button>
+            <button class="fix-quality-btn" data-quality="meh"   onclick="selectFixQuality('${issue.id}','meh')">🤔 Meh</button>
+            <button class="fix-quality-btn" data-quality="wrong" onclick="selectFixQuality('${issue.id}','wrong')">👎 Wrong Fix</button>
+          </div>
+          <label style="margin-top:10px">Better Fix (optional overrides AI):</label>
+          <input type="text" id="betterFix-${issue.id}" placeholder="Enter your team's preferred solution...">
+          <label style="margin-top:10px">Quality Principle:</label>
+          <select id="principle-${issue.id}">
+            <option value="data_integrity">Data Integrity</option>
+            <option value="consistency">Consistency</option>
+            <option value="compliance">Compliance</option>
+            <option value="domain_knowledge">Domain Knowledge</option>
+            <option value="security">Security</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-sm" id="submitBtn-${issue.id}" onclick="submitApproval('${analysisId}','${issue.id}')">
+          Submit Review →
+        </button>
+      </div>`;
+  }
+
+  return `
+    <div class="issue-card severity-${issue.severity} ${statusClass}" id="card-${issue.id}">
+      <div class="issue-top">
+        <div class="issue-meta">
+          <h3>${issue.description}</h3>
+          <div class="detail">${issue.detail}</div>
+          <div class="issue-badges">
+            <span class="badge badge-${sevClass}">${issue.severity}</span>
+            <span class="badge badge-type">${issue.type.replace(/_/g,' ')}</span>
+            <span class="badge badge-type">Col: ${issue.column}</span>
+          </div>
+          <div class="confidence-bar" style="margin-top:8px">
+            <div class="conf-track"><div class="conf-fill" style="width:${issue.machine_confidence}%"></div></div>
+            <span class="conf-label">Machine Confidence: ${issue.machine_confidence}%</span>
+          </div>
+        </div>
+      </div>
+      <div class="issue-actions">${actionsHtml}</div>
+    </div>`;
+}
+
+// Track which direction the user selected (real or false)
+const approvalMode = {};
+const fixQualityMap = {};
+
+function startApproval(issueId, mode) {
+  approvalMode[issueId] = mode;
+  const form = document.getElementById(`form-${issueId}`);
+  const fixSection = document.getElementById(`fix-section-${issueId}`);
+  form.classList.add('show');
+  if (mode === 'real') {
+    fixSection.style.display = 'block';
+  } else {
+    fixSection.style.display = 'none';
+    document.querySelector(`#form-${issueId} [data-quality]`) && null;
+  }
+}
+
+function selectFixQuality(issueId, quality) {
+  fixQualityMap[issueId] = quality;
+  document.querySelectorAll(`#form-${issueId} .fix-quality-btn`).forEach(btn => {
+    btn.className = 'fix-quality-btn';
+    if (btn.dataset.quality === quality) btn.classList.add(`selected-${quality}`);
+  });
+}
+
+async function submitApproval(analysisId, issueId) {
+  const reviewer = document.getElementById('reviewerName').value.trim();
+  if (!reviewer) { showToast('Please enter your reviewer name in the header', 'error'); return; }
+
+  const isReal    = approvalMode[issueId] === 'real';
+  const comment   = document.getElementById(`comment-${issueId}`)?.value?.trim() || '';
+  const betterFix = document.getElementById(`betterFix-${issueId}`)?.value?.trim() || '';
+  const principle = document.getElementById(`principle-${issueId}`)?.value || 'data_integrity';
+  const fixQuality= fixQualityMap[issueId] || null;
+
+  const btn = document.getElementById(`submitBtn-${issueId}`);
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+
+  try {
+    const res  = await fetch('/approval', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        analysis_id: analysisId, issue_id: issueId,
+        is_real: isReal, fix_quality: fixQuality,
+        comment, better_fix: betterFix,
+        quality_principle: principle,
+        submitted_by: reviewer
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    // Update local state
+    const issue = state.analysis.issues.find(i => i.id === issueId);
+    if (issue) issue.approval = data.issue.approval;
+
+    updatePendingBadge();
+    renderReviewIssues();
+
+    showToast(isReal ? '✅ Issue confirmed & added to wisdom repository' : '❌ Marked as false positive — machine learns your domain', isReal ? 'success' : 'info');
+
+    if (isReal && (fixQuality === 'good' || betterFix)) {
+      setTimeout(() => showToast('💡 Fix auto-added to team Fix Library', 'info'), 1200);
+    }
+  } catch (err) {
+    showToast(err.message, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Submit Review →';
+  }
+}
+
+function renderReviewIssues() {
+  if (!state.analysis) return;
+  const a = state.analysis;
+  const pending = a.issues.filter(i => !i.approval).length;
+  document.getElementById('progressInfo').textContent = `${a.issues.length - pending} of ${a.issues.length} reviewed`;
+  document.getElementById('issueCards').innerHTML = a.issues.map(i => renderIssueCard(i, a.id)).join('');
+}
+
+function updatePendingBadge() {
+  if (!state.analysis) return;
+  const pending = state.analysis.issues.filter(i => !i.approval).length;
+  const badge = document.getElementById('pendingBadge');
+  badge.style.display = pending > 0 ? 'inline-flex' : 'none';
+  badge.textContent = pending;
+}
+
+// ═══════════════════════════════════════════════════════
+// PHASE 3 — Fix Library
+// ═══════════════════════════════════════════════════════
+async function loadLibrary() {
+  const sort = document.getElementById('libSort')?.value || 'votes';
+  try {
+    const res  = await fetch(`/fix-library?sort_by=${sort}`);
+    const data = await res.json();
+    renderLibrary(data.fixes || []);
+  } catch { showToast('Could not load fix library', 'error'); }
+}
+
+function renderLibrary(fixes) {
+  const grid = document.getElementById('fixGrid');
+  if (!fixes.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">📚</div><h3>Library is empty</h3><p>Approve issues with fixes to auto-populate the library.</p></div>`;
+    return;
+  }
+  grid.innerHTML = fixes.map(fix => `
+    <div class="fix-card">
+      <div class="fix-card-header">
+        <h4>${fix.issue}</h4>
+        <span class="principle-badge principle-${fix.quality_principle}">${PRINCIPLES[fix.quality_principle] || fix.quality_principle}</span>
+      </div>
+      <div class="fix-text">→ ${fix.fix}</div>
+      ${fix.context ? `<div class="fix-context">${fix.context}</div>` : ''}
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+        <span class="badge badge-${(SEVERITY_COLOR[fix.severity] || 'medium')}">${fix.severity}</span>
+        ${fix.column ? `<span class="badge badge-type">Col: ${fix.column}</span>` : ''}
+        <span class="confidence-chip">${Math.round((fix.team_confidence||0)*100)}% confidence</span>
+      </div>
+      <div class="fix-footer">
+        <div class="fix-meta">By ${fix.created_by} · ${fix.created_date}<br>${fix.approvals} approvals · applied ${fix.times_applied}x</div>
+        <div class="vote-row">
+          <button class="vote-btn" onclick="vote('${fix.id}','up')">👍</button>
+          <span class="vote-count" id="votes-${fix.id}">${fix.votes || 0}</span>
+          <button class="vote-btn" onclick="vote('${fix.id}','down')">👎</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+async function vote(fixId, direction) {
+  try {
+    const res  = await fetch('/fix-library/vote', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fix_id: fixId, direction })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    const el = document.getElementById(`votes-${fixId}`);
+    if (el) el.textContent = data.votes;
+  } catch (err) { showToast(err.message, 'error'); }
+}
+
+function toggleAddFixForm() {
+  const form = document.getElementById('addFixForm');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+async function submitNewFix() {
+  const reviewer = document.getElementById('reviewerName').value.trim();
+  if (!reviewer) { showToast('Enter your reviewer name in the header first', 'error'); return; }
+
+  const issue     = document.getElementById('newIssue').value.trim();
+  const fix       = document.getElementById('newFix').value.trim();
+  const principle = document.getElementById('newPrinciple').value;
+  const severity  = document.getElementById('newSeverity').value;
+  const context   = document.getElementById('newContext').value.trim();
+
+  if (!issue || !fix) { showToast('Issue and Fix fields are required', 'error'); return; }
+
+  try {
+    const res = await fetch('/fix-library', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ issue, fix, quality_principle: principle, severity, context, created_by: reviewer })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    showToast('Fix added to library!', 'success');
+    document.getElementById('newIssue').value = '';
+    document.getElementById('newFix').value = '';
+    document.getElementById('newContext').value = '';
+    toggleAddFixForm();
+    loadLibrary();
+  } catch (err) { showToast(err.message, 'error'); }
+}
+
+// ═══════════════════════════════════════════════════════
+// REPORT
+// ═══════════════════════════════════════════════════════
+async function generateReport() {
+  if (!state.analysis) { showToast('No analysis loaded', 'error'); return; }
+  try {
+    const res  = await fetch(`/report/${state.analysis.id}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    state.reportText = data.report;
+    document.getElementById('reportText').textContent = data.report;
+    showToast('Report generated', 'success');
+  } catch (err) { showToast(err.message, 'error'); }
+}
+
+function copyReport() {
+  if (!state.reportText) return;
+  navigator.clipboard.writeText(state.reportText)
+    .then(() => showToast('Report copied to clipboard!', 'success'))
+    .catch(() => showToast('Copy failed — please select and copy manually', 'error'));
+}
+
+function downloadReport() {
+  if (!state.reportText) return;
+  const filename = state.analysis ? `quality-report-${state.analysis.filename.replace(/\.[^.]+$/, '')}.txt` : 'quality-report.txt';
+  const blob = new Blob([state.reportText], { type: 'text/plain' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ═══════════════════════════════════════════════════════
+// HISTORY
+// ═══════════════════════════════════════════════════════
+async function loadHistory() {
+  try {
+    const res  = await fetch('/history');
+    const data = await res.json();
+    renderHistory(data.records || []);
+  } catch { showToast('Could not load history', 'error'); }
+}
+
+function renderHistory(records) {
+  const el = document.getElementById('historyContent');
+  if (!records.length) {
+    el.innerHTML = `<div class="empty-state"><div class="icon">🕐</div><h3>No history yet</h3><p>Analyses will appear here as your team reviews files.</p></div>`;
+    return;
+  }
+  el.innerHTML = `
+    <table class="history-table">
+      <thead><tr>
+        <th>File</th><th>Date</th><th>Score</th><th>Issues</th><th>Approved</th><th>Pending</th>
+      </tr></thead>
+      <tbody>
+        ${records.map(r => `
+          <tr onclick="loadAnalysis('${r.id}')">
+            <td>📄 ${r.filename}</td>
+            <td>${new Date(r.timestamp).toLocaleDateString()}</td>
+            <td class="history-score" style="color:${r.overall_score >= 85 ? 'var(--green)' : r.overall_score >= 70 ? 'var(--yellow)' : 'var(--red)'}">
+              ${r.overall_score}%
+            </td>
+            <td>${r.total}</td>
+            <td style="color:var(--green)">${r.approved}</td>
+            <td class="${r.pending > 0 ? 'history-pending' : ''}">${r.pending}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+async function loadAnalysis(id) {
+  try {
+    const res  = await fetch(`/report/${id}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    state.analysis = data.record;
+
+    // Hack: re-fetch full analysis from server by re-rendering with what we know
+    state.reportText = data.report;
+    renderReview(state.analysis);
+    updatePendingBadge();
+    document.getElementById('reportText').textContent = data.report;
+    document.getElementById('genReportBtn').disabled = false;
+    document.getElementById('copyBtn').disabled = false;
+    document.getElementById('downloadBtn').disabled = false;
+    showTab('review');
+    showToast('Analysis loaded from history', 'info');
+  } catch (err) { showToast(err.message, 'error'); }
+}
+
+// ═══════════════════════════════════════════════════════
+// DRIFT MONITOR (Step 3d)
+// ═══════════════════════════════════════════════════════
+async function loadDriftAnalysis() {
+  try {
+    const res = await fetch('/drift-analysis');
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    // Show/hide drift alert
+    const alertEl = document.getElementById('driftAlert');
+    if (data.drift_detected) {
+      alertEl.style.display = 'block';
+      document.getElementById('driftAlertTitle').textContent = '⚠️ Model Drift Detected';
+      document.getElementById('driftAlertMessage').textContent = data.recommendation;
+    } else {
+      alertEl.style.display = 'none';
+    }
+
+    // Render monthly accuracy trend
+    const trend = document.getElementById('accuracyTrend');
+    const months = Object.keys(data.monthly_accuracy).sort();
+    if (months.length === 0) {
+      trend.innerHTML = '<div style="color:var(--muted);font-size:13px">No data yet. Approvals will be tracked starting next month.</div>';
+    } else {
+      trend.innerHTML = months.map(month => {
+        const accuracy = data.monthly_accuracy[month];
+        const color = accuracy >= 85 ? 'var(--green)' : accuracy >= 70 ? 'var(--yellow)' : 'var(--red)';
+        return `
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="min-width:80px;font-size:12px;font-weight:600;">${month}</div>
+            <div style="flex:1;background:#e2e8f0;height:24px;border-radius:4px;overflow:hidden;">
+              <div style="width:${accuracy}%;height:100%;background:${color};transition:width 0.3s ease;"></div>
+            </div>
+            <div style="min-width:50px;text-align:right;font-weight:700;color:${color};">${accuracy}%</div>
+          </div>`;
+      }).join('');
+    }
+
+    // Load and display training data stats
+    const exportRes = await fetch('/training-export');
+    const exportData = await exportRes.json();
+    const info = exportData.dataset_info;
+
+    document.getElementById('statAnalyses').textContent = info.total_analyses;
+    document.getElementById('statReal').textContent = info.real_issues;
+    document.getElementById('statFalse').textContent = info.false_positives;
+    document.getElementById('statRate').textContent = info.positives_rate;
+
+    showToast('Drift analysis loaded', 'success');
+  } catch (err) { 
+    showToast('Could not load drift analysis: ' + err.message, 'error'); 
+  }
+}
+
+async function exportTrainingData(format = 'json') {
+  try {
+    const res = await fetch('/training-export');
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    let content, filename, type;
+
+    if (format === 'json') {
+      content = JSON.stringify(data, null, 2);
+      filename = `training-export-${new Date().toISOString().split('T')[0]}.json`;
+      type = 'application/json';
+    } else if (format === 'csv') {
+      // Convert labeled data to CSV
+      const headers = ['analysis_id', 'filename', 'timestamp', 'issue_type', 'column', 'machine_confidence', 'human_verdict', 'domain_context'];
+      const rows = [];
+      data.labeled_data.forEach(a => {
+        a.detected_issues.forEach(i => {
+          rows.push([
+            a.analysis_id,
+            a.filename,
+            a.timestamp,
+            i.type,
+            i.column,
+            i.machine_confidence,
+            i.human_verdict,
+            (i.domain_context || '').replace(/"/g, '""')
+          ]);
+        });
+      });
+      
+      content = [headers, ...rows]
+        .map(row => row.map(cell => `"${cell}"`).join(','))
+        .join('\n');
+      filename = `training-export-${new Date().toISOString().split('T')[0]}.csv`;
+      type = 'text/csv';
+    }
+
+    // Download
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    // Show status
+    const statusEl = document.getElementById('exportStatus');
+    const statusText = document.getElementById('exportStatusText');
+    statusText.textContent = `✅ Exported ${data.dataset_info.total_analyses} analyses (${data.dataset_info.total_issues} issues) as ${format.toUpperCase()}`;
+    statusEl.style.display = 'block';
+    setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
+
+    showToast(`Training data exported as ${format.toUpperCase()}`, 'success');
+  } catch (err) { 
+    showToast('Export failed: ' + err.message, 'error'); 
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `show ${type}`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.classList.remove('show'); }, 3500);
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+// Init
+loadLibrary();
+</script>
+</body>
+</html>
