@@ -1,3 +1,109 @@
 {
-  "fixes": []
+  "fixes": [
+    {
+      "id": "fix_4A7B1BF9",
+      "issue": "Outliers Detected in \"Wave Height (ft.)\"",
+      "issue_type": "outlier",
+      "column": "Wave Height (ft.)",
+      "fix": "Review values in \"Wave Height (ft.)\" — may be valid domain data or measurement errors",
+      "quality_principle": "data_integrity",
+      "severity": "MEDIUM",
+      "approvals": 1,
+      "votes": 0,
+      "team_confidence": 0.93,
+      "created_by": "Aaron",
+      "created_date": "2026-05-11",
+      "context": "Wave Height needs to be consistent so that my reports show the correct data format.",
+      "tags": [
+        "outlier",
+        "wave-height-ft.-"
+      ],
+      "times_applied": 0,
+      "effectiveness_rating": 0
+    },
+    {
+      "id": "fix_23E03FEC",
+      "issue": "Outliers Detected in \"Wave Height (ft.)\"",
+      "issue_type": "outlier",
+      "column": "Wave Height (ft.)",
+      "fix": "Review values in \"Wave Height (ft.)\" — may be valid domain data or measurement errors",
+      "quality_principle": "data_integrity",
+      "severity": "MEDIUM",
+      "approvals": 1,
+      "votes": 0,
+      "team_confidence": 0.93,
+      "created_by": "Aaron",
+      "created_date": "2026-04-01",
+      "context": "",
+      "tags": [
+        "outlier",
+        "wave-height-ft.-"
+      ],
+      "times_applied": 0,
+      "effectiveness_rating": 0
+    },
+    {
+      "id": "fix_17270D44",
+      "issue": "Data Type Issue in \"status\"",
+      "issue_type": "data_type_inconsistency",
+      "column": "status",
+      "fix": "Standardize \"status\" to a consistent format (e.g. ISO 8601 for dates)",
+      "quality_principle": "data_integrity",
+      "severity": "HIGH",
+      "approvals": 1,
+      "votes": 0,
+      "team_confidence": 0.89,
+      "created_by": "Aaron",
+      "created_date": "2026-04-01",
+      "context": "",
+      "tags": [
+        "data_type_inconsistency",
+        "status"
+      ],
+      "times_applied": 0,
+      "effectiveness_rating": 0
+    },
+    {
+      "id": "fix_5231F6C2",
+      "issue": "Data Type Issue in \"category\"",
+      "issue_type": "data_type_inconsistency",
+      "column": "category",
+      "fix": "Standardize \"category\" to a consistent format (e.g. ISO 8601 for dates)",
+      "quality_principle": "data_integrity",
+      "severity": "HIGH",
+      "approvals": 1,
+      "votes": 0,
+      "team_confidence": 0.89,
+      "created_by": "Aaron",
+      "created_date": "2026-04-01",
+      "context": "",
+      "tags": [
+        "data_type_inconsistency",
+        "category"
+      ],
+      "times_applied": 0,
+      "effectiveness_rating": 0
+    },
+    {
+      "id": "fix_2F70D024",
+      "issue": "Outliers Detected in \"amount\"",
+      "issue_type": "outlier",
+      "column": "amount",
+      "fix": "Review values in \"amount\" — may be valid domain data or measurement errors",
+      "quality_principle": "data_integrity",
+      "severity": "MEDIUM",
+      "approvals": 1,
+      "votes": 0,
+      "team_confidence": 0.93,
+      "created_by": "Aaron",
+      "created_date": "2026-03-31",
+      "context": "",
+      "tags": [
+        "outlier",
+        "amount"
+      ],
+      "times_applied": 0,
+      "effectiveness_rating": 0
+    }
+  ]
 }

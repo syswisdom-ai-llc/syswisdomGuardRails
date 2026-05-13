@@ -1,3 +1,455 @@
 {
-  "records": []
+  "records": [
+    {
+      "id": "2229a26c-5b3a-4f38-b348-e67fe8b12158",
+      "filename": "ecommerce_training.csv",
+      "file_size": 1186,
+      "timestamp": "2026-05-12T15:35:39.076Z",
+      "row_count": 40,
+      "column_count": 5,
+      "overall_score": 84.25,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 55,
+      "issues": [
+        {
+          "id": "bcfe2cd3-d26a-46ca-ada5-7bbb33414824",
+          "type": "outlier",
+          "column": "stock_level",
+          "description": "Outliers Detected in \"stock_level\"",
+          "detail": "7.5% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"stock_level\" — may be valid domain data or measurement errors",
+          "approval": null
+        },
+        {
+          "id": "b0542c8f-6699-4c21-b2f2-c8d6e723381b",
+          "type": "outlier",
+          "column": "supplier_cost",
+          "description": "Outliers Detected in \"supplier_cost\"",
+          "detail": "12.5% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"supplier_cost\" — may be valid domain data or measurement errors",
+          "approval": null
+        },
+        {
+          "id": "225bbc60-f732-4d69-90d2-fc848f0bb02f",
+          "type": "outlier",
+          "column": "recommended_price",
+          "description": "Outliers Detected in \"recommended_price\"",
+          "detail": "12.5% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"recommended_price\" — may be valid domain data or measurement errors",
+          "approval": null
+        }
+      ]
+    },
+    {
+      "id": "279b11ab-6158-4351-a3ad-72ccff04d7ca",
+      "filename": "fraud_training.csv",
+      "file_size": 1149,
+      "timestamp": "2026-05-12T15:27:25.327Z",
+      "row_count": 31,
+      "column_count": 6,
+      "overall_score": 84.25,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 55,
+      "issues": [
+        {
+          "id": "766cb8eb-82b2-4407-8a06-d17e17bcdd55",
+          "type": "outlier",
+          "column": "transaction_amount",
+          "description": "Outliers Detected in \"transaction_amount\"",
+          "detail": "19.35% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"transaction_amount\" — may be valid domain data or measurement errors",
+          "approval": null
+        },
+        {
+          "id": "949a0ce5-57d4-48b4-8ad0-d11bf5df4366",
+          "type": "outlier",
+          "column": "latitude",
+          "description": "Outliers Detected in \"latitude\"",
+          "detail": "25.81% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"latitude\" — may be valid domain data or measurement errors",
+          "approval": null
+        },
+        {
+          "id": "cc4ba01b-07b1-432a-83e7-9f7e16a53440",
+          "type": "outlier",
+          "column": "longitude",
+          "description": "Outliers Detected in \"longitude\"",
+          "detail": "25.81% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"longitude\" — may be valid domain data or measurement errors",
+          "approval": null
+        }
+      ]
+    },
+    {
+      "id": "ede33eb2-90d3-4dd5-a618-a815036f936b",
+      "filename": "test3.csv",
+      "file_size": 265,
+      "timestamp": "2026-05-11T19:30:12.731Z",
+      "row_count": 5,
+      "column_count": 6,
+      "overall_score": 94.75,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 85,
+      "issues": [
+        {
+          "id": "a9f4a351-b4b3-436d-b810-0bb635d53e7c",
+          "type": "outlier",
+          "column": "Wave Height (ft.)",
+          "description": "Outliers Detected in \"Wave Height (ft.)\"",
+          "detail": "20.0% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 85,
+          "suggested_fix": "Review values in \"Wave Height (ft.)\" — may be valid domain data or measurement errors",
+          "approval": {
+            "is_real": true,
+            "fix_quality": "good",
+            "comment": "Wave Height needs to be consistent so that my reports show the correct data format.",
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-05-11T19:31:33.539Z",
+            "confidence_after": 93
+          }
+        }
+      ]
+    },
+    {
+      "id": "33d74a29-5991-4689-a132-5b64c8557176",
+      "filename": "ecom_drift_month3_mar_93pct.csv",
+      "file_size": 2452,
+      "timestamp": "2026-04-29T18:42:55.305Z",
+      "row_count": 40,
+      "column_count": 8,
+      "overall_score": 87.27,
+      "completeness_score": 94.69,
+      "consistency_score": 81.25,
+      "validity_score": 85,
+      "issues": [
+        {
+          "id": "d564345f-efc7-4b19-869f-4b85be0ebf62",
+          "type": "data_type_inconsistency",
+          "column": "product_id",
+          "description": "Data Type Issue in \"product_id\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"product_id\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": null
+        },
+        {
+          "id": "53886034-caa1-4c30-9f9e-cfa9d8792b53",
+          "type": "data_type_inconsistency",
+          "column": "category",
+          "description": "Data Type Issue in \"category\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"category\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": null
+        },
+        {
+          "id": "b4ce7a49-e732-4c25-8c73-6240a7b0c547",
+          "type": "data_type_inconsistency",
+          "column": "status",
+          "description": "Data Type Issue in \"status\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"status\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": null
+        },
+        {
+          "id": "fbbdf460-c908-4da6-96c6-a90a0992b6ad",
+          "type": "outlier",
+          "column": "amount",
+          "description": "Outliers Detected in \"amount\"",
+          "detail": "12.5% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 85,
+          "suggested_fix": "Review values in \"amount\" — may be valid domain data or measurement errors",
+          "approval": null
+        }
+      ]
+    },
+    {
+      "id": "61193dc9-3c31-4c8b-91e2-9398b54eb400",
+      "filename": "test3.csv",
+      "file_size": 265,
+      "timestamp": "2026-04-01T20:10:29.141Z",
+      "row_count": 5,
+      "column_count": 6,
+      "overall_score": 94.75,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 85,
+      "issues": [
+        {
+          "id": "01538127-9f65-4a57-aadd-4d669fc05d9e",
+          "type": "outlier",
+          "column": "Wave Height (ft.)",
+          "description": "Outliers Detected in \"Wave Height (ft.)\"",
+          "detail": "20.0% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 85,
+          "suggested_fix": "Review values in \"Wave Height (ft.)\" — may be valid domain data or measurement errors",
+          "approval": {
+            "is_real": true,
+            "fix_quality": "good",
+            "comment": null,
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-04-01T20:10:44.878Z",
+            "confidence_after": 93
+          }
+        }
+      ]
+    },
+    {
+      "id": "c189fccb-53c1-4b0b-9d84-de699fc63504",
+      "filename": "ecom_drift_month3_mar_93pct.csv",
+      "file_size": 2452,
+      "timestamp": "2026-04-01T20:08:48.544Z",
+      "row_count": 40,
+      "column_count": 8,
+      "overall_score": 87.27,
+      "completeness_score": 94.69,
+      "consistency_score": 81.25,
+      "validity_score": 85,
+      "issues": [
+        {
+          "id": "ffe7d3f8-611c-4f3a-a047-2f4ca0935b95",
+          "type": "data_type_inconsistency",
+          "column": "product_id",
+          "description": "Data Type Issue in \"product_id\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"product_id\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": {
+            "is_real": true,
+            "fix_quality": null,
+            "comment": null,
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-04-01T20:09:07.202Z",
+            "confidence_after": 89
+          }
+        },
+        {
+          "id": "4f53274c-39b2-436e-960a-c48a7cfc90e6",
+          "type": "data_type_inconsistency",
+          "column": "category",
+          "description": "Data Type Issue in \"category\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"category\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": {
+            "is_real": true,
+            "fix_quality": "good",
+            "comment": null,
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-04-01T20:09:17.652Z",
+            "confidence_after": 89
+          }
+        },
+        {
+          "id": "671c43d1-c1c8-4fa8-9828-2b5a77c8d1e8",
+          "type": "data_type_inconsistency",
+          "column": "status",
+          "description": "Data Type Issue in \"status\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"status\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": {
+            "is_real": true,
+            "fix_quality": "good",
+            "comment": null,
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-04-01T20:09:25.652Z",
+            "confidence_after": 89
+          }
+        },
+        {
+          "id": "c0fcba39-1ba2-49b4-a945-e4897b128fc8",
+          "type": "outlier",
+          "column": "amount",
+          "description": "Outliers Detected in \"amount\"",
+          "detail": "12.5% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 85,
+          "suggested_fix": "Review values in \"amount\" — may be valid domain data or measurement errors",
+          "approval": null
+        }
+      ]
+    },
+    {
+      "id": "88a2cc1a-c360-47dd-94eb-042c3b8e59ae",
+      "filename": "ecom_drift_month2_feb_97pct.csv",
+      "file_size": 3035,
+      "timestamp": "2026-04-01T20:08:10.911Z",
+      "row_count": 40,
+      "column_count": 11,
+      "overall_score": 99.36,
+      "completeness_score": 98.18,
+      "consistency_score": 100,
+      "validity_score": 100,
+      "issues": []
+    },
+    {
+      "id": "ff39e435-5110-4350-848e-47b59ad20158",
+      "filename": "ecom_drift_month1_jan_perfect.csv",
+      "file_size": 4629,
+      "timestamp": "2026-04-01T20:07:46.082Z",
+      "row_count": 62,
+      "column_count": 11,
+      "overall_score": 100,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 100,
+      "issues": []
+    },
+    {
+      "id": "8e335599-b57e-4569-bb9b-c8466d51f892",
+      "filename": "ecom_drift_month3_mar_93pct.csv",
+      "file_size": 2452,
+      "timestamp": "2026-03-31T21:35:43.756Z",
+      "row_count": 40,
+      "column_count": 8,
+      "overall_score": 87.27,
+      "completeness_score": 94.69,
+      "consistency_score": 81.25,
+      "validity_score": 85,
+      "issues": [
+        {
+          "id": "a5d189a7-5856-4b7f-98a1-c2a5337d9413",
+          "type": "data_type_inconsistency",
+          "column": "product_id",
+          "description": "Data Type Issue in \"product_id\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"product_id\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": {
+            "is_real": true,
+            "fix_quality": "wrong",
+            "comment": null,
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-03-31T21:36:15.012Z",
+            "confidence_after": 89
+          }
+        },
+        {
+          "id": "dd284a77-00f2-4cbd-bfd6-3fad9346752d",
+          "type": "data_type_inconsistency",
+          "column": "category",
+          "description": "Data Type Issue in \"category\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"category\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": {
+            "is_real": true,
+            "fix_quality": "meh",
+            "comment": null,
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-03-31T21:36:10.212Z",
+            "confidence_after": 89
+          }
+        },
+        {
+          "id": "025c39b6-d1f3-4bc7-ab91-711e914737d8",
+          "type": "data_type_inconsistency",
+          "column": "status",
+          "description": "Data Type Issue in \"status\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 81,
+          "suggested_fix": "Standardize \"status\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": {
+            "is_real": true,
+            "fix_quality": null,
+            "comment": null,
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-03-31T21:35:57.842Z",
+            "confidence_after": 89
+          }
+        },
+        {
+          "id": "247a1cf7-6f9b-4365-89cf-d0e5ff3fa7cf",
+          "type": "outlier",
+          "column": "amount",
+          "description": "Outliers Detected in \"amount\"",
+          "detail": "12.5% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 85,
+          "suggested_fix": "Review values in \"amount\" — may be valid domain data or measurement errors",
+          "approval": {
+            "is_real": true,
+            "fix_quality": "good",
+            "comment": null,
+            "better_fix": null,
+            "quality_principle": "data_integrity",
+            "submitted_by": "Aaron",
+            "timestamp": "2026-03-31T21:36:04.108Z",
+            "confidence_after": 93
+          }
+        }
+      ]
+    },
+    {
+      "id": "b3788fc9-82c1-4304-803d-78ec50faa0b9",
+      "filename": "ecom_drift_month2_feb_97pct.csv",
+      "file_size": 3035,
+      "timestamp": "2026-03-31T21:35:31.468Z",
+      "row_count": 40,
+      "column_count": 11,
+      "overall_score": 99.36,
+      "completeness_score": 98.18,
+      "consistency_score": 100,
+      "validity_score": 100,
+      "issues": []
+    },
+    {
+      "id": "edc838e6-3cd0-4673-a88d-8a067662bbe7",
+      "filename": "ecom_drift_month1_jan_perfect.csv",
+      "file_size": 4629,
+      "timestamp": "2026-03-31T21:35:06.544Z",
+      "row_count": 62,
+      "column_count": 11,
+      "overall_score": 100,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 100,
+      "issues": []
+    }
+  ]
 }

@@ -1,0 +1,148 @@
+[
+  {
+    "spot_id": "cocoa_beach_pier",
+    "timestamp": "2026-03-12T21:23:10.442Z",
+    "anomalies": [
+      {
+        "anomaly_id": "anom_swell_20260312_2123",
+        "type": "OUT_OF_SEASON_SWELL",
+        "metric": "swell_direction",
+        "expected": {
+          "deg": "90-150",
+          "description": "spring mixed swell"
+        },
+        "observed": {
+          "deg": 67.0,
+          "cardinal": "ENE"
+        },
+        "confidence": 0.75,
+        "impact": "Unusual swell direction. Waves may behave differently than expected.",
+        "eta_hours": 0,
+        "feedback_score": null,
+        "severity": "high"
+      },
+      {
+        "anomaly_id": "anom_wind_20260312_2123",
+        "type": "WIND_SHIFT",
+        "metric": "wind_direction",
+        "expected": {
+          "deg": 90,
+          "cardinal": "E"
+        },
+        "observed": {
+          "deg": 157.5,
+          "cardinal": "SSE"
+        },
+        "confidence": 0.7,
+        "impact": "Wind direction differs from typical conditions. Check if it's offshore or onshore before paddling.",
+        "feedback_score": null,
+        "severity": "low"
+      }
+    ],
+    "confidence": 0.75,
+    "best_window": "Around 00:00 UTC",
+    "summary": "Today at Cocoa Beach Pier, surfers will encounter an unusual out-of-season ENE swell (67\u00b0), which is not typical for spring, combined with a shifted light onshore wind from the SSE (160\u00b0). While the swell height is a modest 1.77ft, the critically short 4.6-second period means these are disorganized, weak wind chop waves rather than quality swell, making the conditions generally very poor. The light onshore SSE wind, even at 4 mph, will further detract from any potential wave face, creating mushy, unrideable surf. Given the extremely poor period quality and onshore wind, this is **not recommended for any skill level**, as even beginners would find these waves too chaotic and weak to be enjoyable. There is no optimal window today for these conditions, as the fundamental lack of swell quality combined with the onshore wind makes it unlikely to improve. It's advisable to be aware that despite the small size, these conditions offer very little surf potential, and it might be best to skip it and await a more organized, longer-period swell.",
+    "model_version": "hlm-ai-v1.3",
+    "report_generated_at": "2026-03-12T21:23:28.134779+00:00",
+    "conditions": {
+      "wave_height_ft": 1.77,
+      "water_temp_f": 74.5,
+      "air_temp_f": 79,
+      "wave_period_s": 4.6,
+      "swell_direction_deg": 67,
+      "swell_direction_cardinal": "ENE"
+    },
+    "board_recommendation": {
+      "board_type": "Soft-top or Longboard (8'+)",
+      "skill_level": "Beginner",
+      "strategy": [
+        "Knee-to-waist height - perfect for learning",
+        "Max float needed for paddling power",
+        "Spring suit or boardshorts recommended"
+      ],
+      "rideable": true
+    },
+    "tide_info": {
+      "station": "Trident Pier, Port Canaveral",
+      "predictions": [
+        {
+          "time": "2026-03-12T00:00:00",
+          "height": 0.463,
+          "type": "observation"
+        },
+        {
+          "time": "2026-03-12T00:06:00",
+          "height": 0.443,
+          "type": "observation"
+        },
+        {
+          "time": "2026-03-12T00:12:00",
+          "height": 0.469,
+          "type": "observation"
+        },
+        {
+          "time": "2026-03-12T00:18:00",
+          "height": 0.472,
+          "type": "observation"
+        },
+        {
+          "time": "2026-03-12T00:24:00",
+          "height": 0.551,
+          "type": "observation"
+        }
+      ]
+    },
+    "hourly_forecast": {
+      "next_24_hours": [
+        {
+          "period": "",
+          "time": "2026-03-12T17:00:00-04:00",
+          "temperature": 79,
+          "wind_direction": "W",
+          "wind_speed": "15 mph",
+          "forecast": "Chance Showers And Thunderstorms"
+        },
+        {
+          "period": "",
+          "time": "2026-03-12T18:00:00-04:00",
+          "temperature": 79,
+          "wind_direction": "W",
+          "wind_speed": "15 mph",
+          "forecast": "Showers And Thunderstorms Likely"
+        },
+        {
+          "period": "",
+          "time": "2026-03-12T19:00:00-04:00",
+          "temperature": 76,
+          "wind_direction": "WNW",
+          "wind_speed": "15 mph",
+          "forecast": "Chance Showers And Thunderstorms"
+        },
+        {
+          "period": "",
+          "time": "2026-03-12T20:00:00-04:00",
+          "temperature": 74,
+          "wind_direction": "NNW",
+          "wind_speed": "10 mph",
+          "forecast": "Chance Showers And Thunderstorms"
+        },
+        {
+          "period": "",
+          "time": "2026-03-12T21:00:00-04:00",
+          "temperature": 72,
+          "wind_direction": "N",
+          "wind_speed": "15 mph",
+          "forecast": "Chance Showers And Thunderstorms"
+        },
+        {
+          "period": "",
+          "time": "2026-03-12T22:00:00-04:00",
+          "temperature": 71,
+          "wind_direction": "N",
+          "wind_speed": "20 mph",
+          "forecast": "Chance Showers And Thunderstorms"
+        }
+      ]
+    }
+  }
+]

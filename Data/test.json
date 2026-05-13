@@ -1,0 +1,177 @@
+[
+  {
+    "CustomerID": "C001",
+    "Email": "john.wilson@acmecorp.com",
+    "Purchase Date": "2025-01-15",
+    "Amount": 2999.99,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C002",
+    "Email": "sarah.smith@company.com",
+    "Purchase Date": "2025-01-16",
+    "Amount": 1500.00,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C003",
+    "Email": "invalid-email",
+    "Purchase Date": "2025-01-17",
+    "Amount": -50.00,
+    "Status": "pending"
+  },
+  {
+    "CustomerID": "C004",
+    "Email": null,
+    "Purchase Date": "2025-01-18",
+    "Amount": 8000.00,
+    "Status": "error"
+  },
+  {
+    "CustomerID": "C005",
+    "Email": "mike@test.com",
+    "Purchase Date": "2025-01-19",
+    "Amount": 4250.50,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C006",
+    "Email": "jennifer.doe@techsolutions.com",
+    "Purchase Date": "2025-01-20",
+    "Amount": 5750.00,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C007",
+    "Email": "david.brown@greenindustries.net",
+    "Purchase Date": "2025-01-21",
+    "Amount": 3200.75,
+    "Status": "negotiating"
+  },
+  {
+    "CustomerID": "C008",
+    "Email": "rachel.jones@financialservices.io",
+    "Purchase Date": "2025-01-22",
+    "Amount": 12500.00,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C009",
+    "Email": "robert.garcia@manufacturing.com",
+    "Purchase Date": "2025-01-23",
+    "Amount": 1200.00,
+    "Status": "pending"
+  },
+  {
+    "CustomerID": "C010",
+    "Email": "amanda.martinez@retailco.com",
+    "Purchase Date": "2025-01-24",
+    "Amount": 750.25,
+    "Status": "lost"
+  },
+  {
+    "CustomerID": "C011",
+    "Email": "christopher.lee@consultinggroup.com",
+    "Purchase Date": "2025-01-25",
+    "Amount": 6800.00,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C012",
+    "Email": "lisa.anderson@education.org",
+    "Purchase Date": "2025-01-26",
+    "Amount": 450.00,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C013",
+    "Email": "james.taylor@healthcare.net",
+    "Purchase Date": "2025-01-27",
+    "Amount": 9999.99,
+    "Status": "negotiating"
+  },
+  {
+    "CustomerID": "C014",
+    "Email": "patricia.thomas@logistics.com",
+    "Purchase Date": "2025-01-28",
+    "Amount": 2150.50,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C015",
+    "Email": "michael.jackson@energy.io",
+    "Purchase Date": "2025-01-29",
+    "Amount": 18500.00,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C016",
+    "Email": "barbara.white@construction.com",
+    "Purchase Date": "2025-01-30",
+    "Amount": 3675.80,
+    "Status": "pending"
+  },
+  {
+    "CustomerID": "C017",
+    "Email": "william.harris@agriculture.org",
+    "Purchase Date": null,
+    "Amount": 5200.00,
+    "Status": "error"
+  },
+  {
+    "CustomerID": "C018",
+    "Email": "susan.martin@telecommunications.com",
+    "Purchase Date": "2025-02-01",
+    "Amount": 1050.00,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C019",
+    "Email": "charles.thompson@realestateventures.com",
+    "Purchase Date": "2025-02-02",
+    "Amount": 7425.00,
+    "Status": "negotiating"
+  },
+  {
+    "CustomerID": "C020",
+    "Email": "dorothy.garcia@foodservices.net",
+    "Purchase Date": "2025-02-03",
+    "Amount": 890.50,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C021",
+    "Email": "mark.robinson@transportation.io",
+    "Purchase Date": "2025-02-04",
+    "Amount": 4200.00,
+    "Status": "pending"
+  },
+  {
+    "CustomerID": "C022",
+    "Email": "nancy.clark@hospitality.com",
+    "Purchase Date": "2025-02-05",
+    "Amount": 2300.75,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C023",
+    "Email": "donald_rodriguez@entertainment.net",
+    "Purchase Date": "2025-02-06",
+    "Amount": 6750.00,
+    "Status": "lost"
+  },
+  {
+    "CustomerID": "C024",
+    "Email": "helen.lewis@mediacompany.com",
+    "Purchase Date": "2025-02-07",
+    "Amount": 1925.00,
+    "Status": "completed"
+  },
+  {
+    "CustomerID": "C025",
+    "Email": "paul.walker@sciencetech.io",
+    "Purchase Date": "2025-02-08",
+    "Amount": 11200.00,
+    "Status": "negotiating"
+  }
+]

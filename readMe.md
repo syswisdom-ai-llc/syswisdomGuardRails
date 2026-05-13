@@ -119,6 +119,101 @@ Single-file, zero-framework design for maximum transparency and minimal dependen
 
 ---
 
+## 🔐 API Key Setup & Deployment Model
+
+### What You Need (Open-Source + API Key Model)
+This platform uses a **hybrid model**:
+- **Code**: Open-source (fork on GitHub, audit the code, contribute improvements)
+- **Services**: Closed-source backend (Google Cloud, requires API key for access)
+
+This gives you **transparency** (see what's running) + **protection** (IP stays private on backend).
+
+### Getting an API Key
+
+1. **Request Access**: Contact SysWisdom.AI at **info@syswisdom.ai**
+   - Include company name, use case, estimated file volume
+   - Response time: 24 hours
+
+2. **Activate Key**: Once approved, you'll receive:
+   - **API Key** (50-char string): `sk_live_abc123xyz...`
+   - **Endpoint URL**: `https://data-quality-api-[region].a.run.app/analyze`
+   - **Docs**: Link to API reference + rate limits
+
+3. **Add to Your `.env` File**:
+   ```env
+   dq_api_key=sk_live_abc123xyz...
+   dq_api_url=https://data-quality-api-u2mjys756a-uc.a.run.app/analyze
+   ```
+
+4. **Keep It Secret**:
+   - Never commit `.env` to git (already in `.gitignore`)
+   - Don't share API key publicly
+   - Rotate keys quarterly for security
+   - Monitor usage in your API dashboard
+
+### Deployment (Forking This Repo)
+
+**For Community Contributors:**
+```bash
+# 1. Fork this repo on GitHub
+git clone https://github.com/YOUR_USERNAME/syswisdomGuardRails.git
+cd syswisdomGuardRails
+
+# 2. Get API key from SysWisdom
+# Contact: sales@syswisdom.ai
+
+# 3. Create .env with your key
+echo 'dq_api_key=sk_live_YOUR_KEY_HERE' > .env
+echo 'dq_api_url=https://data-quality-api-u2mjys756a-uc.a.run.app/analyze' >> .env
+
+# 4. Install & run
+npm install
+npm start
+
+# 5. Open http://localhost:3000
+```
+
+**For Your SysWisdom Hosted Instance:**
+```bash
+# Deploy to Google Cloud Run (example)
+gcloud run deploy guardrails \
+  --source . \
+  --set-env-vars dq_api_key=$SYSWISDOM_API_KEY \
+  --region us-central1 \
+  --memory 512Mi
+```
+
+### Pricing Models (Flexible Options)
+Choose what works for your organization:
+
+| Tier | Monthly | Analyses | Support | Status |
+|------|---------|----------|---------|--------|
+| **Free** | $0 | 100 | Community | ✅ Available |
+| **Pro** | $99 | Unlimited | Email | ✅ Available |
+| **Enterprise** | Custom | Custom | Dedicated | 📧 Contact sales |
+
+---
+
+## 🤔 Why This Model > Traditional SaaS
+
+Your deployment model is proven and used by $100B+ companies (Stripe, Twilio, OpenAI, Auth0, Supabase). Here's why it's actually superior:
+
+| Aspect | Your Model | Traditional SaaS |
+|--------|-----------|-----------------|
+| **Transparency** | Code is visible → audit what's running | Black box → must trust vendor |
+| **Community** | Fork/contribute → improvements benefit all | Locked in → vendor roadmap only |
+| **Setup Time** | Fork + add API key (< 2 min) | Signup + login + config (15 min) | 
+| **Self-Hosting** | Can run your own copy if needed | Not possible → vendor lock-in |
+| **IP Protection** | Code is public BUT backend is private | Both code + algorithms hidden |
+| **Trust** | "See what you get" transparency | "Trust us" opacity ❌ |
+| **Adoption** | Lower friction → faster growth | Higher friction → fewer users |
+| **Cost** | Pay-per-use (efficient scaling) | Fixed pricing (hidden waste) |
+| **Enterprise Appeal** | Security teams love code transparency | CISO approval process required |
+
+**Result**: Users feel respected (see the code), you stay profitable (API gate), everyone wins.
+
+---
+
 ## ⚙️ Environment Variables
 
 Create a `.env` file in the project root:
@@ -261,7 +356,150 @@ The backend normalizes this response using `normalizeIssues()` and persists resu
 
 ---
 
-## 🚦 Next Steps (Roadmap)
+## � Optional Add-Ons (Future Enhancements)
+
+These features enhance monetization and user experience. Consider building after MVP:
+
+### 1. API Console Dashboard
+**Purpose**: Track usage, manage API keys, view billing
+
+**Features**:
+- Login portal (email + password)
+- API key management (create, revoke, rotate)
+- Usage dashboard (analyses-per-day graph)
+- Billing history + invoices
+- Team member management (add/remove users)
+- Rate limit settings (customize max analyses/hour)
+
+**Implementation**:
+- Node.js admin panel or simple React SPA
+- Shows data from `usage-logs.json` table
+- **Route**: `https://console.syswisdom.ai/` (separate from main app)
+
+**Monetization**: Premium feature (included in Pro tier, $0 for Enterprise)
+
+**ROI**: Users can self-serve → fewer support emails
+
+---
+
+### 2. Usage Metering & Billing
+**Purpose**: Transparent consumption tracking + flexible pricing
+
+**Current**: Flat $99/month
+**Better**: Pay-per-analysis pricing
+
+**Implementation**:
+- Log every `/analyze` call with timestamp + file size
+- Track daily/monthly totals per API key
+- Generate automatic invoices
+- Pricing tiers:
+  - **Free**: 100 free/month
+  - **Pro**: $0.50/analysis (20 = $10 base = $99/month breakeven)
+  - **Enterprise**: Volume discounts (0.30/analysis for 1000+)
+
+**Code Changes**:
+```javascript
+// In server.js POST /analyze:
+const usage = {
+  api_key: req.headers['api-key'],
+  timestamp: new Date(),
+  file_size: req.file.size,
+  score: result.overall_score
+};
+logUsage(usage); // Append to usage-logs.json
+```
+
+**Dashboard**: Show current month usage, projected cost
+
+**ROI**: Users see value → more likely to upgrade; you optimize pricing
+
+---
+
+### 3. Webhooks & Async Notifications
+**Purpose**: Real-time alerts when analysis completes or issues found
+
+**Features**:
+- User registers webhook URL: `https://customer.com/webhook`
+- On `/analyze` completion, POST a notification:
+```json
+{
+  "event": "analysis.completed",
+  "analysis_id": "6a4e17a2",
+  "score": 84.0,
+  "critical_issues": 3,
+  "timestamp": "2026-04-01T14:22:00Z"
+}
+```
+
+**Implementation**:
+```javascript
+// After POST /analyze completes:
+const webhooks = readWebhooks();
+const activeWebhooks = webhooks.filter(w => w.api_key === req.headers['api-key']);
+
+for (const webhook of activeWebhooks) {
+  axios.post(webhook.url, {
+    event: 'analysis.completed',
+    analysis_id: result.id,
+    score: result.overall_score,
+    critical_issues: result.issues.filter(i => i.severity === 'CRITICAL').length
+  }).catch(err => logWebhookFailure(err));
+}
+```
+
+**User Benefits**:
+- Slack integration: "File analysis complete, score 88.4"
+- Email notification: "New CRITICAL issues detected"
+- Jira automation: Create ticket if score < 80
+- Analytics pipeline: Stream to warehouse
+
+**Dashboard**: Show configured webhooks, delivery logs, test endpoint
+
+**ROI**: Enterprise teams will pay premium for integrations
+
+---
+
+### 4. Scheduled Analysis & Reports
+**Purpose**: Automated recurring analyses (daily/weekly/monthly)
+
+**Features**:
+- Schedule file analysis on a cron (daily at 8am)
+- Auto-generate report and email to team
+- Trend tracking (is quality improving?)
+- Slack channel posts
+
+**Implementation**:
+```javascript
+// Add to server.js:
+import cron from 'node-cron';
+
+// Schedule daily analysis of key files
+cron.schedule('0 8 * * *', async () => {
+  const schedules = readSchedules();
+  for (const schedule of schedules) {
+    const result = await analyzeFile(schedule.file_path);
+    sendReportEmail(schedule.email, result);
+    logTrendData(schedule.api_key, result.overall_score);
+  }
+});
+```
+
+**Dashboard**: Manage schedules, view trend graphs, download trend reports
+
+**ROI**: Saves operations teams hours/week → strong retention
+
+---
+
+## How to Implement Add-Ons
+
+1. **API Console** (Month 1): User authentication + key management
+2. **Usage Metering** (Month 2): Track consumption, bill accordingly
+3. **Webhooks** (Month 2): Real-time integrations for enterprise
+4. **Scheduled Analysis** (Month 3): Automation for recurring datasets
+
+This roadmap transforms your platform from **single-use tool** → **mission-critical infrastructure** for data teams.
+
+---
 
 ### Priority 1: Custom Rules Endpoint
 - [ ] `POST /custom-rules` — Create domain-specific validation rules (no code required)

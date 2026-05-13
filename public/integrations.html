@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GuardRails — Integrations Hub</title>
+  <style>
+    :root {
+      --navy:   #0f172a;
+      --navy2:  #1e293b;
+      --navy3:  #0d1b2e;
+      --teal:   #0ea5e9;
+      --teal2:  #38bdf8;
+      --green:  #22c55e;
+      --red:    #ef4444;
+      --orange: #f97316;
+      --yellow: #eab308;
+      --purple: #8b5cf6;
+      --pink:   #ec4899;
+      --gray:   #94a3b8;
+      --text:   #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      background: var(--navy3);
+      border-bottom: 2px solid var(--teal);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .page-header h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--teal2);
+      flex: 1;
+    }
+    .page-header span.sub {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-left: 10px;
+    }
+    .back-btn {
+      background: var(--navy2);
+      color: var(--teal2);
+      border: 1px solid var(--teal);
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-size: 0.82rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .back-btn:hover { background: var(--teal); color: #fff; }
+
+    /* ── Layout ── */
+    .page-body {
+      display: flex;
+      max-width: 1300px;
+      margin: 0 auto;
+      gap: 0;
+    }
+
+    /* ── Sidebar ── */
+    aside {
+      width: 240px;
+      flex-shrink: 0;
+      padding: 28px 0 40px 20px;
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+    aside h3 {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--gray);
+      margin: 20px 0 8px;
+      padding-left: 4px;
+    }
+    aside h3:first-child { margin-top: 0; }
+    aside a {
+      display: block;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      color: var(--gray);
+      text-decoration: none;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+    }
+    aside a:hover { color: var(--teal2); background: var(--navy2); }
+    aside a.active { color: var(--teal2); background: var(--navy2); border-left: 3px solid var(--teal); padding-left: 7px; }
+
+    /* ── Main content ── */
+    .main-content {
+      flex: 1;
+      padding: 32px 36px 60px;
+      min-width: 0;
+    }
+
+    .page-intro {
+      background: linear-gradient(135deg, var(--navy2), #1a2a42);
+      border: 1px solid var(--teal);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 36px;
+    }
+    .page-intro h2 { font-size: 1.5rem; color: var(--teal2); margin-bottom: 10px; }
+    .page-intro p { color: var(--gray); line-height: 1.7; }
+
+    /* ── Integration sections ── */
+    section {
+      margin-bottom: 52px;
+      scroll-margin-top: 80px;
+    }
+
+    .int-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background: var(--navy2);
+      border: 1px solid rgba(14,165,233,0.25);
+      border-left: 4px solid var(--teal);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 22px;
+    }
+    .int-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .int-header-text { flex: 1; }
+    .int-header-text h2 {
+      font-size: 1.3rem;
+      color: var(--teal2);
+      margin-bottom: 6px;
+    }
+    .int-header-text p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    .badge-active  { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid var(--green); }
+    .badge-planned { background: rgba(234,179,8,0.15); color: var(--yellow); border: 1px solid var(--yellow); }
+    .badge-community { background: rgba(139,92,246,0.15); color: var(--purple); border: 1px solid var(--purple); }
+
+    h3 {
+      font-size: 1rem;
+      color: var(--teal);
+      margin: 22px 0 10px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(14,165,233,0.2);
+    }
+    h4 { font-size: 0.9rem; color: var(--text); margin: 16px 0 8px; }
+
+    p { line-height: 1.7; color: var(--gray); font-size: 0.9rem; margin-bottom: 10px; }
+
+    pre {
+      background: var(--navy3);
+      border: 1px solid rgba(14,165,233,0.2);
+      border-radius: 8px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      margin: 10px 0 16px;
+    }
+    pre code {
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+      font-size: 0.8rem;
+      color: #93c5fd;
+      white-space: pre;
+    }
+    code {
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+      font-size: 0.82rem;
+      background: var(--navy3);
+      color: #93c5fd;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    pre code { background: transparent; padding: 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 12px 0 20px;
+    }
+    th { background: var(--navy2); color: var(--teal2); text-align: left; padding: 9px 12px; border-bottom: 2px solid var(--teal); }
+    td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); color: var(--gray); }
+    tr:hover td { background: rgba(14,165,233,0.04); }
+
+    .callout {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 14px 0;
+      font-size: 0.87rem;
+      line-height: 1.6;
+    }
+    .callout .icon { font-size: 1.2rem; flex-shrink: 0; }
+    .callout-info { background: rgba(14,165,233,0.08); border-left: 3px solid var(--teal); }
+    .callout-tip  { background: rgba(34,197,94,0.08); border-left: 3px solid var(--green); }
+    .callout-warn { background: rgba(234,179,8,0.08); border-left: 3px solid var(--yellow); }
+    .callout div, .callout p { color: var(--text); margin: 0; }
+
+    .steps { list-style: none; counter-reset: step; }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      background: var(--navy2);
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .steps li::before {
+      content: counter(step);
+      background: var(--teal);
+      color: #fff;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .steps li .step-body strong { display: block; color: var(--text); margin-bottom: 4px; }
+    .steps li .step-body p { margin: 0; }
+
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .sub-card {
+      background: var(--navy2);
+      border: 1px solid rgba(14,165,233,0.2);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .sub-card h4 { color: var(--teal2); margin-top: 0; font-size: 1rem; }
+    .sub-card p { font-size: 0.83rem; margin-bottom: 8px; }
+
+    .env-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 10px 0;
+    }
+    .env-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--navy3);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+    }
+    .env-key { color: var(--teal2); font-family: monospace; min-width: 180px; }
+    .env-desc { color: var(--gray); font-size: 0.78rem; }
+
+    .link-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 8px 0 16px;
+    }
+    .link-chip {
+      background: var(--navy2);
+      border: 1px solid var(--teal);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.78rem;
+      color: var(--teal2);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .link-chip:hover { background: var(--teal); color: #fff; }
+
+    /* ── Divider ── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid rgba(14,165,233,0.12);
+      margin: 48px 0 0;
+    }
+
+    @media (max-width: 900px) {
+      aside { display: none; }
+      .page-body { display: block; }
+      .main-content { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════ HEADER ════════════════════════ -->
+<header class="page-header">
+  <h1>🔌 GuardRails — Integrations Hub <span class="sub">Connect your tools. Automate your quality pipeline.</span></h1>
+  <a href="/" class="back-btn">← Back to App</a>
+  <a href="/help.html" target="_blank" class="back-btn" style="margin-left:8px;">❓ Help</a>
+</header>
+
+<div class="page-body">
+
+  <!-- ════════════════════════ SIDEBAR ════════════════════════ -->
+  <aside>
+    <h3>Project Management</h3>
+    <a href="#atlassian">🔵 Atlassian Cloud</a>
+    <a href="#azure-devops">🟦 Azure DevOps</a>
+
+    <h3>API Testing</h3>
+    <a href="#postman">🟠 Postman</a>
+
+    <h3>Data &amp; Reporting</h3>
+    <a href="#sql">🐘 SQL Connections</a>
+    <a href="#tableau">📊 Tableau</a>
+
+    <h3>AI Connectors</h3>
+    <a href="#ai-connectors">🤖 AI Connectors</a>
+
+    <h3>Test Automation</h3>
+    <a href="#playwright">🎭 Playwright</a>
+    <a href="#cypress">🌲 Cypress</a>
+    <a href="#jmeter">⚡ JMeter</a>
+  </aside>
+
+  <!-- ════════════════════════ MAIN ════════════════════════ -->
+  <div class="main-content">
+
+    <div class="page-intro">
+      <h2>Connect GuardRails to Your Ecosystem</h2>
+      <p>GuardRails exposes a full REST API that connects to the tools your team already uses. Automatically create Jira tickets from quality issues, run load tests with JMeter, push quality scores to Tableau dashboards, or trigger Playwright UI tests on every analysis. Everything below documents how each integration works, what credentials you need, and copy-paste configuration to get started in minutes.</p>
+    </div>
+
+    <!-- ═══════════════ ATLASSIAN ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="atlassian">
+      <div class="int-header">
+        <div class="int-icon">🔵</div>
+        <div class="int-header-text">
+          <h2>Atlassian Cloud <span class="badge badge-planned">Planned</span></h2>
+          <p>Automatically create Jira tickets from data quality issues and post quality reports to Confluence pages. Connects GuardRails analysis results directly into your project tracking workflow.</p>
+        </div>
+      </div>
+
+      <h3>Jira — Auto-Create Tickets from Quality Issues</h3>
+      <p>When GuardRails finds critical issues (null rates, format errors, duplicates above threshold), the integration can POST to the Jira Cloud REST API to open a bug or task automatically.</p>
+
+      <h4>Prerequisites</h4>
+      <ol class="steps">
+        <li><div class="step-body"><strong>Create an Atlassian API token</strong><p>Go to <code>id.atlassian.com → Security → Create and manage API tokens</code>. Copy the token — it is only shown once.</p></div></li>
+        <li><div class="step-body"><strong>Add to your .env file</strong><p>Add these three variables to <code>.env</code> in the project root:</p>
+          <div class="env-block">
+            <div class="env-row"><span class="env-key">JIRA_BASE_URL</span><span class="env-desc">e.g. https://yourcompany.atlassian.net</span></div>
+            <div class="env-row"><span class="env-key">JIRA_EMAIL</span><span class="env-desc">Your Atlassian account email</span></div>
+            <div class="env-row"><span class="env-key">JIRA_API_TOKEN</span><span class="env-desc">The API token from Step 1</span></div>
+            <div class="env-row"><span class="env-key">JIRA_PROJECT_KEY</span><span class="env-desc">e.g. DQ (your project's key in Jira)</span></div>
+          </div>
+        </div></li>
+      </ol>
+
+      <h4>Create a Jira Issue from a Quality Finding</h4>
+      <pre><code># POST to Jira Cloud REST API v3
+curl -X POST \
+  "${JIRA_BASE_URL}/rest/api/3/issue" \
+  -H "Authorization: Basic $(echo -n ${JIRA_EMAIL}:${JIRA_API_TOKEN} | base64)" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fields": {
+      "project": { "key": "DQ" },
+      "summary": "Data Quality Alert: null rate 18% in customer_email column",
+      "description": {
+        "type": "doc",
+        "version": 1,
+        "content": [{
+          "type": "paragraph",
+          "content": [{ "type": "text", "text": "GuardRails detected 18% null rate in customer_email. Overall score: 73.2. Analysis ID: analysis_20260512_0941" }]
+        }]
+      },
+      "issuetype": { "name": "Bug" },
+      "priority": { "name": "High" }
+    }
+  }'</code></pre>
+
+      <h3>Confluence — Post Quality Reports to Pages</h3>
+      <pre><code># Update a Confluence page with the latest quality report
+curl -X PUT \
+  "${JIRA_BASE_URL}/wiki/rest/api/content/{PAGE_ID}" \
+  -H "Authorization: Basic $(echo -n ${JIRA_EMAIL}:${JIRA_API_TOKEN} | base64)" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "{PAGE_ID}",
+    "type": "page",
+    "title": "Data Quality Report — May 2026",
+    "version": { "number": 2 },
+    "body": {
+      "storage": {
+        "value": "<h2>Overall Score: 84.0</h2><p>Analysis run: 2026-05-12. Files analyzed: 3.</p>",
+        "representation": "storage"
+      }
+    }
+  }'</code></pre>
+
+      <div class="callout callout-info">
+        <span class="icon">ℹ️</span>
+        <div>The GuardRails <code>GET /report/:id</code> endpoint returns full JSON suitable for Confluence storage format conversion. Use the <code>title</code>, <code>overall_score</code>, and <code>issues</code> fields to build rich Confluence content programmatically.</div>
+      </div>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/" target="_blank">Jira Cloud REST API v3</a>
+        <a class="link-chip" href="https://developer.atlassian.com/cloud/confluence/rest/v2/" target="_blank">Confluence REST API v2</a>
+        <a class="link-chip" href="https://id.atlassian.com/manage-profile/security/api-tokens" target="_blank">Create API Token</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ AZURE DEVOPS ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="azure-devops">
+      <div class="int-header">
+        <div class="int-icon">🟦</div>
+        <div class="int-header-text">
+          <h2>Azure DevOps <span class="badge badge-planned">Planned</span></h2>
+          <p>Integrate data quality gates into Azure Pipelines. Fail a pipeline if quality score drops below your threshold, and automatically create Work Items from critical quality issues.</p>
+        </div>
+      </div>
+
+      <h3>Environment Variables</h3>
+      <div class="env-block">
+        <div class="env-row"><span class="env-key">AZURE_DEVOPS_ORG</span><span class="env-desc">e.g. https://dev.azure.com/yourorg</span></div>
+        <div class="env-row"><span class="env-key">AZURE_DEVOPS_PROJECT</span><span class="env-desc">Your project name</span></div>
+        <div class="env-row"><span class="env-key">AZURE_DEVOPS_PAT</span><span class="env-desc">Personal Access Token (Work Items Read &amp; Write scope)</span></div>
+      </div>
+
+      <h3>Pipeline Quality Gate — azure-pipelines.yml</h3>
+      <p>Add a GuardRails quality gate step to your Azure Pipeline. The pipeline will fail if the data quality score is below 75:</p>
+      <pre><code># azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '22.x'
+
+  - script: npm install
+    displayName: 'Install GuardRails dependencies'
+
+  - script: |
+      node server.js &
+      sleep 3
+
+      # Upload file and analyze
+      RESULT=$(curl -s -X POST http://localhost:3000/analyze \
+        -H "X-API-Key: $(dq_api_key)" \
+        -F "file=@Data/test.csv")
+
+      SCORE=$(echo $RESULT | node -e "
+        let d=''; process.stdin.on('data',c=>d+=c);
+        process.stdin.on('end',()=>{ const r=JSON.parse(d); process.stdout.write(String(r.overall_score||0)); })
+      ")
+
+      echo "Data Quality Score: $SCORE"
+
+      if (( $(echo "$SCORE < 75" | bc -l) )); then
+        echo "##vso[task.logissue type=error]Quality score $SCORE is below threshold 75"
+        exit 1
+      fi
+    displayName: 'GuardRails Quality Gate'
+    env:
+      dq_api_key: $(DQ_API_KEY)</code></pre>
+
+      <h3>Create Work Item from Quality Issue</h3>
+      <pre><code># Create a Bug work item in Azure DevOps
+curl -X POST \
+  "${AZURE_DEVOPS_ORG}/${AZURE_DEVOPS_PROJECT}/_apis/wit/workitems/\$Bug?api-version=7.1" \
+  -H "Authorization: Basic $(echo -n :${AZURE_DEVOPS_PAT} | base64)" \
+  -H "Content-Type: application/json-patch+json" \
+  -d '[
+    { "op": "add", "path": "/fields/System.Title", "value": "Data Quality: null rate 18% in customer_email" },
+    { "op": "add", "path": "/fields/System.Description", "value": "GuardRails score: 73.2. Critical null rate detected in customer_email column." },
+    { "op": "add", "path": "/fields/Microsoft.VSTS.Common.Priority", "value": 1 }
+  ]'</code></pre>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://learn.microsoft.com/en-us/azure/devops/pipelines/" target="_blank">Azure Pipelines Docs</a>
+        <a class="link-chip" href="https://learn.microsoft.com/en-us/rest/api/azure/devops/wit/" target="_blank">Work Items REST API</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ POSTMAN ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="postman">
+      <div class="int-header">
+        <div class="int-icon">🟠</div>
+        <div class="int-header-text">
+          <h2>Postman <span class="badge badge-active">Active</span></h2>
+          <p>Import the GuardRails Postman collection to test all API endpoints interactively, run automated test suites with Newman, and share API documentation with your team.</p>
+        </div>
+      </div>
+
+      <h3>Quick Start — Import the Collection</h3>
+      <ol class="steps">
+        <li><div class="step-body"><strong>Open Postman → Import</strong><p>Click <code>Import</code> in the top-left. Choose <code>Raw text</code> and paste the collection JSON below, or save it as <code>guardrails-postman.json</code> and import as a file.</p></div></li>
+        <li><div class="step-body"><strong>Set the Collection Variable</strong><p>Set <code>baseUrl</code> to <code>http://localhost:3000</code> and <code>apiKey</code> to your <code>dq_api_key</code> value from <code>.env</code>.</p></div></li>
+        <li><div class="step-body"><strong>Run the Collection</strong><p>Click <code>Run collection</code> to execute all requests in sequence. Use Postman Environments to switch between local and production.</p></div></li>
+      </ol>
+
+      <h3>GuardRails API Endpoints Reference</h3>
+      <table>
+        <tr><th>Method</th><th>Endpoint</th><th>Description</th><th>Auth</th></tr>
+        <tr><td>POST</td><td><code>/analyze</code></td><td>Upload CSV/JSON, run quality analysis</td><td>X-API-Key header</td></tr>
+        <tr><td>POST</td><td><code>/approval</code></td><td>Approve or reject a quality issue</td><td>None</td></tr>
+        <tr><td>GET</td><td><code>/fix-library</code></td><td>List all fix library entries</td><td>None</td></tr>
+        <tr><td>POST</td><td><code>/fix-library</code></td><td>Add a new fix entry</td><td>None</td></tr>
+        <tr><td>POST</td><td><code>/fix-library/vote</code></td><td>Upvote or downvote a fix</td><td>None</td></tr>
+        <tr><td>GET</td><td><code>/report/:id</code></td><td>Get full report for an analysis ID</td><td>None</td></tr>
+        <tr><td>GET</td><td><code>/history</code></td><td>List all past analyses</td><td>None</td></tr>
+        <tr><td>GET</td><td><code>/drift-analysis</code></td><td>Get drift trend across uploaded files</td><td>None</td></tr>
+        <tr><td>GET</td><td><code>/training-export</code></td><td>Export analyses as CSV for ML training</td><td>None</td></tr>
+      </table>
+
+      <h3>Run with Newman (CLI)</h3>
+      <p>Newman is the Postman collection runner for CI/CD. Run all GuardRails API tests from the command line:</p>
+      <pre><code># Install Newman globally
+npm install -g newman
+
+# Run the collection
+newman run guardrails-postman.json \
+  --env-var "baseUrl=http://localhost:3000" \
+  --env-var "apiKey=YOUR_API_KEY" \
+  --reporters cli,json \
+  --reporter-json-export newman-results.json</code></pre>
+
+      <h3>Sample Analyze Request (Postman Body)</h3>
+      <pre><code>POST {{baseUrl}}/analyze
+Headers:
+  X-API-Key: {{apiKey}}
+Body: form-data
+  file: [select Data/test.csv]
+
+Expected response:
+{
+  "analysis_id": "cocoa_beach_pier_20260512_...",
+  "overall_score": 84.0,
+  "completeness": 90.0,
+  "consistency": 80.0,
+  "validity": 82.0,
+  "issues": [ ... ],
+  "recommendations": [ ... ]
+}</code></pre>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://www.postman.com/downloads/" target="_blank">Download Postman</a>
+        <a class="link-chip" href="https://www.npmjs.com/package/newman" target="_blank">Newman on npm</a>
+        <a class="link-chip" href="https://learning.postman.com/docs/collections/running-collections/newman-guide/" target="_blank">Newman Docs</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ SQL ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="sql">
+      <div class="int-header">
+        <div class="int-icon">🐘</div>
+        <div class="int-header-text">
+          <h2>SQL Connections <span class="badge badge-planned">Planned</span></h2>
+          <p>Connect GuardRails directly to PostgreSQL, MySQL, MS SQL Server, or SQLite databases to analyze table exports without manual CSV downloads.</p>
+        </div>
+      </div>
+
+      <h3>Supported Databases</h3>
+      <div class="sub-grid">
+        <div class="sub-card">
+          <h4>🐘 PostgreSQL</h4>
+          <p>Full support via <code>pg</code> npm package. Export any table or query result to CSV, then auto-pipe to <code>/analyze</code>.</p>
+          <pre><code>npm install pg</code></pre>
+        </div>
+        <div class="sub-card">
+          <h4>🐬 MySQL / MariaDB</h4>
+          <p>Connect via <code>mysql2</code>. Stream table exports directly into the GuardRails analysis pipeline.</p>
+          <pre><code>npm install mysql2</code></pre>
+        </div>
+        <div class="sub-card">
+          <h4>🔷 MS SQL Server</h4>
+          <p>Connect via <code>mssql</code> npm package. Supports Windows Auth and SQL Auth for enterprise environments.</p>
+          <pre><code>npm install mssql</code></pre>
+        </div>
+        <div class="sub-card">
+          <h4>📁 SQLite</h4>
+          <p>Local database files. Use <code>better-sqlite3</code> to query and export tables for analysis.</p>
+          <pre><code>npm install better-sqlite3</code></pre>
+        </div>
+      </div>
+
+      <h3>Environment Variables</h3>
+      <div class="env-block">
+        <div class="env-row"><span class="env-key">DB_TYPE</span><span class="env-desc">postgres | mysql | mssql | sqlite</span></div>
+        <div class="env-row"><span class="env-key">DB_HOST</span><span class="env-desc">Database server hostname or IP</span></div>
+        <div class="env-row"><span class="env-key">DB_PORT</span><span class="env-desc">5432 (pg), 3306 (mysql), 1433 (mssql)</span></div>
+        <div class="env-row"><span class="env-key">DB_NAME</span><span class="env-desc">Database name</span></div>
+        <div class="env-row"><span class="env-key">DB_USER</span><span class="env-desc">Database username</span></div>
+        <div class="env-row"><span class="env-key">DB_PASSWORD</span><span class="env-desc">Database password (never commit this)</span></div>
+      </div>
+
+      <h3>PostgreSQL — Export Table and Analyze</h3>
+      <pre><code>// lib/db-export.js (planned)
+const { Client } = require('pg');
+const { writeFileSync } = require('fs');
+const FormData = require('form-data');
+const fetch = require('node-fetch');
+
+async function analyzeTable(tableName) {
+  const client = new Client({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+  });
+
+  await client.connect();
+
+  // Fetch table as CSV
+  const res = await client.query(`SELECT * FROM ${tableName} LIMIT 50000`);
+  const headers = res.fields.map(f => f.name).join(',');
+  const rows = res.rows.map(r => Object.values(r).join(','));
+  const csv = [headers, ...rows].join('\n');
+
+  writeFileSync('/tmp/export.csv', csv);
+  await client.end();
+
+  // Send to GuardRails
+  const form = new FormData();
+  form.append('file', Buffer.from(csv), { filename: `${tableName}.csv` });
+
+  const result = await fetch('http://localhost:3000/analyze', {
+    method: 'POST',
+    headers: { 'X-API-Key': process.env.dq_api_key, ...form.getHeaders() },
+    body: form,
+  });
+
+  return result.json();
+}
+
+module.exports = { analyzeTable };</code></pre>
+
+      <div class="callout callout-warn">
+        <span class="icon">⚠️</span>
+        <div>Never store database credentials in source code. Always use <code>.env</code> with <code>dotenv</code>, or an environment variable injected by your CI/CD system. Add <code>.env</code> to <code>.gitignore</code>.</div>
+      </div>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://node-postgres.com/" target="_blank">pg (node-postgres)</a>
+        <a class="link-chip" href="https://www.npmjs.com/package/mysql2" target="_blank">mysql2</a>
+        <a class="link-chip" href="https://www.npmjs.com/package/mssql" target="_blank">mssql</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ TABLEAU ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="tableau">
+      <div class="int-header">
+        <div class="int-icon">📊</div>
+        <div class="int-header-text">
+          <h2>Tableau <span class="badge badge-planned">Planned</span></h2>
+          <p>Push GuardRails quality scores into Tableau dashboards for executive reporting. Export score trends as CSV for Tableau Desktop, or push live data via the Tableau REST API.</p>
+        </div>
+      </div>
+
+      <h3>Option 1 — CSV Export for Tableau Desktop</h3>
+      <p>Use the GuardRails <code>GET /training-export</code> endpoint to download all analysis history as CSV. Point a Tableau Data Source at this file or schedule a periodic download.</p>
+      <pre><code># Download quality score history as CSV
+curl -s http://localhost:3000/training-export -o guardrails-scores.csv
+
+# CSV columns:
+# analysis_id, filename, timestamp, overall_score,
+# completeness, consistency, validity, issue_count, approved_count</code></pre>
+
+      <h4>Tableau Desktop — Connect to CSV</h4>
+      <ol class="steps">
+        <li><div class="step-body"><strong>Open Tableau Desktop</strong><p>Connect → Text File → Select <code>guardrails-scores.csv</code></p></div></li>
+        <li><div class="step-body"><strong>Create Score Trend Chart</strong><p>Drag <code>timestamp</code> to Columns, <code>overall_score</code> to Rows. Add <code>filename</code> as Color.</p></div></li>
+        <li><div class="step-body"><strong>Add Threshold Reference Line</strong><p>Analytics panel → Reference Line → Constant = 80. Color red below, green above.</p></div></li>
+      </ol>
+
+      <h3>Option 2 — Tableau REST API (Live Push)</h3>
+      <div class="env-block">
+        <div class="env-row"><span class="env-key">TABLEAU_SERVER_URL</span><span class="env-desc">e.g. https://10ax.online.tableau.com</span></div>
+        <div class="env-row"><span class="env-key">TABLEAU_SITE_ID</span><span class="env-desc">Your Tableau Cloud site ID</span></div>
+        <div class="env-row"><span class="env-key">TABLEAU_TOKEN_NAME</span><span class="env-desc">Personal Access Token name</span></div>
+        <div class="env-row"><span class="env-key">TABLEAU_TOKEN_VALUE</span><span class="env-desc">Personal Access Token secret</span></div>
+      </div>
+      <pre><code># Authenticate and get session token
+curl -X POST "${TABLEAU_SERVER_URL}/api/3.21/auth/signin" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "credentials": {
+      "personalAccessTokenName": "'"${TABLEAU_TOKEN_NAME}"'",
+      "personalAccessTokenSecret": "'"${TABLEAU_TOKEN_VALUE}"'",
+      "site": { "contentUrl": "'"${TABLEAU_SITE_ID}"'" }
+    }
+  }'</code></pre>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api.htm" target="_blank">Tableau REST API Docs</a>
+        <a class="link-chip" href="https://www.tableau.com/developer/tools/tableau-prep" target="_blank">Tableau Prep</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ AI CONNECTORS ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="ai-connectors">
+      <div class="int-header">
+        <div class="int-icon">🤖</div>
+        <div class="int-header-text">
+          <h2>AI Connectors <span class="badge badge-planned">Planned</span></h2>
+          <p>GuardRails uses AI to generate fragility narratives, actionable fix code, and AI Readiness verdicts. Three providers are supported: Google Gemini (primary), OpenAI ChatGPT, and Anthropic Claude.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="icon">ℹ️</span>
+        <div>All AI connectors are optional. GuardRails scores data deterministically without AI. AI is called only for post-analysis narrative generation — <em>understanding why</em> scores are what they are, not computing them.</div>
+      </div>
+
+      <div class="sub-grid">
+        <!-- GEMINI -->
+        <div class="sub-card">
+          <h4>✨ Google Gemini <span class="badge badge-active" style="font-size:0.65rem">Primary</span></h4>
+          <p>Powers three GuardRails AI features: Chaos fragility narrative, AI Fix Suggestions, and AI Readiness Score verdict.</p>
+          <pre><code>npm install @google/generative-ai</code></pre>
+          <div class="env-block">
+            <div class="env-row"><span class="env-key">GEMINI_API_KEY</span><span class="env-desc">From Google AI Studio</span></div>
+          </div>
+        </div>
+
+        <!-- OPENAI -->
+        <div class="sub-card">
+          <h4>💬 OpenAI ChatGPT <span class="badge badge-planned" style="font-size:0.65rem">Planned</span></h4>
+          <p>Alternative AI backend. Drop-in replacement for Gemini narrative generation using GPT-4o or GPT-4o-mini.</p>
+          <pre><code>npm install openai</code></pre>
+          <div class="env-block">
+            <div class="env-row"><span class="env-key">OPENAI_API_KEY</span><span class="env-desc">From platform.openai.com</span></div>
+          </div>
+        </div>
+
+        <!-- CLAUDE -->
+        <div class="sub-card">
+          <h4>🔮 Anthropic Claude <span class="badge badge-planned" style="font-size:0.65rem">Planned</span></h4>
+          <p>Enterprise-grade alternative. Claude 3.5 Sonnet excels at long-form technical narrative and structured JSON output.</p>
+          <pre><code>npm install @anthropic-ai/sdk</code></pre>
+          <div class="env-block">
+            <div class="env-row"><span class="env-key">ANTHROPIC_API_KEY</span><span class="env-desc">From console.anthropic.com</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h3>lib/gemini.js — Gemini Wrapper Architecture</h3>
+      <p>The planned <code>lib/gemini.js</code> module provides a single async function for each AI feature, keeping AI logic isolated from the Express routes:</p>
+      <pre><code>// lib/gemini.js (planned)
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+/**
+ * Generate fragility narrative after chaos injection.
+ * @param {object} beforeScore - Original quality scores
+ * @param {object} afterScore  - Post-chaos scores
+ * @param {string[]} fragileFields - Fields most impacted by chaos
+ */
+async function getChaosNarrative(beforeScore, afterScore, fragileFields) {
+  const prompt = `
+    You are a data quality expert. A chaos test was run on a dataset.
+    Before chaos: overall score ${beforeScore.overall_score}/100.
+    After chaos:  overall score ${afterScore.overall_score}/100.
+    Most impacted fields: ${fragileFields.join(', ')}.
+
+    In 3-4 sentences, explain what this means for downstream AI models
+    and data pipelines. Be specific about which model types are most at risk.
+    Return only the narrative text, no preamble.
+  `;
+  const result = await model.generateContent(prompt);
+  return result.response.text();
+}
+
+/**
+ * Generate Python, JavaScript, and SQL fix code for detected issues.
+ * @param {object[]} issues - Array of quality issues from /analyze
+ * @param {string[]} columns - Column names from the dataset
+ */
+async function getFixSuggestions(issues, columns) {
+  const prompt = `
+    You are a data engineering expert. Given these data quality issues:
+    ${JSON.stringify(issues, null, 2)}
+    And these column names: ${columns.join(', ')}
+
+    Generate fix code in three formats:
+    1. Python (pandas)
+    2. JavaScript (Node.js)
+    3. SQL (PostgreSQL)
+
+    Use the actual column names in the code. Return valid JSON:
+    { "python": "...", "javascript": "...", "sql": "..." }
+  `;
+  const result = await model.generateContent(prompt);
+  return JSON.parse(result.response.text());
+}
+
+/**
+ * Generate AI Readiness verdict and explanation.
+ * @param {object} scores - { overall_score, completeness, consistency, validity }
+ * @param {object[]} issues - Array of quality issues
+ */
+async function getAIReadinessVerdict(scores, issues) {
+  const prompt = `
+    You are an ML pipeline expert. Rate this dataset's AI readiness.
+    Quality scores: ${JSON.stringify(scores)}
+    Issues found: ${issues.length} (${issues.filter(i=>i.severity==='critical').length} critical)
+
+    Return valid JSON only:
+    {
+      "verdict": "AI Ready" | "Needs Improvement" | "Not AI Ready",
+      "color": "green" | "yellow" | "red",
+      "explanation": "2-3 sentence explanation",
+      "top_risk": "The single biggest risk to AI pipeline performance"
+    }
+  `;
+  const result = await model.generateContent(prompt);
+  return JSON.parse(result.response.text());
+}
+
+module.exports = { getChaosNarrative, getFixSuggestions, getAIReadinessVerdict };</code></pre>
+
+      <h3>Setting Up API Keys</h3>
+      <pre><code># .env (add to project root — never commit this file)
+dq_api_key=your_syswisdom_api_key_here
+GEMINI_API_KEY=your_gemini_key_from_ai_studio
+OPENAI_API_KEY=sk-...your_openai_key...
+ANTHROPIC_API_KEY=sk-ant-...your_claude_key...</code></pre>
+
+      <div class="callout callout-tip">
+        <span class="icon">💡</span>
+        <div>Get a free Gemini API key at <strong>aistudio.google.com</strong>. The Gemini 1.5 Flash model is free for development use with generous rate limits. No credit card required.</div>
+      </div>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio (Gemini keys)</a>
+        <a class="link-chip" href="https://platform.openai.com/api-keys" target="_blank">OpenAI API Keys</a>
+        <a class="link-chip" href="https://console.anthropic.com/" target="_blank">Anthropic Console</a>
+        <a class="link-chip" href="https://www.npmjs.com/package/@google/generative-ai" target="_blank">@google/generative-ai</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ PLAYWRIGHT ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="playwright">
+      <div class="int-header">
+        <div class="int-icon">🎭</div>
+        <div class="int-header-text">
+          <h2>Playwright <span class="badge badge-community">Community</span></h2>
+          <p>End-to-end UI testing of the GuardRails web application. Test the full upload-analyze-review-approve workflow in a real browser, and screenshot-verify score rings and drift charts.</p>
+        </div>
+      </div>
+
+      <h3>Install Playwright</h3>
+      <pre><code># Install Playwright with Chromium (for CI headless)
+npm install --save-dev @playwright/test
+npx playwright install chromium
+
+# Or install all browsers
+npx playwright install</code></pre>
+
+      <h3>Playwright Config</h3>
+      <pre><code>// playwright.config.js
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests/e2e',
+  use: {
+    baseURL: 'http://localhost:3000',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+  webServer: {
+    command: 'node server.js',
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI,
+  },
+});</code></pre>
+
+      <h3>Upload and Analyze Spec</h3>
+      <pre><code">// tests/e2e/upload-and-analyze.spec.js
+import { test, expect } from '@playwright/test';
+import path from 'path';
+
+test('upload CSV and verify quality score appears', async ({ page }) => {
+  await page.goto('/');
+
+  // Upload test file
+  const fileInput = page.locator('input[type="file"]');
+  await fileInput.setInputFiles(path.join(__dirname, '../../Data/test.csv'));
+
+  // Click Analyze
+  await page.locator('button:has-text("Analyze")').click();
+
+  // Wait for score ring to appear
+  await page.waitForSelector('.score-ring, [data-score]', { timeout: 15000 });
+
+  // Assert score is visible and above zero
+  const scoreText = await page.locator('.overall-score, [data-overall-score]').textContent();
+  expect(Number(scoreText)).toBeGreaterThan(0);
+});
+
+test('drift monitor tab loads chart', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('[data-tab="drift"]').click();
+  await page.waitForSelector('canvas, .drift-chart', { timeout: 5000 });
+  const chart = page.locator('canvas').first();
+  await expect(chart).toBeVisible();
+});
+
+test('fix library tab shows entries', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('[data-tab="library"]').click();
+  await page.waitForSelector('.fix-card, .library-item', { timeout: 5000 });
+  const cards = page.locator('.fix-card, .library-item');
+  await expect(cards).toHaveCountGreaterThan(0);
+});
+
+test('screenshot score rings for visual regression', async ({ page }) => {
+  await page.goto('/');
+  // ... upload and analyze ...
+  await page.screenshot({ path: 'test-results/score-rings.png', fullPage: true });
+});</code></pre>
+
+      <h3>Run Playwright Tests</h3>
+      <pre><code"># Run all E2E tests (headless)
+npx playwright test
+
+# Run with visible browser
+npx playwright test --headed
+
+# Run specific spec
+npx playwright test tests/e2e/upload-and-analyze.spec.js
+
+# View HTML report
+npx playwright show-report</code></pre>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://playwright.dev/docs/intro" target="_blank">Playwright Docs</a>
+        <a class="link-chip" href="https://playwright.dev/docs/api/class-page#page-set-input-files" target="_blank">File Upload API</a>
+        <a class="link-chip" href="https://playwright.dev/docs/screenshots" target="_blank">Visual Regression</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ CYPRESS ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="cypress">
+      <div class="int-header">
+        <div class="int-icon">🌲</div>
+        <div class="int-header-text">
+          <h2>Cypress <span class="badge badge-community">Community</span></h2>
+          <p>Alternative E2E and component testing. Cypress runs in the browser alongside your application, offering real-time reload, time-travel debugging, and a polished visual test runner.</p>
+        </div>
+      </div>
+
+      <h3>Install Cypress</h3>
+      <pre><code>npm install --save-dev cypress
+
+# Open Cypress Test Runner (interactive)
+npx cypress open
+
+# Run headless (CI)
+npx cypress run</code></pre>
+
+      <h3>Cypress Config</h3>
+      <pre><code>// cypress.config.js
+const { defineConfig } = require('cypress');
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: 'http://localhost:3000',
+    specPattern: 'tests/cypress/**/*.cy.js',
+    video: false,
+    screenshotOnRunFailure: true,
+  },
+});</code></pre>
+
+      <h3>Full Analysis Workflow Spec</h3>
+      <pre><code>// tests/cypress/guardrails-upload.cy.js
+describe('GuardRails Upload and Analyze', () => {
+  beforeEach(() => { cy.visit('/'); });
+
+  it('uploads a CSV and displays quality scores', () => {
+    cy.get('input[type="file"]')
+      .selectFile('Data/test.csv', { force: true });
+
+    cy.contains('button', 'Analyze').click();
+
+    // Score ring should appear within 15 seconds
+    cy.get('.score-ring, [data-score]', { timeout: 15000 }).should('be.visible');
+
+    // Score should be numeric and > 0
+    cy.get('[data-overall-score]').invoke('text').then(score => {
+      expect(Number(score)).to.be.greaterThan(0);
+    });
+  });
+
+  it('switches to Drift Monitor tab', () => {
+    cy.get('[data-tab="drift"]').click();
+    cy.get('canvas').should('be.visible');
+  });
+
+  it('Fix Library shows at least 7 entries', () => {
+    cy.get('[data-tab="library"]').click();
+    cy.get('.fix-card, .library-item').should('have.length.at.least', 7);
+  });
+});
+
+describe('GuardRails API via cy.request', () => {
+  it('GET /history returns array', () => {
+    cy.request('GET', '/history').then(res => {
+      expect(res.status).to.eq(200);
+      expect(res.body).to.be.an('array');
+    });
+  });
+
+  it('GET /fix-library returns entries with votes', () => {
+    cy.request('GET', '/fix-library').then(res => {
+      expect(res.status).to.eq(200);
+      expect(res.body[0]).to.have.property('votes');
+    });
+  });
+});</code></pre>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://docs.cypress.io/guides/overview/why-cypress" target="_blank">Cypress Docs</a>
+        <a class="link-chip" href="https://docs.cypress.io/api/commands/selectfile" target="_blank">selectFile API</a>
+        <a class="link-chip" href="https://docs.cypress.io/guides/continuous-integration/introduction" target="_blank">Cypress CI Guide</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ JMETER ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="jmeter">
+      <div class="int-header">
+        <div class="int-icon">⚡</div>
+        <div class="int-header-text">
+          <h2>JMeter <span class="badge badge-community">Community</span></h2>
+          <p>Load and performance testing for GuardRails API endpoints. Run hundreds of concurrent file analysis requests to validate throughput, response times, and stability under stress.</p>
+        </div>
+      </div>
+
+      <h3>Install JMeter</h3>
+      <pre><code># Requires Java 8+
+# Download from https://jmeter.apache.org/download_jmeter.cgi
+# Then add to PATH:
+
+# Windows
+set PATH=%PATH%;C:\apache-jmeter-5.6.3\bin
+
+# Mac/Linux
+export PATH=$PATH:/opt/apache-jmeter-5.6.3/bin
+
+jmeter --version</code></pre>
+
+      <h3>GuardRails Load Test Plan (.jmx)</h3>
+      <p>Save this as <code>load-tests/guardrails-load.jmx</code> and open in JMeter GUI:</p>
+      <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jmeterTestPlan version="1.2" properties="5.0"&gt;
+  &lt;hashTree&gt;
+    &lt;TestPlan testname="GuardRails Load Test" enabled="true"&gt;
+      &lt;hashTree&gt;
+
+        &lt;!-- Thread Group: 20 users, 60 second ramp, 5 loops --&gt;
+        &lt;ThreadGroup testname="Analyze Endpoint - Concurrent Users" enabled="true"&gt;
+          &lt;intProp name="ThreadGroup.num_threads"&gt;20&lt;/intProp&gt;
+          &lt;intProp name="ThreadGroup.ramp_time"&gt;60&lt;/intProp&gt;
+          &lt;intProp name="ThreadGroup.num_loops"&gt;5&lt;/intProp&gt;
+          &lt;hashTree&gt;
+
+            &lt;!-- HTTP Request: POST /analyze --&gt;
+            &lt;HTTPSamplerProxy testname="POST /analyze" enabled="true"&gt;
+              &lt;stringProp name="HTTPSampler.domain"&gt;localhost&lt;/stringProp&gt;
+              &lt;intProp name="HTTPSampler.port"&gt;3000&lt;/intProp&gt;
+              &lt;stringProp name="HTTPSampler.path"&gt;/analyze&lt;/stringProp&gt;
+              &lt;stringProp name="HTTPSampler.method"&gt;POST&lt;/stringProp&gt;
+              &lt;boolProp name="HTTPSampler.DO_MULTIPART_POST"&gt;true&lt;/boolProp&gt;
+              &lt;elementProp name="HTTPsampler.Files"&gt;
+                &lt;collectionProp name="HTTPFileArgs.files"&gt;
+                  &lt;elementProp&gt;
+                    &lt;stringProp name="File.path"&gt;Data/test.csv&lt;/stringProp&gt;
+                    &lt;stringProp name="File.paramname"&gt;file&lt;/stringProp&gt;
+                    &lt;stringProp name="File.mimetype"&gt;text/csv&lt;/stringProp&gt;
+                  &lt;/elementProp&gt;
+                &lt;/collectionProp&gt;
+              &lt;/elementProp&gt;
+              &lt;hashTree&gt;
+                &lt;HeaderManager&gt;
+                  &lt;collectionProp name="HeaderManager.headers"&gt;
+                    &lt;elementProp&gt;
+                      &lt;stringProp name="Header.name"&gt;X-API-Key&lt;/stringProp&gt;
+                      &lt;stringProp name="Header.value"&gt;${API_KEY}&lt;/stringProp&gt;
+                    &lt;/elementProp&gt;
+                  &lt;/collectionProp&gt;
+                &lt;/HeaderManager&gt;
+
+                &lt;!-- Assert HTTP 200 --&gt;
+                &lt;ResponseAssertion testname="Status 200"&gt;
+                  &lt;collectionProp name="Asserion.test_strings"&gt;
+                    &lt;stringProp&gt;200&lt;/stringProp&gt;
+                  &lt;/collectionProp&gt;
+                  &lt;intProp name="Assertion.test_type"&gt;2&lt;/intProp&gt;
+                  &lt;stringProp name="Assertion.test_field"&gt;Assertion.response_code&lt;/stringProp&gt;
+                &lt;/ResponseAssertion&gt;
+
+                &lt;!-- Assert score field present in JSON --&gt;
+                &lt;JSONPathAssertion testname="overall_score exists"&gt;
+                  &lt;stringProp name="JSON_PATH"&gt;$.overall_score&lt;/stringProp&gt;
+                  &lt;boolProp name="INVERT"&gt;false&lt;/boolProp&gt;
+                &lt;/JSONPathAssertion&gt;
+              &lt;/hashTree&gt;
+            &lt;/HTTPSamplerProxy&gt;
+
+          &lt;/hashTree&gt;
+        &lt;/ThreadGroup&gt;
+
+        &lt;!-- Results listener --&gt;
+        &lt;ResultCollector testname="View Results Tree" enabled="true"&gt;
+          &lt;objProp&gt;
+            &lt;name&gt;saveConfig&lt;/name&gt;
+          &lt;/objProp&gt;
+          &lt;stringProp name="filename"&gt;load-tests/results.jtl&lt;/stringProp&gt;
+        &lt;/ResultCollector&gt;
+
+      &lt;/hashTree&gt;
+    &lt;/TestPlan&gt;
+  &lt;/hashTree&gt;
+&lt;/jmeterTestPlan&gt;</code></pre>
+
+      <h3>Run JMeter Headless (CLI)</h3>
+      <pre><code"># Run the load test from command line (no GUI)
+jmeter -n \
+  -t load-tests/guardrails-load.jmx \
+  -l load-tests/results.jtl \
+  -JAPI_KEY=your_dq_api_key \
+  -e \
+  -o load-tests/html-report/
+
+# Open the HTML report
+start load-tests/html-report/index.html</code></pre>
+
+      <h3>Key Metrics to Observe</h3>
+      <table>
+        <tr><th>Metric</th><th>Target (local dev)</th><th>Target (production)</th></tr>
+        <tr><td>Average Response Time</td><td>&lt; 3,000 ms</td><td>&lt; 800 ms</td></tr>
+        <tr><td>95th Percentile</td><td>&lt; 6,000 ms</td><td>&lt; 2,000 ms</td></tr>
+        <tr><td>Error Rate</td><td>0%</td><td>&lt; 0.1%</td></tr>
+        <tr><td>Throughput</td><td>&gt; 2 req/s</td><td>&gt; 20 req/s</td></tr>
+        <tr><td>HTTP 200 Rate</td><td>100%</td><td>99.9%+</td></tr>
+      </table>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://jmeter.apache.org/download_jmeter.cgi" target="_blank">Download JMeter</a>
+        <a class="link-chip" href="https://jmeter.apache.org/usermanual/component_reference.html#HTTP_Request" target="_blank">HTTP Request Docs</a>
+        <a class="link-chip" href="https://jmeter.apache.org/usermanual/generating-dashboard.html" target="_blank">Dashboard Report</a>
+      </div>
+    </section>
+
+  </div><!-- end main-content -->
+</div><!-- end page-body -->
+
+<script>
+  // Sidebar active section tracking
+  const sections = document.querySelectorAll('section[id]');
+  const links    = document.querySelectorAll('aside a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`aside a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
