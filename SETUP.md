@@ -172,6 +172,11 @@ Edit `.env` with your actual values:
 dq_api_key=sk_live_abc123xyz...
 dq_api_url=https://data-quality-api-u2mjys756a-uc.a.run.app/analyze
 
+# OPTIONAL: HuggingFace Hub API
+# Needed only for gated datasets or if you hit rate limits on public ones.
+# Generate a read-only token at https://huggingface.co/settings/tokens
+HUGGINGFACE_API_KEY=hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 # Development
 NODE_ENV=development
 PORT=3000

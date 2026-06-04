@@ -1,6 +1,290 @@
 {
   "records": [
     {
+      "id": "dc0830b8-709a-45d5-815a-e71441a6a0df",
+      "filename": "test3.csv",
+      "file_size": 265,
+      "timestamp": "2026-06-04T14:51:02.316Z",
+      "row_count": 5,
+      "column_count": 6,
+      "overall_score": 94.75,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 85,
+      "issues": [
+        {
+          "id": "f8348055-8834-4b6b-b41d-b28b1ac68d33",
+          "type": "outlier",
+          "column": "Wave Height (ft.)",
+          "description": "Outliers Detected in \"Wave Height (ft.)\"",
+          "detail": "20.0% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 85,
+          "suggested_fix": "Review values in \"Wave Height (ft.)\" — may be valid domain data or measurement errors",
+          "approval": null
+        }
+      ]
+    },
+    {
+      "id": "0622c74d-0304-4796-b927-a400c80a3a08",
+      "filename": "orlando_churches.csv",
+      "file_size": 9025,
+      "timestamp": "2026-06-02T14:22:06.085Z",
+      "row_count": 50,
+      "column_count": 6,
+      "overall_score": 100,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 100,
+      "issues": []
+    },
+    {
+      "id": "eec8d31c-6b05-46fa-8a99-90c2dbdfe7b1",
+      "filename": "ecom_drift_month4_may_85pct.csv",
+      "file_size": 1924,
+      "timestamp": "2026-05-21T17:24:59.475Z",
+      "row_count": 34,
+      "column_count": 8,
+      "overall_score": 85.35,
+      "completeness_score": 84.93,
+      "consistency_score": 68.75,
+      "validity_score": 100,
+      "issues": [
+        {
+          "id": "2190c731-f802-4c98-9585-93df81c245fa",
+          "type": "missing_values",
+          "column": "customer_id",
+          "description": "Missing Values in \"customer_id\"",
+          "detail": "20.59% of rows have no value",
+          "severity": "HIGH",
+          "machine_confidence": 85,
+          "suggested_fix": "Backfill \"customer_id\" from source system or assign a default value",
+          "approval": null
+        },
+        {
+          "id": "3bc225a4-56eb-404b-8ba8-b88344b6151b",
+          "type": "missing_values",
+          "column": "product_id",
+          "description": "Missing Values in \"product_id\"",
+          "detail": "23.53% of rows have no value",
+          "severity": "HIGH",
+          "machine_confidence": 85,
+          "suggested_fix": "Backfill \"product_id\" from source system or assign a default value",
+          "approval": null
+        },
+        {
+          "id": "352adcd5-d07f-4fa4-bf0d-5d99ef3bd412",
+          "type": "missing_values",
+          "column": "category",
+          "description": "Missing Values in \"category\"",
+          "detail": "32.35% of rows have no value",
+          "severity": "HIGH",
+          "machine_confidence": 85,
+          "suggested_fix": "Backfill \"category\" from source system or assign a default value",
+          "approval": null
+        },
+        {
+          "id": "3851ced2-88dd-4a4f-8e09-2d37262b7b02",
+          "type": "missing_values",
+          "column": "status",
+          "description": "Missing Values in \"status\"",
+          "detail": "29.41% of rows have no value",
+          "severity": "HIGH",
+          "machine_confidence": 85,
+          "suggested_fix": "Backfill \"status\" from source system or assign a default value",
+          "approval": null
+        },
+        {
+          "id": "56a7a5b0-b6c0-46f8-b7db-97f65b5c6303",
+          "type": "data_type_inconsistency",
+          "column": "customer_id",
+          "description": "Data Type Issue in \"customer_id\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 69,
+          "suggested_fix": "Standardize \"customer_id\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": null
+        },
+        {
+          "id": "4337bec5-b5b2-464f-87ee-23c31d7f3dd7",
+          "type": "data_type_inconsistency",
+          "column": "product_id",
+          "description": "Data Type Issue in \"product_id\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 69,
+          "suggested_fix": "Standardize \"product_id\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": null
+        },
+        {
+          "id": "26bd91c9-7bd4-4621-bc25-c0f68f1e86b3",
+          "type": "data_type_inconsistency",
+          "column": "amount",
+          "description": "Data Type Issue in \"amount\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 69,
+          "suggested_fix": "Standardize \"amount\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": null
+        },
+        {
+          "id": "092f8d15-9ec6-49f4-88b7-a16d8bfae8ae",
+          "type": "data_type_inconsistency",
+          "column": "category",
+          "description": "Data Type Issue in \"category\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 69,
+          "suggested_fix": "Standardize \"category\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": null
+        },
+        {
+          "id": "fa6f2805-c72c-4ef5-8dee-7ed56c95cac7",
+          "type": "data_type_inconsistency",
+          "column": "status",
+          "description": "Data Type Issue in \"status\"",
+          "detail": "Mixed data types detected",
+          "severity": "HIGH",
+          "machine_confidence": 69,
+          "suggested_fix": "Standardize \"status\" to a consistent format (e.g. ISO 8601 for dates)",
+          "approval": null
+        }
+      ]
+    },
+    {
+      "id": "af79f381-a991-4446-979d-badb4b73c44d",
+      "filename": "ecom_drift_month1_jan_perfect.csv",
+      "file_size": 4629,
+      "timestamp": "2026-05-21T17:24:10.503Z",
+      "row_count": 62,
+      "column_count": 11,
+      "overall_score": 100,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 100,
+      "issues": []
+    },
+    {
+      "id": "29bfa7fc-8c20-48c9-9776-22624be8f1af",
+      "filename": "ecom_drift_month2_feb_97pct.csv",
+      "file_size": 3035,
+      "timestamp": "2026-05-21T15:42:10.728Z",
+      "row_count": 40,
+      "column_count": 11,
+      "overall_score": 99.36,
+      "completeness_score": 98.18,
+      "consistency_score": 100,
+      "validity_score": 100,
+      "issues": []
+    },
+    {
+      "id": "aa4f0ae6-632e-4b1d-ad8c-28fd3c3aa7d3",
+      "filename": "weather_stock_training.csv",
+      "file_size": 886,
+      "timestamp": "2026-05-13T21:12:24.872Z",
+      "row_count": 25,
+      "column_count": 6,
+      "overall_score": 100,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 100,
+      "issues": []
+    },
+    {
+      "id": "fcda0125-3bdf-4d4e-8155-99fd6f21ca43",
+      "filename": "fraud_training.csv",
+      "file_size": 1149,
+      "timestamp": "2026-05-13T18:16:31.587Z",
+      "row_count": 31,
+      "column_count": 6,
+      "overall_score": 84.25,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 55,
+      "issues": [
+        {
+          "id": "0df0d79b-255d-4fc1-9902-7920ee074e70",
+          "type": "outlier",
+          "column": "transaction_amount",
+          "description": "Outliers Detected in \"transaction_amount\"",
+          "detail": "19.35% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"transaction_amount\" — may be valid domain data or measurement errors",
+          "approval": null
+        },
+        {
+          "id": "1d017e9a-f615-4849-9054-cf80cb030c12",
+          "type": "outlier",
+          "column": "latitude",
+          "description": "Outliers Detected in \"latitude\"",
+          "detail": "25.81% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"latitude\" — may be valid domain data or measurement errors",
+          "approval": null
+        },
+        {
+          "id": "e4aa8393-a390-4f72-94f4-740a83677a2b",
+          "type": "outlier",
+          "column": "longitude",
+          "description": "Outliers Detected in \"longitude\"",
+          "detail": "25.81% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"longitude\" — may be valid domain data or measurement errors",
+          "approval": null
+        }
+      ]
+    },
+    {
+      "id": "b8d07af9-e73a-4d84-9ff8-b39bce8a4d2e",
+      "filename": "fraud_training.csv",
+      "file_size": 1149,
+      "timestamp": "2026-05-13T17:06:33.684Z",
+      "row_count": 31,
+      "column_count": 6,
+      "overall_score": 84.25,
+      "completeness_score": 100,
+      "consistency_score": 100,
+      "validity_score": 55,
+      "issues": [
+        {
+          "id": "3d0c36e4-21dd-488a-8f19-370c41c35523",
+          "type": "outlier",
+          "column": "transaction_amount",
+          "description": "Outliers Detected in \"transaction_amount\"",
+          "detail": "19.35% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"transaction_amount\" — may be valid domain data or measurement errors",
+          "approval": null
+        },
+        {
+          "id": "8c7bd734-3b42-4f37-b1ba-3577328c6633",
+          "type": "outlier",
+          "column": "latitude",
+          "description": "Outliers Detected in \"latitude\"",
+          "detail": "25.81% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"latitude\" — may be valid domain data or measurement errors",
+          "approval": null
+        },
+        {
+          "id": "c6b38ec6-72bd-48e8-9d91-8d4928b0fd9f",
+          "type": "outlier",
+          "column": "longitude",
+          "description": "Outliers Detected in \"longitude\"",
+          "detail": "25.81% outliers detected",
+          "severity": "MEDIUM",
+          "machine_confidence": 55,
+          "suggested_fix": "Review values in \"longitude\" — may be valid domain data or measurement errors",
+          "approval": null
+        }
+      ]
+    },
+    {
       "id": "2229a26c-5b3a-4f38-b348-e67fe8b12158",
       "filename": "ecommerce_training.csv",
       "file_size": 1186,

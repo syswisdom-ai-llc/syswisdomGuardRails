@@ -22,6 +22,7 @@ The platform analyzes uploaded CSV/JSON files, scores them on completeness, cons
 | Backend | Express | 4.18.3 |
 | File Upload | multer | 2.1.1 |
 | HTTP Client | axios + form-data | 1.6.7 / 4.0.0 |
+| Dataset Hub | HuggingFace Hub API | REST |
 | ID Generation | uuid | 9.0.1 |
 | Config | dotenv | 16.4.5 |
 | Dev Server | nodemon | 3.1.0 |
@@ -56,10 +57,28 @@ The platform analyzes uploaded CSV/JSON files, scores them on completeness, cons
 ### Phase 4: Frontend (public/index.html)
 - Single-file Vanilla JS SPA
 - Tabs: Upload & Score, Issue Approval, Fix Library, Report, History, Drift Monitor
+- Upload tab: dual sub-tabs — `📤 Upload File` (original) + `🤗 Hugging Face Dataset` (new)
 - SVG score rings (Overall, Completeness, Consistency, Validity)
-- Drift Monitor: bar chart, red alert on drift, export buttons (JSON + CSV)
+- **Model Health** dashboard (renamed from Drift Monitor): 3-sub-tab panel
+  - `🗑️ Slop`: quality score degradation trend bars, avg score card, degradation rate card
+  - `📉 Drift`: monthly accuracy bars, dataset statistics, export buttons (JSON + CSV)
+  - `🤖 Hallucination`: false-positive rate gauge ring, monthly rejection rate bars, status badges
+- Each panel has: definition card, signal cards, colour-coded alerts (🟢 Healthy / 🟡 Warning / 🔴 Critical)
 
-### Phase 5: Data and Tests
+### Phase 7: HuggingFace Dataset Integration ✅ COMPLETED
+- Backend: `GET /hf/search`, `GET /hf/inspect`, `POST /hf/load`
+- Compliance: license gating (open/restricted/gated badge), in-memory only processing, audit log
+- Optional `HUGGINGFACE_API_KEY` in `.env` (public datasets work without it)
+- UI: source-selector sub-tabs in Upload, inspect card, search results grid, load button
+- Docs: full HuggingFace section in `help.html`
+
+### Phase 8: Model Health Dashboard ✅ COMPLETED
+- `GET /model-health`: single aggregated endpoint for all three AI monitoring signals
+- **Slop** signal: linear score degradation across last 20 uploads; alert threshold −3 pts/upload
+- **Drift** signal: monthly approval accuracy trend; alert threshold >10% month-over-month drop
+- **Hallucination** signal: false-positive rate + monthly rejection trend; alert threshold >40% FP rate
+- Nav tab renamed `⚠️ Drift Monitor` → `🏥 Model Health`
+- `loadModelHealth()`, `switchMH()`, `renderSlopPanel()`, `renderDriftPanel()`, `renderHalluPanel()`
 - Fix library seeded with 7 domain-specific fixes (surf, ecom, spot data)
 - **11/11 unit tests passing** in 437ms (Node built-in `node:test`)
 - 4 ML model implementations: Weather-Stock, E-Commerce Pricing, Fraud Detection, Healthcare Readmission

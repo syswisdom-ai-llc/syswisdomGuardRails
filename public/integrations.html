@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GuardRails — Integrations Hub</title>
+  <title>GuardRails: Integrations Hub</title>
   <style>
     :root {
       --navy:   #0f172a;
@@ -321,7 +321,7 @@
 
 <!-- ════════════════════════ HEADER ════════════════════════ -->
 <header class="page-header">
-  <h1>🔌 GuardRails — Integrations Hub <span class="sub">Connect your tools. Automate your quality pipeline.</span></h1>
+  <h1>GuardRails: Integrations Hub <span class="sub">Connect your tools. Automate your quality pipeline.</span></h1>
   <a href="/" class="back-btn">← Back to App</a>
   <a href="/help.html" target="_blank" class="back-btn" style="margin-left:8px;">❓ Help</a>
 </header>
@@ -340,6 +340,9 @@
     <h3>Data &amp; Reporting</h3>
     <a href="#sql">🐘 SQL Connections</a>
     <a href="#tableau">📊 Tableau</a>
+
+    <h3>Data Sources</h3>
+    <a href="#huggingface">🤗 HuggingFace Hub</a>
 
     <h3>AI Connectors</h3>
     <a href="#ai-connectors">🤖 AI Connectors</a>
@@ -369,12 +372,12 @@
         </div>
       </div>
 
-      <h3>Jira — Auto-Create Tickets from Quality Issues</h3>
+      <h3>Jira: Auto-Create Tickets from Quality Issues</h3>
       <p>When GuardRails finds critical issues (null rates, format errors, duplicates above threshold), the integration can POST to the Jira Cloud REST API to open a bug or task automatically.</p>
 
       <h4>Prerequisites</h4>
       <ol class="steps">
-        <li><div class="step-body"><strong>Create an Atlassian API token</strong><p>Go to <code>id.atlassian.com → Security → Create and manage API tokens</code>. Copy the token — it is only shown once.</p></div></li>
+        <li><div class="step-body"><strong>Create an Atlassian API token</strong><p>Go to <code>id.atlassian.com → Security → Create and manage API tokens</code>. Copy the token (shown only once).</p></div></li>
         <li><div class="step-body"><strong>Add to your .env file</strong><p>Add these three variables to <code>.env</code> in the project root:</p>
           <div class="env-block">
             <div class="env-row"><span class="env-key">JIRA_BASE_URL</span><span class="env-desc">e.g. https://yourcompany.atlassian.net</span></div>
@@ -408,7 +411,7 @@ curl -X POST \
     }
   }'</code></pre>
 
-      <h3>Confluence — Post Quality Reports to Pages</h3>
+      <h3>Confluence: Post Quality Reports to Pages</h3>
       <pre><code># Update a Confluence page with the latest quality report
 curl -X PUT \
   "${JIRA_BASE_URL}/wiki/rest/api/content/{PAGE_ID}" \
@@ -457,7 +460,7 @@ curl -X PUT \
         <div class="env-row"><span class="env-key">AZURE_DEVOPS_PAT</span><span class="env-desc">Personal Access Token (Work Items Read &amp; Write scope)</span></div>
       </div>
 
-      <h3>Pipeline Quality Gate — azure-pipelines.yml</h3>
+      <h3>Pipeline Quality Gate: azure-pipelines.yml</h3>
       <p>Add a GuardRails quality gate step to your Azure Pipeline. The pipeline will fail if the data quality score is below 75:</p>
       <pre><code># azure-pipelines.yml
 trigger:
@@ -529,7 +532,7 @@ curl -X POST \
         </div>
       </div>
 
-      <h3>Quick Start — Import the Collection</h3>
+      <h3>Quick Start: Import the Collection</h3>
       <ol class="steps">
         <li><div class="step-body"><strong>Open Postman → Import</strong><p>Click <code>Import</code> in the top-left. Choose <code>Raw text</code> and paste the collection JSON below, or save it as <code>guardrails-postman.json</code> and import as a file.</p></div></li>
         <li><div class="step-body"><strong>Set the Collection Variable</strong><p>Set <code>baseUrl</code> to <code>http://localhost:3000</code> and <code>apiKey</code> to your <code>dq_api_key</code> value from <code>.env</code>.</p></div></li>
@@ -632,7 +635,7 @@ Expected response:
         <div class="env-row"><span class="env-key">DB_PASSWORD</span><span class="env-desc">Database password (never commit this)</span></div>
       </div>
 
-      <h3>PostgreSQL — Export Table and Analyze</h3>
+      <h3>PostgreSQL: Export Table and Analyze</h3>
       <pre><code>// lib/db-export.js (planned)
 const { Client } = require('pg');
 const { writeFileSync } = require('fs');
@@ -697,7 +700,7 @@ module.exports = { analyzeTable };</code></pre>
         </div>
       </div>
 
-      <h3>Option 1 — CSV Export for Tableau Desktop</h3>
+      <h3>Option 1: CSV Export for Tableau Desktop</h3>
       <p>Use the GuardRails <code>GET /training-export</code> endpoint to download all analysis history as CSV. Point a Tableau Data Source at this file or schedule a periodic download.</p>
       <pre><code># Download quality score history as CSV
 curl -s http://localhost:3000/training-export -o guardrails-scores.csv
@@ -706,14 +709,14 @@ curl -s http://localhost:3000/training-export -o guardrails-scores.csv
 # analysis_id, filename, timestamp, overall_score,
 # completeness, consistency, validity, issue_count, approved_count</code></pre>
 
-      <h4>Tableau Desktop — Connect to CSV</h4>
+      <h4>Tableau Desktop: Connect to CSV</h4>
       <ol class="steps">
         <li><div class="step-body"><strong>Open Tableau Desktop</strong><p>Connect → Text File → Select <code>guardrails-scores.csv</code></p></div></li>
         <li><div class="step-body"><strong>Create Score Trend Chart</strong><p>Drag <code>timestamp</code> to Columns, <code>overall_score</code> to Rows. Add <code>filename</code> as Color.</p></div></li>
         <li><div class="step-body"><strong>Add Threshold Reference Line</strong><p>Analytics panel → Reference Line → Constant = 80. Color red below, green above.</p></div></li>
       </ol>
 
-      <h3>Option 2 — Tableau REST API (Live Push)</h3>
+      <h3>Option 2: Tableau REST API (Live Push)</h3>
       <div class="env-block">
         <div class="env-row"><span class="env-key">TABLEAU_SERVER_URL</span><span class="env-desc">e.g. https://10ax.online.tableau.com</span></div>
         <div class="env-row"><span class="env-key">TABLEAU_SITE_ID</span><span class="env-desc">Your Tableau Cloud site ID</span></div>
@@ -737,6 +740,112 @@ curl -X POST "${TABLEAU_SERVER_URL}/api/3.21/auth/signin" \
       </div>
     </section>
 
+    <!-- ═══════════════ HUGGINGFACE ═══════════════ -->
+    <hr class="section-divider" />
+    <section id="huggingface">
+      <div class="int-header" style="border-left-color: #7c3aed;">
+        <div class="int-icon">🤗</div>
+        <div class="int-header-text">
+          <h2>HuggingFace Hub <span class="badge badge-active">Active</span></h2>
+          <p>Pull datasets directly from HuggingFace Hub into the GuardRails quality pipeline. No manual download needed. Search by keyword, inspect license and file list, then load any .csv or .json file in one click.</p>
+        </div>
+      </div>
+
+      <h3>How It Works</h3>
+      <p>GuardRails proxies three HuggingFace Hub API endpoints server-side and surfaces the results in the Upload tab. Dataset content is processed in-memory and never written to disk.</p>
+
+      <div class="sub-grid">
+        <div class="sub-card">
+          <h4>🔍 Search</h4>
+          <p>Search HuggingFace Hub by keyword. Returns the top 20 datasets sorted by downloads. Click any result to jump straight to Inspect.</p>
+          <pre><code>GET /hf/search?q=fraud+detection</code></pre>
+        </div>
+        <div class="sub-card">
+          <h4>🔎 Inspect</h4>
+          <p>Fetch a dataset's metadata: license, gated status, description, and a filtered list of .csv/.json files available in the main branch.</p>
+          <pre><code>GET /hf/inspect?dataset=owner/name</code></pre>
+        </div>
+        <div class="sub-card">
+          <h4>📥 Load &amp; Analyze</h4>
+          <p>Stream a specific file in-memory, proxy it to the SysWisdom analysis API, and return scored results. Logs a compliance record (dataset, file, reviewer, timestamp).</p>
+          <pre><code>POST /hf/load</code></pre>
+        </div>
+      </div>
+
+      <h3>Setup: API Key</h3>
+      <p>The <code>HUGGINGFACE_API_KEY</code> is <strong>optional</strong> for public datasets. You only need it for:</p>
+      <ul style="margin: 8px 0 12px 20px; color: var(--gray); font-size: 0.88rem; line-height: 2;">
+        <li>Gated datasets (requires accepted access request on huggingface.co)</li>
+        <li>Higher rate limits (unauthenticated requests are capped at ~100/hour per IP)</li>
+      </ul>
+
+      <div class="env-block">
+        <div class="env-row">
+          <span class="env-key">HUGGINGFACE_API_KEY</span>
+          <span class="env-desc">Optional. hf_xxx read token from huggingface.co/settings/tokens</span>
+        </div>
+      </div>
+
+      <pre><code># .env
+HUGGINGFACE_API_KEY=hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code></pre>
+
+      <h3>Step-by-Step: Loading a Dataset</h3>
+      <ol class="steps">
+        <li><div class="step-body"><strong>Open the HuggingFace tab</strong><p>In the GuardRails Upload screen, click the <strong>🤗 Hugging Face Dataset</strong> tab.</p></div></li>
+        <li><div class="step-body"><strong>Search or enter a dataset ID</strong><p>Use the search box (e.g. "tabular fraud ecommerce") or type a dataset ID directly: <code>rajpurkar/squad</code> or paste a full URL like <code>https://huggingface.co/datasets/rajpurkar/squad</code>.</p></div></li>
+        <li><div class="step-body"><strong>Inspect the dataset</strong><p>Click <strong>Inspect</strong>. GuardRails fetches the license, gated status, description, and lists all .csv/.json files available.</p></div></li>
+        <li><div class="step-body"><strong>Review the license</strong><p>A green badge means open (MIT, Apache, CC0, etc.). Orange means restricted; verify your use case before loading. Red means gated; see Gated Datasets below.</p></div></li>
+        <li><div class="step-body"><strong>Click Load on a file</strong><p>The file streams in-memory through the SysWisdom analysis API. Results appear in the Review Issues tab automatically.</p></div></li>
+      </ol>
+
+      <h3>Gated Datasets</h3>
+      <p>Some datasets require you to agree to terms on huggingface.co before downloading:</p>
+      <ol class="steps">
+        <li><div class="step-body"><strong>Request access on huggingface.co</strong><p>Visit the dataset page and click <em>Agree and request access</em>. Approval is automatic or manual depending on the dataset author.</p></div></li>
+        <li><div class="step-body"><strong>Add a read token to .env</strong><p>Generate a read-only token at <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener" style="color:var(--teal2)">huggingface.co/settings/tokens</a> and add it to <code>.env</code>.</p></div></li>
+        <li><div class="step-body"><strong>Restart the server</strong><p>Run <code>npm start</code> again to load the new key. The gated dataset will now be accessible.</p></div></li>
+      </ol>
+
+      <h3>License Compliance</h3>
+      <table>
+        <tr><th>License Type</th><th>Badge</th><th>Guidance</th></tr>
+        <tr><td>MIT, Apache 2.0, CC0, CC-BY, OpenRAIL, BSD</td><td style="color:var(--green)">● Open</td><td>Generally permissive. Safe for research and dev use.</td></tr>
+        <tr><td>CC-BY-NC, research-only, custom</td><td style="color:var(--yellow)">● Restricted</td><td>May prohibit commercial use. Review before loading.</td></tr>
+        <tr><td>Gated (any license)</td><td style="color:var(--red)">🔒 Gated</td><td>Request access on huggingface.co + API key required.</td></tr>
+        <tr><td>Not specified</td><td style="color:var(--gray)">● Unknown</td><td>Treat as restricted until verified.</td></tr>
+      </table>
+
+      <h3>API Reference</h3>
+      <table>
+        <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+        <tr><td>GET</td><td><code>/hf/search?q=QUERY</code></td><td>Search Hub datasets, top 20 by downloads</td></tr>
+        <tr><td>GET</td><td><code>/hf/inspect?dataset=OWNER/NAME</code></td><td>Metadata + .csv/.json file list</td></tr>
+        <tr><td>POST</td><td><code>/hf/load</code></td><td>Stream file, analyze, return scored result</td></tr>
+      </table>
+
+      <h4>POST /hf/load: Request Body</h4>
+      <pre><code>{
+  "dataset_id": "owner/dataset-name",
+  "file_path": "data/train.csv",
+  "reviewer": "your-name"
+}</code></pre>
+
+      <div class="callout callout-info">
+        <span class="icon">ℹ️</span>
+        <div>Dataset content is processed in-memory only and <strong>never stored on disk</strong> by GuardRails. Only the dataset name, file path, reviewer, and access timestamp are logged for compliance. The analysis result (scores + issues) is stored the same way as a regular file upload.</div>
+      </div>
+
+      <h3>Rate Limits</h3>
+      <p>Without a token: ~100 requests/hour per IP. With <code>HUGGINGFACE_API_KEY</code>: significantly higher. See <a href="https://huggingface.co/docs/hub/rate-limits" target="_blank" rel="noopener" style="color:var(--teal2)">huggingface.co/docs/hub/rate-limits</a>.</p>
+
+      <div class="link-row">
+        <a class="link-chip" href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener">Get HF API Token</a>
+        <a class="link-chip" href="https://huggingface.co/datasets" target="_blank" rel="noopener">Browse Datasets</a>
+        <a class="link-chip" href="https://huggingface.co/docs/hub/datasets-overview" target="_blank" rel="noopener">HF Hub Docs</a>
+        <a class="link-chip" href="https://huggingface.co/docs/hub/rate-limits" target="_blank" rel="noopener">Rate Limits</a>
+      </div>
+    </section>
+
     <!-- ═══════════════ AI CONNECTORS ═══════════════ -->
     <hr class="section-divider" />
     <section id="ai-connectors">
@@ -750,7 +859,7 @@ curl -X POST "${TABLEAU_SERVER_URL}/api/3.21/auth/signin" \
 
       <div class="callout callout-info">
         <span class="icon">ℹ️</span>
-        <div>All AI connectors are optional. GuardRails scores data deterministically without AI. AI is called only for post-analysis narrative generation — <em>understanding why</em> scores are what they are, not computing them.</div>
+        <div>All AI connectors are optional. GuardRails scores data deterministically without AI. AI is called only for post-analysis narrative generation: <em>understanding why</em> scores are what they are, not computing them.</div>
       </div>
 
       <div class="sub-grid">
@@ -785,7 +894,7 @@ curl -X POST "${TABLEAU_SERVER_URL}/api/3.21/auth/signin" \
         </div>
       </div>
 
-      <h3>lib/gemini.js — Gemini Wrapper Architecture</h3>
+      <h3>lib/gemini.js: Gemini Wrapper Architecture</h3>
       <p>The planned <code>lib/gemini.js</code> module provides a single async function for each AI feature, keeping AI logic isolated from the Express routes:</p>
       <pre><code>// lib/gemini.js (planned)
 const { GoogleGenerativeAI } = require('@google/generative-ai');

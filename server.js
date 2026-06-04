@@ -3,6 +3,8 @@ import express from 'express';
 import multer from 'multer';
 import FormData from 'form-data';
 import axios from 'axios';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
@@ -12,8 +14,49 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.disable('x-powered-by');
+
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false
+}));
+
 app.use(express.json());
 app.use(express.static('public'));
+
+const globalApiLimiter = rateLimit({
+  windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000),
+  max: Number(process.env.RATE_LIMIT_MAX || 300),
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' }
+});
+
+app.use(['/analyze', '/approval', '/fix-library', '/report', '/history', '/drift-analysis', '/training-export', '/hf', '/model-health'], globalApiLimiter);
+
+const API_KEY_AUTH_ENABLED = (process.env.API_KEY_AUTH_ENABLED || 'false').toLowerCase() === 'true';
+const DEV_AUTH_BYPASS = (process.env.DEV_AUTH_BYPASS || 'true').toLowerCase() === 'true';
+
+function requireClientApiKey(req, res, next) {
+  if (!API_KEY_AUTH_ENABLED) return next();
+
+  const isLocalDev = process.env.NODE_ENV !== 'production';
+  if (isLocalDev && DEV_AUTH_BYPASS) return next();
+
+  const expectedKey = (process.env.CLIENT_API_KEY || '').trim();
+  if (!expectedKey) {
+    return res.status(500).json({ error: 'Auth is enabled but CLIENT_API_KEY is not set.' });
+  }
+
+  const providedKey = (req.get('x-api-key') || '').trim();
+  if (!providedKey || providedKey !== expectedKey) {
+    return res.status(401).json({ error: 'Unauthorized. Missing or invalid X-API-Key.' });
+  }
+
+  next();
+}
+
+app.use(['/analyze', '/approval', '/fix-library', '/report', '/history', '/drift-analysis', '/training-export', '/hf', '/model-health'], requireClientApiKey);
 
 // ── Data storage ───────────────────────────────────────────────────────────────
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
@@ -467,6 +510,288 @@ app.get('/training-export', (_req, res) => {
       'Monitor positives_rate to detect dataset bias.',
       'Re-export monthly to track drift and retrain models.'
     ]
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// HUGGING FACE INTEGRATION
+// ══════════════════════════════════════════════════════════════════════════════
+
+const hfHeaders = () => process.env.HUGGINGFACE_API_KEY
+  ? { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` }
+  : {};
+
+// Search public HuggingFace datasets
+app.get('/hf/search', async (req, res) => {
+  const q = (req.query.q || '').trim();
+  if (!q) return res.status(400).json({ error: 'Search query (q) is required' });
+
+  try {
+    const { data } = await axios.get('https://huggingface.co/api/datasets', {
+      params: { search: q, limit: 20, sort: 'downloads', direction: -1, full: false },
+      headers: hfHeaders(),
+      timeout: 15000
+    });
+    res.json(data);
+  } catch (err) {
+    const msg = err.response?.data?.error || err.message;
+    console.error('[/hf/search]', msg);
+    res.status(err.response?.status || 502).json({ error: msg });
+  }
+});
+
+// Inspect a dataset — returns metadata and a list of CSV/JSON files
+app.get('/hf/inspect', async (req, res) => {
+  const raw = (req.query.dataset || '').trim();
+  if (!raw) return res.status(400).json({ error: 'dataset param is required' });
+
+  // Normalize: strip full URL to just the repo id (e.g. owner/name)
+  const id = raw
+    .replace(/^https?:\/\/huggingface\.co\/datasets\//, '')
+    .replace(/\/+$/, '');
+
+  if (!/^[a-zA-Z0-9_.\-]+(\/[a-zA-Z0-9_.\-]+)?$/.test(id)) {
+    return res.status(400).json({ error: 'Invalid dataset ID. Expected format: owner/dataset-name' });
+  }
+
+  try {
+    const headers = hfHeaders();
+    const [metaRes, treeRes] = await Promise.allSettled([
+      axios.get(`https://huggingface.co/api/datasets/${id}`,           { headers, timeout: 10000 }),
+      axios.get(`https://huggingface.co/api/datasets/${id}/tree/main`, { headers, timeout: 10000 })
+    ]);
+
+    if (metaRes.status === 'rejected') {
+      const err = metaRes.reason;
+      if (err.response?.status === 401) return res.status(401).json({ error: 'Authentication required. Add HUGGINGFACE_API_KEY to .env' });
+      if (err.response?.status === 403) return res.status(403).json({ error: 'Access denied — dataset is gated. Request access on huggingface.co first.' });
+      if (err.response?.status === 404) return res.status(404).json({ error: `Dataset "${id}" not found. Check the ID and try again.` });
+      return res.status(502).json({ error: metaRes.reason.message });
+    }
+
+    const meta = metaRes.value.data;
+    const tree = treeRes.status === 'fulfilled' ? (treeRes.value.data || []) : [];
+
+    // Extract license from cardData tags array e.g. "license:mit"
+    const licenseTag = (meta.tags || []).find(t => t.startsWith('license:'));
+    const license    = meta.cardData?.license || (licenseTag ? licenseTag.replace('license:', '') : 'unknown');
+
+    const files = tree
+      .filter(f => f.type === 'file' && /\.(csv|json|jsonl)$/i.test(f.path))
+      .slice(0, 30)
+      .map(f => ({ path: f.path, size: f.size || 0 }));
+
+    res.json({
+      id:          meta.id,
+      author:      meta.author || '',
+      description: meta.description || meta.cardData?.description || '',
+      license,
+      gated:       !!meta.gated,
+      downloads:   meta.downloads || 0,
+      likes:       meta.likes    || 0,
+      tags:        meta.tags     || [],
+      files
+    });
+  } catch (err) {
+    console.error('[/hf/inspect]', err.message);
+    res.status(502).json({ error: err.message });
+  }
+});
+
+// Load a dataset file and run it through the SysWisdom analysis pipeline
+app.post('/hf/load', async (req, res) => {
+  const { dataset_id, file_path, reviewer } = req.body;
+  if (!dataset_id?.trim() || !file_path?.trim()) {
+    return res.status(400).json({ error: 'dataset_id and file_path are required' });
+  }
+
+  // Validate inputs
+  const id  = dataset_id.trim();
+  const fp  = file_path.trim();
+  const ext = path.extname(fp).toLowerCase();
+
+  if (!/^[a-zA-Z0-9_.\-]+(\/[a-zA-Z0-9_.\-]+)?$/.test(id)) {
+    return res.status(400).json({ error: 'Invalid dataset_id format' });
+  }
+  if (/\.\./.test(fp) || fp.startsWith('/')) {
+    return res.status(400).json({ error: 'Invalid file_path' });
+  }
+  if (!['.csv', '.json'].includes(ext)) {
+    return res.status(400).json({ error: 'Only .csv and .json files are supported' });
+  }
+
+  // Compliance log — dataset name, license, and access timestamp only (no data content)
+  console.log('[HF Access]', JSON.stringify({
+    dataset:   id,
+    file:      fp,
+    reviewer:  (reviewer || 'anonymous').trim().slice(0, 100),
+    timestamp: new Date().toISOString()
+  }));
+
+  try {
+    const fileUrl = `https://huggingface.co/datasets/${id}/resolve/main/${fp}`;
+    const fileRes = await axios.get(fileUrl, {
+      responseType:       'arraybuffer',
+      headers:            hfHeaders(),
+      maxContentLength:   10 * 1024 * 1024,
+      timeout:            30000
+    });
+
+    const buffer   = Buffer.from(fileRes.data);
+    const filename = path.basename(fp);
+    const mime     = ext === '.csv' ? 'text/csv' : 'application/json';
+
+    const form = new FormData();
+    form.append('file', buffer, { filename, contentType: mime });
+
+    const { data: api } = await axios.post(process.env.dq_api_url, form, {
+      headers: { 'X-API-Key': process.env.dq_api_key, ...form.getHeaders() },
+      timeout: 30000
+    });
+
+    const issues   = normalizeIssues(api);
+    const analyses = readJSON(getAnalysesFile(), { records: [] });
+
+    const record = {
+      id:                 uuidv4(),
+      filename,
+      file_size:          buffer.length,
+      timestamp:          new Date().toISOString(),
+      source:             'huggingface',
+      hf_dataset:         id,
+      hf_file:            fp,
+      row_count:          api.row_count,
+      column_count:       api.column_count,
+      overall_score:      api.overall_score,
+      completeness_score: api.completeness?.score ?? null,
+      consistency_score:  api.consistency?.score  ?? null,
+      validity_score:     api.validity?.score      ?? null,
+      issues
+    };
+
+    analyses.records.unshift(record);
+    if (analyses.records.length > 200) analyses.records.length = 200;
+    writeJSON(getAnalysesFile(), analyses);
+
+    res.json(record);
+  } catch (err) {
+    if (err.response?.status === 401) return res.status(401).json({ error: 'Authentication required. Add HUGGINGFACE_API_KEY to .env' });
+    if (err.response?.status === 403) return res.status(403).json({ error: 'Access denied — dataset is gated. Request access on huggingface.co first.' });
+    if (err.response?.status === 404) return res.status(404).json({ error: `File "${fp}" not found in dataset "${id}".` });
+    const msg = err.response?.data?.message || err.message;
+    console.error('[/hf/load]', msg);
+    res.status(502).json({ error: `Load failed: ${msg}` });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODEL HEALTH — Slop / Drift / Hallucination aggregated endpoint
+// ══════════════════════════════════════════════════════════════════════════════
+app.get('/model-health', (_req, res) => {
+  const analyses = readJSON(getAnalysesFile(), { records: [] });
+  const records  = analyses.records || [];
+
+  // ── SLOP: quality score trend across uploads ──────────────────────────────
+  // Sort by timestamp, compute linear trend (slope) of overall_score
+  const sorted = [...records].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+  const scoreTrend = sorted.slice(-20).map((a, i) => ({
+    index:     i + 1,
+    filename:  a.filename,
+    timestamp: a.timestamp,
+    score:     a.overall_score ?? 0,
+    source:    a.source || 'upload'
+  }));
+
+  let degradation = 0;
+  if (scoreTrend.length >= 2) {
+    const first = scoreTrend[0].score;
+    const last  = scoreTrend[scoreTrend.length - 1].score;
+    degradation = parseFloat(((last - first) / scoreTrend.length).toFixed(2));
+  }
+  const avgScore = scoreTrend.length
+    ? parseFloat((scoreTrend.reduce((s, r) => s + r.score, 0) / scoreTrend.length).toFixed(1))
+    : 0;
+  const slopAlert = degradation < -3;
+
+  // ── DRIFT: monthly human-approval accuracy trend ──────────────────────────
+  const byMonth = {};
+  records.forEach(a => {
+    const d    = new Date(a.timestamp);
+    const key  = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    if (!byMonth[key]) byMonth[key] = [];
+    byMonth[key].push(a);
+  });
+  const monthlyAccuracy = {};
+  const monthlyRejection = {};
+  Object.entries(byMonth).forEach(([month, mrs]) => {
+    const reviewed   = mrs.filter(a => a.issues.some(i => i.approval));
+    const approved   = mrs.filter(a => a.issues.some(i => i.approval?.is_real === true)).length;
+    const allIssues  = mrs.flatMap(a => a.issues);
+    const reviewed_i = allIssues.filter(i => i.approval);
+    const rejected_i = allIssues.filter(i => i.approval?.is_real === false);
+    monthlyAccuracy[month]   = mrs.length > 0 ? Math.round((approved / mrs.length) * 100) : 0;
+    monthlyRejection[month]  = reviewed_i.length > 0
+      ? parseFloat(((rejected_i.length / reviewed_i.length) * 100).toFixed(1))
+      : 0;
+  });
+  const driftMonths   = Object.keys(monthlyAccuracy).sort();
+  let driftDetected   = false;
+  let driftReason     = 'Model accuracy stable. No retraining needed.';
+  if (driftMonths.length >= 2) {
+    const prev = monthlyAccuracy[driftMonths[driftMonths.length - 2]];
+    const curr = monthlyAccuracy[driftMonths[driftMonths.length - 1]];
+    const drop = prev - curr;
+    if (drop > 10) {
+      driftDetected = true;
+      driftReason   = `Accuracy dropped ${drop}% from ${prev}% to ${curr}% — model may need retraining`;
+    }
+  }
+
+  // ── HALLUCINATION: false-positive rate overall + monthly ──────────────────
+  const allIssues     = records.flatMap(a => a.issues);
+  const reviewed      = allIssues.filter(i => i.approval);
+  const realIssues    = reviewed.filter(i => i.approval.is_real === true).length;
+  const falsePositives = reviewed.filter(i => i.approval.is_real === false).length;
+  const fpRate        = reviewed.length > 0
+    ? parseFloat(((falsePositives / reviewed.length) * 100).toFixed(1))
+    : 0;
+  const hallucinationAlert = fpRate > 40;
+
+  res.json({
+    generated_at: new Date().toISOString(),
+    total_analyses: records.length,
+
+    slop: {
+      score_trend: scoreTrend,
+      avg_score:   avgScore,
+      degradation,          // negative = worsening, positive = improving
+      alert:         slopAlert,
+      alert_message: slopAlert
+        ? `Quality score dropping ~${Math.abs(degradation)} pts/upload — slop accumulating in your data pipeline`
+        : 'Quality score stable across recent uploads'
+    },
+
+    drift: {
+      monthly_accuracy:  monthlyAccuracy,
+      monthly_rejection: monthlyRejection,
+      drift_detected:    driftDetected,
+      recommendation:    driftReason,
+      current_month:     driftMonths[driftMonths.length - 1] || null,
+      current_accuracy:  driftMonths.length ? monthlyAccuracy[driftMonths[driftMonths.length - 1]] : 0,
+      previous_accuracy: driftMonths.length > 1 ? monthlyAccuracy[driftMonths[driftMonths.length - 2]] : null
+    },
+
+    hallucination: {
+      total_reviewed:   reviewed.length,
+      real_issues:      realIssues,
+      false_positives:  falsePositives,
+      fp_rate:          fpRate,
+      monthly_rejection: monthlyRejection,
+      alert:            hallucinationAlert,
+      alert_message:    hallucinationAlert
+        ? `${fpRate}% of reviewed issues were false positives — the AI is detecting problems that don't exist`
+        : `${fpRate}% false positive rate — within acceptable range`
+    }
   });
 });
 

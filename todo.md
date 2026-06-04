@@ -173,6 +173,34 @@ CO-INTELLIGENCE data quality platform for quality professionals. Humans + AI bui
 
 ### Phase 6A: Training Script Execution ✅ COMPLETED
 
+### Phase 7: HuggingFace Dataset Integration ✅ COMPLETED
+- [x] `GET /hf/search`: search HuggingFace Hub datasets by keyword, returns top 20 sorted by downloads
+- [x] `GET /hf/inspect`: fetch dataset metadata (license, gated status, description, files list)
+- [x] `POST /hf/load`: stream dataset file in-memory, proxy to SysWisdom API, store analysis record with `source:'huggingface'`, log compliance record
+- [x] Path traversal validation on `file_path` parameter (rejects `..` and leading `/`)
+- [x] License gating: warns on restrictive licenses, blocks/warns on gated datasets
+- [x] Frontend: `🤗 Hugging Face Dataset` sub-tab in Upload panel (alongside `📤 Upload File`)
+- [x] Frontend: Inspect panel with license badge, gated warning, file list with Load buttons
+- [x] Frontend: Dataset search results grid with one-click inspect
+- [x] `help.html`: Full HuggingFace Datasets section added (setup, workflow, compliance table, rate limits)
+- [x] `.env.example`: `HUGGINGFACE_API_KEY=` added (optional, blank by default)
+- [x] `SETUP.md`: `HUGGINGFACE_API_KEY` documented under Environment Configuration
+
+### Phase 8: Model Health Dashboard ✅ COMPLETED
+- [x] `GET /model-health`: aggregated endpoint returning Slop + Drift + Hallucination signals in one call
+  - **Slop**: quality score trend across last 20 uploads, linear degradation rate, alert if score drops >3 pts/upload
+  - **Drift**: monthly human-approval accuracy trend, drift flag if accuracy drops >10% month-over-month
+  - **Hallucination**: false-positive rate overall + monthly rejection trend, alert if FP rate >40%
+- [x] Frontend: renamed `⚠️ Drift Monitor` nav tab → `🏥 Model Health`
+- [x] Frontend: 3-sub-tab dashboard inside Model Health tab
+  - `🗑️ Slop` — score trend bars, degradation rate card, slop accumulation alert
+  - `📉 Drift` — monthly accuracy bars, dataset statistics, export buttons (migrated from old Drift Monitor)
+  - `🤖 Hallucination` — FP rate gauge ring, monthly rejection bars, verdicts by month
+- [x] Each panel: definition card explaining the concept, signal cards, colour-coded status badge, alert band
+- [x] `loadModelHealth()` replaces `loadDriftAnalysis()`, calls single `/model-health` endpoint
+- [x] `switchMH(panel)` — sub-tab switcher for Slop / Drift / Hallucination
+- [x] `renderSlopPanel()`, `renderDriftPanel()`, `renderHalluPanel()` — individual panel renderers
+
 ### Priority 1b: Custom Rules Endpoint (Backend Gap)
 - [ ] Implement `POST /custom-rules` in `server.js`
   - Schema: `{ name, column_pattern, rule_type, pattern, severity, auto_apply }`
@@ -275,6 +303,7 @@ CO-INTELLIGENCE data quality platform for quality professionals. Humans + AI bui
 | Backend | Express | 4.18.3 |
 | File Upload | multer | 2.1.1 |
 | HTTP Client | axios + form-data | 1.6.7 / 4.0.0 |
+| Dataset Hub | HuggingFace Hub API | REST |
 | ID Generation | uuid | 9.0.1 |
 | Config | dotenv | 16.4.5 |
 | Dev server | nodemon | 3.1.0 |

@@ -325,6 +325,99 @@ section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display:
   main { padding: 18px 14px; }
   .score-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── HF Source Selector ── */
+.source-tabs { display: flex; margin-bottom: 20px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: var(--card); }
+.source-tab { flex: 1; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer; background: none; color: var(--muted); border: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all .2s; }
+.source-tab[data-source="upload"].active { background: var(--green); color: #fff; }
+.source-tab[data-source="hf"].active     { background: #7c3aed; color: #fff; }
+.source-panel { display: none; }
+.source-panel.active { display: block; }
+
+/* ── HF Card ── */
+.hf-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.hf-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 15px; font-weight: 700; color: var(--text); }
+.hf-card > p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.hf-input-row { display: flex; gap: 10px; }
+.hf-input { flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: var(--card); color: var(--text); min-width: 0; }
+.hf-input:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 2px rgba(139,92,246,.15); }
+.btn-hf { background: #7c3aed; color: #fff; border: none; border-radius: 8px; padding: 10px 22px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s; white-space: nowrap; }
+.btn-hf:hover:not(:disabled) { background: #6d28d9; }
+.btn-hf:disabled { opacity: .6; cursor: not-allowed; }
+.hf-notice { font-size: 11px; color: var(--muted); display: flex; align-items: flex-start; gap: 6px; line-height: 1.5; margin-top: 10px; }
+.hf-notice::before { content: '○'; font-size: 9px; margin-top: 2px; flex-shrink: 0; }
+
+/* ── HF Search Results ── */
+.hf-result-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.hf-result-card { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: border-color .15s, background .15s; background: var(--card); }
+.hf-result-card:hover { border-color: #8b5cf6; background: #faf5ff; }
+.hf-result-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.hf-result-meta  { font-size: 12px; color: var(--muted); margin-top: 5px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.hf-license-badge      { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.hf-license-open       { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.hf-license-restricted { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+.hf-license-unknown    { background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; }
+.hf-gated-badge        { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+/* ── HF Inspect Panel ── */
+.hf-inspect-card { background: var(--card); border: 1px solid #7c3aed; border-radius: var(--radius); padding: 20px; margin-top: 16px; }
+.hf-inspect-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.hf-file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 260px; overflow-y: auto; }
+.hf-file-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; background: #f8fafc; transition: border-color .15s, background .15s; gap: 8px; }
+.hf-file-row:hover { border-color: #8b5cf6; background: #faf5ff; cursor: pointer; }
+.hf-file-name { font-family: 'Courier New', monospace; color: var(--text); word-break: break-all; flex: 1; }
+.hf-file-size { color: var(--muted); white-space: nowrap; }
+
+/* ── Model Health tab ───────────────────────────────────────────────── */
+.mh-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
+.mh-header h2 { margin:0; font-size:1.4rem; }
+.mh-header p  { margin:4px 0 0; color:var(--muted); font-size:.85rem; }
+.mh-tabs { display:flex; gap:8px; margin-bottom:20px; border-bottom:2px solid var(--border); padding-bottom:0; }
+.mh-tab  { background:none; border:none; padding:10px 18px; border-radius:6px 6px 0 0; cursor:pointer; font-size:.9rem; color:var(--muted); border-bottom:3px solid transparent; margin-bottom:-2px; transition:all .2s; }
+.mh-tab:hover  { color:var(--text); background:var(--surface); }
+.mh-tab.active { color:var(--primary); border-bottom-color:var(--primary); background:var(--surface); font-weight:600; }
+.mh-panel      { display:none; animation:fadeIn .2s; }
+.mh-panel.active { display:block; }
+
+.mh-definition { background:rgba(99,179,237,.08); border-left:4px solid var(--primary); border-radius:6px; padding:12px 16px; margin-bottom:20px; font-size:.88rem; line-height:1.6; }
+.mh-definition strong { color:var(--primary); display:block; margin-bottom:4px; }
+
+.mh-signal-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:24px; }
+.mh-signal-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; text-align:center; }
+.mh-signal-card .sc-label { font-size:.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
+.mh-signal-card .sc-value { font-size:2rem; font-weight:700; line-height:1; }
+.mh-signal-card .sc-sub   { font-size:.78rem; color:var(--muted); margin-top:4px; }
+.sc-green { color:#48bb78; }
+.sc-yellow{ color:#ecc94b; }
+.sc-red   { color:#fc8181; }
+.sc-purple{ color:#b794f4; }
+
+.mh-alert     { display:flex; align-items:flex-start; gap:10px; border-radius:8px; padding:12px 16px; margin-bottom:20px; font-size:.88rem; }
+.mh-alert.ok  { background:rgba(72,187,120,.1);  border:1px solid rgba(72,187,120,.35);  color:#9ae6b4; }
+.mh-alert.warn{ background:rgba(236,201,75,.1);  border:1px solid rgba(236,201,75,.35);  color:#faf089; }
+.mh-alert.crit{ background:rgba(252,129,129,.1); border:1px solid rgba(252,129,129,.35); color:#fc8181; }
+.mh-alert-icon{ font-size:1.2rem; flex-shrink:0; }
+.mh-alert-txt { flex:1; }
+.mh-alert-txt strong { display:block; margin-bottom:2px; }
+
+.mh-bars-label { font-size:.82rem; color:var(--muted); margin-bottom:8px; }
+.mh-bar-row    { display:flex; align-items:center; gap:10px; margin-bottom:6px; font-size:.8rem; }
+.mh-bar-name   { width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted); text-align:right; flex-shrink:0; }
+.mh-bar-track  { flex:1; background:var(--border); border-radius:4px; height:18px; overflow:hidden; }
+.mh-bar-fill   { height:100%; border-radius:4px; transition:width .4s; display:flex; align-items:center; justify-content:flex-end; padding-right:6px; font-size:.72rem; font-weight:600; color:#fff; }
+.mh-bar-score  { width:40px; text-align:right; color:var(--text); font-weight:600; }
+.bar-green  { background:linear-gradient(90deg,#38a169,#48bb78); }
+.bar-yellow { background:linear-gradient(90deg,#b7791f,#ecc94b); }
+.bar-red    { background:linear-gradient(90deg,#c53030,#fc8181); }
+.bar-purple { background:linear-gradient(90deg,#6b46c1,#b794f4); }
+
+.mh-gauge-wrap { display:flex; flex-direction:column; align-items:center; gap:8px; padding:20px; }
+.mh-gauge-ring { width:140px; height:140px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2.2rem; font-weight:800; border:10px solid var(--border); }
+.mh-gauge-ring.ring-green  { border-color:#48bb78; color:#48bb78; }
+.mh-gauge-ring.ring-yellow { border-color:#ecc94b; color:#ecc94b; }
+.mh-gauge-ring.ring-red    { border-color:#fc8181; color:#fc8181; }
+.mh-gauge-ring.ring-purple { border-color:#b794f4; color:#b794f4; }
+.mh-gauge-label { font-size:.88rem; color:var(--muted); text-align:center; }
 </style>
 </head>
 <body>
@@ -347,14 +440,14 @@ section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display:
 
 <!-- ═══════════ TABS ═══════════ -->
 <nav class="tabs">
-  <button class="tab-btn active" data-tab="upload">📤 Upload</button>
+  <button class="tab-btn active" data-tab="upload">Upload</button>
   <button class="tab-btn" data-tab="review" id="reviewTab">✅ Review Issues <span class="badge" id="pendingBadge" style="display:none">0</span></button>
-  <button class="tab-btn" data-tab="library">📚 Fix Library</button>
-  <button class="tab-btn" data-tab="report">📋 Report</button>
-  <button class="tab-btn" data-tab="history">🕐 History</button>
-  <button class="tab-btn" data-tab="drift">⚠️ Drift Monitor</button>
-  <a href="/help.html" target="_blank" class="tab-btn" style="margin-left:auto;text-decoration:none;">❓ Help</a>
-  <a href="/integrations.html" target="_blank" class="tab-btn" style="text-decoration:none;">🔌 Integrations</a>
+  <button class="tab-btn" data-tab="library">Fix Library</button>
+  <button class="tab-btn" data-tab="report">Report</button>
+  <button class="tab-btn" data-tab="history">History</button>
+  <button class="tab-btn" data-tab="drift">🏥 Model Health</button>
+  <a href="/help.html" target="_blank" class="tab-btn" style="margin-left:auto;text-decoration:none;">Help</a>
+  <a href="/integrations.html" target="_blank" class="tab-btn" style="text-decoration:none;">Integrations</a>
 </nav>
 
 <!-- ═══════════ MAIN ═══════════ -->
@@ -362,6 +455,14 @@ section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display:
 
   <!-- ── PHASE 1: Upload ── -->
   <div class="tab-panel active" id="tab-upload">
+    <!-- Source selector: Upload File | Hugging Face Dataset -->
+    <div class="source-tabs">
+      <button class="source-tab active" data-source="upload" onclick="switchSource('upload')">📤 Upload File</button>
+      <button class="source-tab" data-source="hf"     onclick="switchSource('hf')">🤗 Hugging Face Dataset</button>
+    </div>
+
+    <!-- ── Upload File source ── -->
+    <div class="source-panel active" id="source-upload">
     <div class="upload-hero">
       <h2>First Your Data.</h2>
       <p>Every file analyzed teaches the system your organization's quality standards. Drop a file to begin.</p>
@@ -394,14 +495,57 @@ section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display:
     </div>
 
     <button class="btn btn-primary" id="analyzeBtn" disabled onclick="analyzeFile()">
-      🔍 Analyze File for Quality Issues
+      Analyze File for Quality Issues
     </button>
 
     <div class="spinner" id="spinner">
       <div class="spin-ring"></div>
       <p style="color:var(--muted);font-size:14px">Analyzing with SysWisdom API…</p>
     </div>
-  </div>
+    </div><!-- /source-upload -->
+
+    <!-- ── Hugging Face Dataset source ── -->
+    <div class="source-panel" id="source-hf">
+      <div class="upload-hero">
+        <h2>Hugging Face Dataset</h2>
+        <p>Enter a dataset ID or URL. License is verified before any data is loaded.</p>
+      </div>
+
+      <!-- Inspect by ID -->
+      <div class="hf-card">
+        <div class="hf-card-header">🤗 Hugging Face Dataset</div>
+        <p>Enter a dataset ID or URL. License is verified before any data is loaded.</p>
+        <div class="hf-input-row">
+          <input type="text" class="hf-input" id="hfInput"
+            placeholder="e.g. rajpurkar/squad or huggingface.co/datasets/..."
+            onkeydown="if(event.key==='Enter')hfInspect()">
+          <button class="btn-hf" id="hfInspectBtn" onclick="hfInspect()">Inspect</button>
+        </div>
+        <div class="hf-notice">Dataset content is processed in-memory only and never stored. Only dataset name, license, and access timestamp are logged for compliance.</div>
+      </div>
+
+      <!-- Search HF datasets -->
+      <div class="hf-card" style="margin-top:16px">
+        <div class="hf-card-header" style="font-size:13px;font-weight:600;color:var(--muted);">🔍 Search HuggingFace Datasets</div>
+        <div class="hf-input-row" style="margin-top:8px">
+          <input type="text" class="hf-input" id="hfSearchInput"
+            placeholder="e.g. tabular, csv, ecommerce, fraud detection..."
+            onkeydown="if(event.key==='Enter')hfSearch()">
+          <button class="btn-hf" id="hfSearchBtn" onclick="hfSearch()">Search</button>
+        </div>
+        <div id="hfSearchResults" class="hf-result-grid"></div>
+      </div>
+
+      <!-- Inspect result panel -->
+      <div id="hfInspectPanel"></div>
+
+      <!-- Loading spinner -->
+      <div class="spinner" id="hfSpinner" style="display:none">
+        <div class="spin-ring"></div>
+        <p style="color:var(--muted);font-size:14px">Loading dataset from HuggingFace…</p>
+      </div>
+    </div><!-- /source-hf -->
+  </div><!-- /tab-upload -->
 
   <!-- ── PHASE 2: Review Issues ── -->
   <div class="tab-panel" id="tab-review">
@@ -419,7 +563,7 @@ section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display:
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
       <div>
         <h2 style="font-size:20px;font-weight:800">Fix Library</h2>
-        <p style="font-size:13px;color:var(--muted);margin-top:3px">Institutional wisdom repository — team-approved solutions ranked by confidence</p>
+        <p style="font-size:13px;color:var(--muted);margin-top:3px">Institutional wisdom repository: team-approved solutions ranked by confidence</p>
       </div>
       <button class="btn btn-primary btn-sm" onclick="toggleAddFixForm()">＋ Add Fix Manually</button>
     </div>
@@ -507,7 +651,7 @@ section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display:
         <h2 style="font-size:20px;font-weight:800">Analysis History</h2>
         <p style="font-size:13px;color:var(--muted);margin-top:3px">Every analysis adds to your team's quality knowledge base</p>
       </div>
-      <button class="btn btn-outline btn-sm" onclick="loadHistory()">🔄 Refresh</button>
+      <button class="btn btn-outline btn-sm" onclick="loadHistory()">Refresh</button>
     </div>
     <div id="historyContent">
       <div class="empty-state">
@@ -520,74 +664,157 @@ section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display:
 
   <!-- ── DRIFT MONITOR ── -->
   <div class="tab-panel" id="tab-drift">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+
+    <!-- Header -->
+    <div class="mh-header">
       <div>
-        <h2 style="font-size:20px;font-weight:800">Model Drift Monitor</h2>
-        <p style="font-size:13px;color:var(--muted);margin-top:3px">Track model accuracy over time and export labeled data for retraining</p>
+        <h2>🏥 Model Health</h2>
+        <p>Monitor slop accumulation, accuracy drift, and hallucination in your AI pipeline</p>
       </div>
-      <button class="btn btn-primary btn-sm" onclick="loadDriftAnalysis()">🔄 Refresh</button>
+      <button class="btn btn-primary btn-sm" onclick="loadModelHealth()">Refresh</button>
     </div>
 
-    <div id="driftContent" style="display:flex;flex-direction:column;gap:20px;">
-      <!-- Drift Status Alert -->
-      <div id="driftAlert" style="display:none;background:#fef2f2;border:2px solid #fecaca;border-radius:8px;padding:16px;">
-        <div style="display:flex;align-items:flex-start;gap:12px;">
-          <div style="font-size:24px">⚠️</div>
-          <div>
-            <div style="font-weight:700;color:#dc2626;margin-bottom:4px" id="driftAlertTitle">Model Drift Detected</div>
-            <div style="font-size:13px;color:#991b1b" id="driftAlertMessage"></div>
-          </div>
-        </div>
+    <!-- Sub-tab nav -->
+    <div class="mh-tabs">
+      <button class="mh-tab active" id="mhtab-slop"        onclick="switchMH('slop')">🗑️ Slop</button>
+      <button class="mh-tab"        id="mhtab-drift"       onclick="switchMH('drift')">📉 Drift</button>
+      <button class="mh-tab"        id="mhtab-hallucination" onclick="switchMH('hallucination')">🤖 Hallucination</button>
+    </div>
+
+    <!-- ── SLOP PANEL ─────────────────────────────────── -->
+    <div class="mh-panel active" id="mhpanel-slop">
+      <div class="mh-definition">
+        <strong>What is Slop?</strong>
+        Slop is the gradual degradation of data quality across your pipeline. It's the accumulated noise, inconsistencies,
+        and silent errors that appear valid on the surface but erode model performance over time, like rust you can't see
+        until the structure fails. Track it by watching your quality scores across sequential uploads.
       </div>
 
-      <!-- Monthly Accuracy Trend -->
-      <div class="card">
-        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Monthly Accuracy Trend</h3>
-        <div id="accuracyTrend" style="display:flex;flex-direction:column;gap:12px;">
-          <div style="color:var(--muted);font-size:13px">Loading...</div>
-        </div>
+      <!-- Score summary cards -->
+      <div class="mh-signal-grid" id="slopCards">
+        <div class="mh-signal-card"><div class="sc-label">Avg Quality Score</div><div class="sc-value sc-green" id="slopAvg">—</div><div class="sc-sub">last 20 uploads</div></div>
+        <div class="mh-signal-card"><div class="sc-label">Score Trend</div><div class="sc-value" id="slopDeg">—</div><div class="sc-sub">pts per upload</div></div>
+        <div class="mh-signal-card"><div class="sc-label">Files Analysed</div><div class="sc-value sc-green" id="slopCount">—</div><div class="sc-sub">total uploads</div></div>
+        <div class="mh-signal-card"><div class="sc-label">Slop Status</div><div class="sc-value" id="slopStatus">—</div><div class="sc-sub">overall signal</div></div>
       </div>
 
-      <!-- Dataset Statistics -->
+      <!-- Alert band -->
+      <div id="slopAlert" class="mh-alert" style="display:none">
+        <div class="mh-alert-txt"><strong id="slopAlertTitle"></strong><span id="slopAlertMsg"></span></div>
+      </div>
+
+      <!-- Score trend bars -->
       <div class="card">
-        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Training Dataset Statistics</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px;">
-          <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px;">
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;">Total Analyses</div>
-            <div style="font-size:20px;font-weight:800;color:var(--teal);" id="statAnalyses">—</div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Quality Score: Recent Uploads</h3>
+        <div class="mh-bars-label">Each bar represents one upload. Green ≥ 80 · Yellow 60–79 · Red &lt; 60</div>
+        <div id="slopTrend" style="margin-top:8px"><div style="color:var(--muted);font-size:13px">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- ── DRIFT PANEL ─────────────────────────────────── -->
+    <div class="mh-panel" id="mhpanel-drift">
+      <div class="mh-definition">
+        <strong>What is Drift?</strong>
+        Model drift occurs when the patterns in production data diverge from what the model learned during training.
+        It shows up as a decline in human-approval accuracy over time; engineers start rejecting more AI recommendations,
+        meaning the model's understanding no longer matches real-world data.
+      </div>
+
+      <!-- Drift summary cards -->
+      <div class="mh-signal-grid">
+        <div class="mh-signal-card"><div class="sc-label">Current Accuracy</div><div class="sc-value" id="driftCurrAcc">—</div><div class="sc-sub">this month</div></div>
+        <div class="mh-signal-card"><div class="sc-label">Previous Accuracy</div><div class="sc-value" id="driftPrevAcc">—</div><div class="sc-sub">last month</div></div>
+        <div class="mh-signal-card"><div class="sc-label">Drift Status</div><div class="sc-value" id="driftStatus">—</div><div class="sc-sub">detection signal</div></div>
+        <div class="mh-signal-card"><div class="sc-label">Total Records</div><div class="sc-value sc-green" id="driftTotal">—</div><div class="sc-sub">analysed</div></div>
+      </div>
+
+      <!-- Alert band -->
+      <div id="driftAlert" class="mh-alert" style="display:none">
+        <div class="mh-alert-txt"><strong id="driftAlertTitle">Drift Detected</strong><span id="driftAlertMessage"></span></div>
+      </div>
+
+      <!-- Monthly accuracy bars -->
+      <div class="card">
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Monthly Accuracy Trend</h3>
+        <div class="mh-bars-label">Percentage of uploads that had at least one human-approved issue each month</div>
+        <div id="accuracyTrend" style="margin-top:8px"><div style="color:var(--muted);font-size:13px">Loading...</div></div>
+      </div>
+
+      <!-- Dataset statistics -->
+      <div class="card" style="margin-top:16px">
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:14px">Training Dataset Statistics</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px">
+          <div style="background:rgba(99,179,237,.08);border:1px solid rgba(99,179,237,.25);border-radius:8px;padding:12px">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700">Total Analyses</div>
+            <div style="font-size:20px;font-weight:800;color:var(--primary)" id="statAnalyses">—</div>
           </div>
-          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;">
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;">Real Issues</div>
-            <div style="font-size:20px;font-weight:800;color:var(--green);" id="statReal">—</div>
+          <div style="background:rgba(72,187,120,.08);border:1px solid rgba(72,187,120,.25);border-radius:8px;padding:12px">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700">Real Issues</div>
+            <div style="font-size:20px;font-weight:800;color:#48bb78" id="statReal">—</div>
           </div>
-          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;">
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;">False Positives</div>
-            <div style="font-size:20px;font-weight:800;color:var(--red);" id="statFalse">—</div>
+          <div style="background:rgba(252,129,129,.08);border:1px solid rgba(252,129,129,.25);border-radius:8px;padding:12px">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700">False Positives</div>
+            <div style="font-size:20px;font-weight:800;color:#fc8181" id="statFalse">—</div>
           </div>
-          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:12px;">
-            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;">True Positive Rate</div>
-            <div style="font-size:20px;font-weight:800;color:var(--orange);" id="statRate">—</div>
+          <div style="background:rgba(236,201,75,.08);border:1px solid rgba(236,201,75,.25);border-radius:8px;padding:12px">
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700">True Positive Rate</div>
+            <div style="font-size:20px;font-weight:800;color:#ecc94b" id="statRate">—</div>
           </div>
         </div>
-        <p style="font-size:12px;color:var(--muted);line-height:1.5;">
-          This dataset represents all issues your team has validated. Export it to retrain custom models on your domain data.
+        <p style="font-size:12px;color:var(--muted);line-height:1.5">
+          All issues your team has validated. Export to retrain custom models on your domain data.
         </p>
       </div>
 
-      <!-- Export Button -->
-      <div style="display:flex;gap:10px;">
-        <button class="btn btn-success" onclick="exportTrainingData()">
-          📥 Export Training Data (JSON)
-        </button>
-        <button class="btn btn-outline" onclick="exportTrainingData('csv')">
-          📊 Export as CSV
-        </button>
+      <!-- Export buttons -->
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+        <button class="btn btn-success" onclick="exportTrainingData()">Export Training Data (JSON)</button>
+        <button class="btn btn-outline"  onclick="exportTrainingData('csv')">Export as CSV</button>
       </div>
-
-      <div id="exportStatus" style="display:none;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px;font-size:13px;color:#0369a1;">
+      <div id="exportStatus" style="display:none;background:rgba(99,179,237,.08);border:1px solid rgba(99,179,237,.3);border-radius:8px;padding:12px;font-size:13px;margin-top:12px">
         <span id="exportStatusText"></span>
       </div>
     </div>
+
+    <!-- ── HALLUCINATION PANEL ─────────────────────────── -->
+    <div class="mh-panel" id="mhpanel-hallucination">
+      <div class="mh-definition">
+        <strong>What is Hallucination?</strong>
+        AI hallucination in data quality happens when the model flags issues that don't actually exist (false positives).
+        A high false-positive rate means your AI is confidently identifying problems that human reviewers consistently
+        reject as non-issues. This wastes engineering time, erodes trust, and signals the model needs retraining.
+      </div>
+
+      <!-- Hallucination gauge + cards -->
+      <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;margin-bottom:20px">
+        <div class="mh-gauge-wrap card" style="min-width:200px">
+          <div class="mh-gauge-ring" id="halluRing">—</div>
+          <div class="mh-gauge-label">False Positive Rate</div>
+          <div id="halluRingLabel" style="font-size:.78rem;color:var(--muted);text-align:center"></div>
+        </div>
+        <div style="flex:1;min-width:220px">
+          <div class="mh-signal-grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
+            <div class="mh-signal-card"><div class="sc-label">Total Reviewed</div><div class="sc-value sc-green" id="halluTotal">—</div><div class="sc-sub">issues with verdicts</div></div>
+            <div class="mh-signal-card"><div class="sc-label">Real Issues</div><div class="sc-value sc-green" id="halluReal">—</div><div class="sc-sub">confirmed by humans</div></div>
+            <div class="mh-signal-card"><div class="sc-label">False Positives</div><div class="sc-value sc-red" id="halluFP">—</div><div class="sc-sub">rejected by humans</div></div>
+            <div class="mh-signal-card"><div class="sc-label">Hallucination Signal</div><div class="sc-value" id="halluStatus">—</div><div class="sc-sub">overall verdict</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alert band -->
+      <div id="halluAlert" class="mh-alert" style="display:none">
+        <div class="mh-alert-txt"><strong id="halluAlertTitle"></strong><span id="halluAlertMsg"></span></div>
+      </div>
+
+      <!-- Monthly rejection rate bars -->
+      <div class="card">
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">Monthly False-Positive Rate</h3>
+        <div class="mh-bars-label">Percentage of reviewed issues rejected as false positives each month. Below 20% is healthy.</div>
+        <div id="halluTrend" style="margin-top:8px"><div style="color:var(--muted);font-size:13px">Loading...</div></div>
+      </div>
+    </div>
+
   </div>
 
 </main>
@@ -633,7 +860,7 @@ function showTab(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `tab-${name}`));
   if (name === 'library') loadLibrary();
   if (name === 'history') loadHistory();
-  if (name === 'drift') loadDriftAnalysis();
+  if (name === 'drift') loadModelHealth();
   if (name === 'report' && state.analysis) {
     document.getElementById('genReportBtn').disabled = false;
   }
@@ -715,10 +942,11 @@ async function analyzeFile() {
 // ═══════════════════════════════════════════════════════
 function renderReview(analysis) {
   const pending = analysis.issues.filter(i => !i.approval).length;
+  const safeFilename = escapeHtml(analysis.filename);
 
   const html = `
     <div class="analysis-bar">
-      <span class="filename">📄 ${analysis.filename}</span>
+      <span class="filename">📄 ${safeFilename}</span>
       <span class="timestamp">${new Date(analysis.timestamp).toLocaleString()}</span>
       <span class="badge badge-type">${analysis.row_count} rows · ${analysis.column_count} cols</span>
     </div>
@@ -767,7 +995,13 @@ function scoreCard(label, score, sub) {
 }
 
 function renderIssueCard(issue, analysisId) {
-  const sevClass = SEVERITY_COLOR[issue.severity] || 'medium';
+  const normalizedSeverity = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'].includes(issue.severity) ? issue.severity : 'MEDIUM';
+  const sevClass = SEVERITY_COLOR[normalizedSeverity] || 'medium';
+  const safeDescription = escapeHtml(issue.description);
+  const safeDetail = escapeHtml(issue.detail);
+  const safeColumn = escapeHtml(issue.column);
+  const safeIssueType = escapeHtml(String(issue.type || '').replace(/_/g, ' '));
+  const safeSuggestedFix = escapeHtml(issue.suggested_fix);
   const approved = issue.approval?.is_real === true;
   const rejected = issue.approval?.is_real === false;
   const statusClass = approved ? 'approved' : rejected ? 'rejected' : '';
@@ -778,9 +1012,9 @@ function renderIssueCard(issue, analysisId) {
       <div class="approved-summary">
         <span style="font-size:20px">✅</span>
         <div>
-          <strong>Confirmed Real Issue</strong> — ${issue.approval.submitted_by}<br>
-          <span style="color:var(--muted);font-size:12px">${issue.approval.comment || 'No context added'}</span><br>
-          <span style="color:var(--teal2);font-size:12px">Fix: ${issue.approval.better_fix || issue.suggested_fix}</span><br>
+          <strong>Confirmed Real Issue</strong> — ${escapeHtml(issue.approval.submitted_by)}<br>
+          <span style="color:var(--muted);font-size:12px">${escapeHtml(issue.approval.comment || 'No context added')}</span><br>
+          <span style="color:var(--teal2);font-size:12px">Fix: ${escapeHtml(issue.approval.better_fix || issue.suggested_fix)}</span><br>
           <span style="color:var(--green);font-size:11px">Team Confidence: ${issue.approval.confidence_after}%</span>
         </div>
       </div>`;
@@ -789,8 +1023,8 @@ function renderIssueCard(issue, analysisId) {
       <div class="rejected-summary">
         <span style="font-size:20px">❌</span>
         <div>
-          <strong>Rejected as False Positive</strong> — ${issue.approval.submitted_by}<br>
-          <span style="color:var(--muted);font-size:12px">Domain Context: ${issue.approval.comment || 'None provided'}</span><br>
+          <strong>Rejected as False Positive</strong> — ${escapeHtml(issue.approval.submitted_by)}<br>
+          <span style="color:var(--muted);font-size:12px">Domain Context: ${escapeHtml(issue.approval.comment || 'None provided')}</span><br>
           <span style="color:var(--muted);font-size:11px">Machine confidence dropped to ${issue.approval.confidence_after}%</span>
         </div>
       </div>`;
@@ -808,7 +1042,7 @@ function renderIssueCard(issue, analysisId) {
 
         <div class="form-row" id="fix-section-${issue.id}" style="display:none">
           <label>AI's Suggested Fix</label>
-          <div class="suggested-fix">💡 ${issue.suggested_fix}</div>
+          <div class="suggested-fix">💡 ${safeSuggestedFix}</div>
           <label style="margin-top:10px">Rate this fix:</label>
           <div class="fix-quality-row">
             <button class="fix-quality-btn" data-quality="good"  onclick="selectFixQuality('${issue.id}','good')">👍 Good Fix</button>
@@ -834,15 +1068,15 @@ function renderIssueCard(issue, analysisId) {
   }
 
   return `
-    <div class="issue-card severity-${issue.severity} ${statusClass}" id="card-${issue.id}">
+    <div class="issue-card severity-${normalizedSeverity} ${statusClass}" id="card-${issue.id}">
       <div class="issue-top">
         <div class="issue-meta">
-          <h3>${issue.description}</h3>
-          <div class="detail">${issue.detail}</div>
+          <h3>${safeDescription}</h3>
+          <div class="detail">${safeDetail}</div>
           <div class="issue-badges">
-            <span class="badge badge-${sevClass}">${issue.severity}</span>
-            <span class="badge badge-type">${issue.type.replace(/_/g,' ')}</span>
-            <span class="badge badge-type">Col: ${issue.column}</span>
+            <span class="badge badge-${sevClass}">${normalizedSeverity}</span>
+            <span class="badge badge-type">${safeIssueType}</span>
+            <span class="badge badge-type">Col: ${safeColumn}</span>
           </div>
           <div class="confidence-bar" style="margin-top:8px">
             <div class="conf-track"><div class="conf-fill" style="width:${issue.machine_confidence}%"></div></div>
@@ -964,18 +1198,18 @@ function renderLibrary(fixes) {
   grid.innerHTML = fixes.map(fix => `
     <div class="fix-card">
       <div class="fix-card-header">
-        <h4>${fix.issue}</h4>
-        <span class="principle-badge principle-${fix.quality_principle}">${PRINCIPLES[fix.quality_principle] || fix.quality_principle}</span>
+        <h4>${escapeHtml(fix.issue)}</h4>
+        <span class="principle-badge principle-${PRINCIPLES[fix.quality_principle] ? fix.quality_principle : 'data_integrity'}">${escapeHtml(PRINCIPLES[fix.quality_principle] || fix.quality_principle)}</span>
       </div>
-      <div class="fix-text">→ ${fix.fix}</div>
-      ${fix.context ? `<div class="fix-context">${fix.context}</div>` : ''}
+      <div class="fix-text">→ ${escapeHtml(fix.fix)}</div>
+      ${fix.context ? `<div class="fix-context">${escapeHtml(fix.context)}</div>` : ''}
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
-        <span class="badge badge-${(SEVERITY_COLOR[fix.severity] || 'medium')}">${fix.severity}</span>
-        ${fix.column ? `<span class="badge badge-type">Col: ${fix.column}</span>` : ''}
+        <span class="badge badge-${(SEVERITY_COLOR[fix.severity] || 'medium')}">${escapeHtml(fix.severity)}</span>
+        ${fix.column ? `<span class="badge badge-type">Col: ${escapeHtml(fix.column)}</span>` : ''}
         <span class="confidence-chip">${Math.round((fix.team_confidence||0)*100)}% confidence</span>
       </div>
       <div class="fix-footer">
-        <div class="fix-meta">By ${fix.created_by} · ${fix.created_date}<br>${fix.approvals} approvals · applied ${fix.times_applied}x</div>
+        <div class="fix-meta">By ${escapeHtml(fix.created_by)} · ${escapeHtml(fix.created_date)}<br>${fix.approvals} approvals · applied ${fix.times_applied}x</div>
         <div class="vote-row">
           <button class="vote-btn" onclick="vote('${fix.id}','up')">👍</button>
           <span class="vote-count" id="votes-${fix.id}">${fix.votes || 0}</span>
@@ -1088,7 +1322,7 @@ function renderHistory(records) {
       <tbody>
         ${records.map(r => `
           <tr onclick="loadAnalysis('${r.id}')">
-            <td>📄 ${r.filename}</td>
+            <td>📄 ${escapeHtml(r.filename)}</td>
             <td>${new Date(r.timestamp).toLocaleDateString()}</td>
             <td class="history-score" style="color:${r.overall_score >= 85 ? 'var(--green)' : r.overall_score >= 70 ? 'var(--yellow)' : 'var(--red)'}">
               ${r.overall_score}%
@@ -1124,56 +1358,226 @@ async function loadAnalysis(id) {
 // ═══════════════════════════════════════════════════════
 // DRIFT MONITOR (Step 3d)
 // ═══════════════════════════════════════════════════════
-async function loadDriftAnalysis() {
+// ── Model Health sub-tab switcher ────────────────────────────────────────────
+function switchMH(panel) {
+  document.querySelectorAll('.mh-tab').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.mh-panel').forEach(p  => p.classList.remove('active'));
+  const tabBtn = document.getElementById('mhtab-' + panel);
+  const panelEl = document.getElementById('mhpanel-' + panel);
+  if (tabBtn)  tabBtn.classList.add('active');
+  if (panelEl) panelEl.classList.add('active');
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function barColorClass(value, thresholds) {
+  // thresholds: [good, warn] — above good=green, above warn=yellow, else=red
+  if (value >= thresholds[0]) return 'bar-green';
+  if (value >= thresholds[1]) return 'bar-yellow';
+  return 'bar-red';
+}
+
+function renderBars(containerId, entries, valueKey, labelKey, thresholds) {
+  const el = document.getElementById(containerId);
+  if (!entries || entries.length === 0) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px">No data yet.</div>';
+    return;
+  }
+  el.innerHTML = entries.map(e => {
+    const rawValue = Number(e[valueKey]);
+    const val = Number.isFinite(rawValue) ? rawValue : 0;
+    const label = escapeHtml(e[labelKey]);
+    const cls   = barColorClass(val, thresholds);
+    const pct   = Math.min(100, Math.max(2, val));
+    return `<div class="mh-bar-row">
+      <div class="mh-bar-name" title="${label}">${label}</div>
+      <div class="mh-bar-track"><div class="mh-bar-fill ${cls}" style="width:${pct}%">${val}</div></div>
+      <div class="mh-bar-score">${val}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Main loader ───────────────────────────────────────────────────────────────
+async function loadModelHealth() {
   try {
-    const res = await fetch('/drift-analysis');
+    const res  = await fetch('/model-health');
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
 
-    // Show/hide drift alert
-    const alertEl = document.getElementById('driftAlert');
-    if (data.drift_detected) {
-      alertEl.style.display = 'block';
-      document.getElementById('driftAlertTitle').textContent = '⚠️ Model Drift Detected';
-      document.getElementById('driftAlertMessage').textContent = data.recommendation;
-    } else {
-      alertEl.style.display = 'none';
-    }
+    renderSlopPanel(data.slop,         data.total_analyses);
+    renderDriftPanel(data.drift,       data.total_analyses);
+    renderHalluPanel(data.hallucination);
 
-    // Render monthly accuracy trend
-    const trend = document.getElementById('accuracyTrend');
-    const months = Object.keys(data.monthly_accuracy).sort();
-    if (months.length === 0) {
-      trend.innerHTML = '<div style="color:var(--muted);font-size:13px">No data yet. Approvals will be tracked starting next month.</div>';
-    } else {
-      trend.innerHTML = months.map(month => {
-        const accuracy = data.monthly_accuracy[month];
-        const color = accuracy >= 85 ? 'var(--green)' : accuracy >= 70 ? 'var(--yellow)' : 'var(--red)';
-        return `
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="min-width:80px;font-size:12px;font-weight:600;">${month}</div>
-            <div style="flex:1;background:#e2e8f0;height:24px;border-radius:4px;overflow:hidden;">
-              <div style="width:${accuracy}%;height:100%;background:${color};transition:width 0.3s ease;"></div>
-            </div>
-            <div style="min-width:50px;text-align:right;font-weight:700;color:${color};">${accuracy}%</div>
-          </div>`;
-      }).join('');
-    }
-
-    // Load and display training data stats
-    const exportRes = await fetch('/training-export');
-    const exportData = await exportRes.json();
-    const info = exportData.dataset_info;
-
-    document.getElementById('statAnalyses').textContent = info.total_analyses;
-    document.getElementById('statReal').textContent = info.real_issues;
-    document.getElementById('statFalse').textContent = info.false_positives;
-    document.getElementById('statRate').textContent = info.positives_rate;
-
-    showToast('Drift analysis loaded', 'success');
-  } catch (err) { 
-    showToast('Could not load drift analysis: ' + err.message, 'error'); 
+    showToast('Model Health loaded', 'success');
+  } catch (err) {
+    showToast('Could not load Model Health: ' + err.message, 'error');
   }
+}
+
+// ── Slop panel ────────────────────────────────────────────────────────────────
+function renderSlopPanel(slop, totalAnalyses) {
+  const deg    = slop.degradation;
+  const avg    = slop.avg_score;
+  const alert  = slop.alert;
+
+  // Score colour helpers
+  const scoreClass = v => v >= 80 ? 'sc-green' : v >= 60 ? 'sc-yellow' : 'sc-red';
+
+  document.getElementById('slopAvg').className   = 'sc-value ' + scoreClass(avg);
+  document.getElementById('slopAvg').textContent = avg || '—';
+  document.getElementById('slopCount').textContent = totalAnalyses;
+
+  const degEl = document.getElementById('slopDeg');
+  if (deg === 0 || deg === undefined) {
+    degEl.textContent = '0.0'; degEl.className = 'sc-value sc-green';
+  } else if (deg > 0) {
+    degEl.textContent = '+' + deg; degEl.className = 'sc-value sc-green';
+  } else {
+    degEl.textContent = deg; degEl.className = 'sc-value ' + (deg < -3 ? 'sc-red' : 'sc-yellow');
+  }
+
+  const statusEl = document.getElementById('slopStatus');
+  if (alert) {
+    statusEl.textContent = '🔴 Warn'; statusEl.className = 'sc-value sc-red';
+  } else if (deg < 0) {
+    statusEl.textContent = '🟡 Watch'; statusEl.className = 'sc-value sc-yellow';
+  } else {
+    statusEl.textContent = '🟢 Good'; statusEl.className = 'sc-value sc-green';
+  }
+
+  const alertEl = document.getElementById('slopAlert');
+  if (alert) {
+    alertEl.style.display = 'flex';
+    alertEl.className = 'mh-alert crit';
+    document.getElementById('slopAlertTitle').textContent = 'Slop Accumulation Warning: ';
+    document.getElementById('slopAlertMsg').textContent   = slop.alert_message;
+  } else if (deg < 0) {
+    alertEl.style.display = 'flex';
+    alertEl.className = 'mh-alert warn';
+    document.getElementById('slopAlertTitle').textContent = 'Slight Degradation: ';
+    document.getElementById('slopAlertMsg').textContent   = slop.alert_message;
+  } else {
+    alertEl.style.display = 'none';
+  }
+
+  // Score trend bars
+  renderBars('slopTrend', slop.score_trend, 'score', 'filename', [80, 60]);
+}
+
+// ── Drift panel ───────────────────────────────────────────────────────────────
+function renderDriftPanel(drift, totalAnalyses) {
+  const curr = drift.current_accuracy;
+  const prev = drift.previous_accuracy;
+  const scoreClass = v => v == null ? 'sc-green' : v >= 80 ? 'sc-green' : v >= 60 ? 'sc-yellow' : 'sc-red';
+
+  const currEl = document.getElementById('driftCurrAcc');
+  currEl.textContent = curr != null ? curr + '%' : '—';
+  currEl.className   = 'sc-value ' + scoreClass(curr);
+
+  const prevEl = document.getElementById('driftPrevAcc');
+  prevEl.textContent = prev != null ? prev + '%' : '—';
+  prevEl.className   = 'sc-value ' + scoreClass(prev);
+
+  document.getElementById('driftTotal').textContent = totalAnalyses;
+
+  const statusEl = document.getElementById('driftStatus');
+  if (drift.drift_detected) {
+    statusEl.textContent = '🔴 Drifting'; statusEl.className = 'sc-value sc-red';
+  } else {
+    statusEl.textContent = '🟢 Stable';   statusEl.className = 'sc-value sc-green';
+  }
+
+  const alertEl = document.getElementById('driftAlert');
+  if (drift.drift_detected) {
+    alertEl.style.display = 'flex';
+    alertEl.className = 'mh-alert crit';
+    document.getElementById('driftAlertTitle').textContent   = 'Model Drift Detected: ';
+    document.getElementById('driftAlertMessage').textContent = drift.recommendation;
+  } else {
+    alertEl.style.display = 'none';
+  }
+
+  // Monthly accuracy bars
+  const months = Object.keys(drift.monthly_accuracy || {}).sort();
+  const entries = months.map(m => ({ label: m, value: drift.monthly_accuracy[m] }));
+  renderBars('accuracyTrend', entries, 'value', 'label', [80, 60]);
+
+  // Dataset stats (re-use /model-health hallucination data via drift panel)
+  // We'll fill these from the hallucination section if available
+  // They get set in renderHalluPanel as well — set placeholder here
+  if (!document.getElementById('statAnalyses').textContent.trim() ||
+       document.getElementById('statAnalyses').textContent === '—') {
+    document.getElementById('statAnalyses').textContent = totalAnalyses || '—';
+  }
+}
+
+// ── Hallucination panel ───────────────────────────────────────────────────────
+function renderHalluPanel(hallu) {
+  const fpRate = hallu.fp_rate;
+  const alert  = hallu.alert;
+
+  // Ring gauge
+  const ring  = document.getElementById('halluRing');
+  ring.textContent = fpRate + '%';
+  const ringClass  = fpRate >= 50 ? 'ring-red' : fpRate >= 30 ? 'ring-yellow' : fpRate >= 15 ? 'ring-purple' : 'ring-green';
+  ring.className   = 'mh-gauge-ring ' + ringClass;
+  document.getElementById('halluRingLabel').textContent =
+    fpRate >= 50 ? 'Critical: retrain immediately' :
+    fpRate >= 30 ? 'Warning: investigate false positives' :
+    fpRate >= 15 ? 'Borderline: monitor closely' : 'Healthy: within normal range';
+
+  document.getElementById('halluTotal').textContent = hallu.total_reviewed;
+  document.getElementById('halluReal').textContent  = hallu.real_issues;
+  document.getElementById('halluFP').textContent    = hallu.false_positives;
+
+  const statusEl = document.getElementById('halluStatus');
+  if (fpRate >= 50) {
+    statusEl.textContent = '🔴 Critical'; statusEl.className = 'sc-value sc-red';
+  } else if (fpRate >= 30) {
+    statusEl.textContent = '🟡 Warning';  statusEl.className = 'sc-value sc-yellow';
+  } else {
+    statusEl.textContent = '🟢 Healthy';  statusEl.className = 'sc-value sc-green';
+  }
+
+  const alertEl = document.getElementById('halluAlert');
+  if (alert) {
+    alertEl.style.display = 'flex';
+    alertEl.className = 'mh-alert crit';
+    document.getElementById('halluAlertTitle').textContent = 'Hallucination Detected: ';
+    document.getElementById('halluAlertMsg').textContent   = hallu.alert_message;
+  } else if (fpRate >= 15) {
+    alertEl.style.display = 'flex';
+    alertEl.className = fpRate >= 30 ? 'mh-alert warn' : 'mh-alert ok';
+    document.getElementById('halluAlertTitle').textContent = '';
+    document.getElementById('halluAlertMsg').textContent   = hallu.alert_message;
+  } else {
+    alertEl.style.display = 'none';
+  }
+
+  // Fill Drift panel stats from hallucination data
+  document.getElementById('statAnalyses').textContent = hallu.total_reviewed > 0 ? hallu.total_reviewed : '—';
+  document.getElementById('statReal').textContent     = hallu.real_issues;
+  document.getElementById('statFalse').textContent    = hallu.false_positives;
+  document.getElementById('statRate').textContent     = (100 - fpRate).toFixed(1) + '%';
+
+  // Monthly rejection rate bars (inverted: high rejection = bad)
+  const months  = Object.keys(hallu.monthly_rejection || {}).sort();
+  const entries = months.map(m => ({ label: m, value: hallu.monthly_rejection[m] }));
+  // For rejection rate: low is good. Reuse bar renderer but invert thresholds display
+  const el = document.getElementById('halluTrend');
+  if (entries.length === 0) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px">No reviewed issues yet. Approve or reject issues in the Review tab to populate this chart.</div>';
+    return;
+  }
+  el.innerHTML = entries.map(e => {
+    const val = e.value;
+    const cls = val < 20 ? 'bar-green' : val < 40 ? 'bar-yellow' : 'bar-red';
+    const pct = Math.min(100, Math.max(2, val));
+    return `<div class="mh-bar-row">
+      <div class="mh-bar-name" title="${e.label}">${e.label}</div>
+      <div class="mh-bar-track"><div class="mh-bar-fill ${cls}" style="width:${pct}%">${val}%</div></div>
+      <div class="mh-bar-score">${val}%</div>
+    </div>`;
+  }).join('');
 }
 
 async function exportTrainingData(format = 'json') {
@@ -1237,6 +1641,202 @@ async function exportTrainingData(format = 'json') {
 }
 
 // ═══════════════════════════════════════════════════════
+// HUGGING FACE INTEGRATION
+// ═══════════════════════════════════════════════════════
+const hfState = { dataset: null };
+
+function switchSource(tab) {
+  document.querySelectorAll('.source-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.source === tab));
+  document.querySelectorAll('.source-panel').forEach(p =>
+    p.classList.toggle('active', p.id === `source-${tab}`));
+}
+
+function isPermissiveLicense(lic) {
+  const open = ['mit','apache','cc0','cc-by','cc-by-4','cc-by-sa','openrail','bsd','wtfpl','unlicense','odc-by','pddl','agpl','gpl','mpl','artistic'];
+  return open.some(l => (lic || '').toLowerCase().startsWith(l));
+}
+
+function hfLicenseClass(lic) {
+  if (!lic || lic === 'unknown') return 'hf-license-unknown';
+  return isPermissiveLicense(lic) ? 'hf-license-open' : 'hf-license-restricted';
+}
+
+async function hfInspect() {
+  const input = document.getElementById('hfInput').value.trim();
+  if (!input) { showToast('Enter a dataset ID or URL', 'error'); return; }
+
+  const btn = document.getElementById('hfInspectBtn');
+  btn.disabled = true;
+  btn.textContent = 'Inspecting…';
+  document.getElementById('hfInspectPanel').innerHTML = '';
+
+  try {
+    const res  = await fetch(`/hf/inspect?dataset=${encodeURIComponent(input)}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    hfState.dataset = data;
+    renderHfInspect(data);
+  } catch (err) {
+    showToast(err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Inspect';
+  }
+}
+
+function renderHfInspect(d) {
+  const licClass = hfLicenseClass(d.license);
+  const isOpen   = isPermissiveLicense(d.license);
+  const safeDatasetId = escapeHtml(d.id);
+  const safeLicense = escapeHtml(d.license);
+  const safeAuthor = escapeHtml(d.author || '');
+  const safeDescription = escapeHtml((d.description || '').slice(0, 220));
+  const datasetLink = `https://huggingface.co/datasets/${encodeURIComponent(d.id || '')}`;
+
+  const filesHtml = d.files.length
+    ? d.files.map(f => `
+        <div class="hf-file-row" onclick="hfLoadFileFromEncoded('${encodeURIComponent(f.path || '')}')">
+          <span class="hf-file-name">📄 ${escapeHtml(f.path)}</span>
+          <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+            ${f.size ? `<span class="hf-file-size">${formatSize(f.size)}</span>` : ''}
+            <button class="btn-hf" style="padding:5px 14px;font-size:12px"
+              onclick="event.stopPropagation();hfLoadFileFromEncoded('${encodeURIComponent(f.path || '')}')">Load</button>
+          </div>
+        </div>`).join('')
+    : '<p style="color:var(--muted);font-size:13px;padding:8px 0">No .csv or .json files found in the root of this dataset.</p>';
+
+  document.getElementById('hfInspectPanel').innerHTML = `
+    <div class="hf-inspect-card">
+      <h3>🤗 ${safeDatasetId}</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center;font-size:12px;">
+        <span class="hf-license-badge ${licClass}">📜 ${safeLicense}</span>
+        ${d.gated
+          ? '<span class="hf-gated-badge">🔒 Gated Dataset</span>'
+          : '<span style="color:var(--green);font-weight:600;font-size:12px">✓ Open Access</span>'}
+        ${d.downloads ? `<span style="color:var(--muted)">↓ ${d.downloads.toLocaleString()} downloads</span>` : ''}
+        ${d.author    ? `<span style="color:var(--muted)">by ${safeAuthor}</span>` : ''}
+      </div>
+
+      ${d.description ? `<p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5;">
+        ${safeDescription}${d.description.length > 220 ? '…' : ''}</p>` : ''}
+
+      ${d.gated ? `<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;margin-bottom:12px;font-size:13px;color:#991b1b;">
+        ⚠️ <strong>Gated Dataset</strong> — You must request access on
+        <a href="${datasetLink}" target="_blank" rel="noopener"
+           style="color:#7c3aed;text-decoration:underline">huggingface.co</a>
+        first. A <code>HUGGINGFACE_API_KEY</code> with accepted access is required in your .env.
+      </div>` : ''}
+
+      ${!isOpen && d.license !== 'unknown' ? `<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px;margin-bottom:12px;font-size:13px;color:#854d0e;">
+        ⚠️ <strong>Restricted License (${safeLicense})</strong> — Verify that your use case complies with this license before loading.
+      </div>` : ''}
+
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;">Select a file to analyze:</div>
+      <div class="hf-file-list">${filesHtml}</div>
+    </div>`;
+}
+
+async function hfLoadFile(filePath) {
+  if (!hfState.dataset) return;
+  const reviewer = document.getElementById('reviewerName').value.trim();
+  if (!reviewer) {
+    showToast('Enter your reviewer name in the header first', 'error');
+    document.getElementById('reviewerName').focus();
+    return;
+  }
+
+  document.getElementById('hfSpinner').style.display = 'flex';
+
+  try {
+    const res  = await fetch('/hf/load', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ dataset_id: hfState.dataset.id, file_path: filePath, reviewer })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    state.analysis = data;
+    renderReview(data);
+    updatePendingBadge();
+    document.getElementById('genReportBtn').disabled = false;
+    document.getElementById('copyBtn').disabled       = false;
+    document.getElementById('downloadBtn').disabled   = false;
+    showToast(`✅ ${filePath.split('/').pop()} loaded — ${data.issues.length} issues detected`, 'success');
+    showTab('review');
+  } catch (err) {
+    showToast(err.message, 'error');
+  } finally {
+    document.getElementById('hfSpinner').style.display = 'none';
+  }
+}
+
+async function hfSearch() {
+  const q = document.getElementById('hfSearchInput').value.trim();
+  if (!q) { showToast('Enter a search term', 'error'); return; }
+
+  const btn = document.getElementById('hfSearchBtn');
+  btn.disabled = true;
+  btn.textContent = 'Searching…';
+  document.getElementById('hfSearchResults').innerHTML =
+    '<div style="color:var(--muted);font-size:13px;padding:8px">Searching…</div>';
+
+  try {
+    const res  = await fetch(`/hf/search?q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    renderHfSearchResults(Array.isArray(data) ? data : []);
+  } catch (err) {
+    showToast(err.message, 'error');
+    document.getElementById('hfSearchResults').innerHTML = '';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Search';
+  }
+}
+
+function renderHfSearchResults(results) {
+  const el = document.getElementById('hfSearchResults');
+  if (!results.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:8px">No datasets found.</div>';
+    return;
+  }
+  el.innerHTML = results.slice(0, 12).map(d => {
+    const lic   = d.cardData?.license || (d.tags?.find(t => t.startsWith('license:'))?.replace('license:','')) || 'unknown';
+    const licCls = hfLicenseClass(lic);
+    const encodedId = encodeURIComponent(d.id || '');
+    const safeId = escapeHtml(d.id || '');
+    const safeLic = escapeHtml(lic);
+    const safeAuthor = escapeHtml(d.author || '');
+    return `
+      <div class="hf-result-card" onclick="hfLoadFromSearchEncoded('${encodedId}')">
+        <div class="hf-result-title">🤗 ${safeId}</div>
+        <div class="hf-result-meta">
+          <span class="hf-license-badge ${licCls}">${safeLic}</span>
+          ${d.gated ? '<span class="hf-gated-badge">🔒 Gated</span>' : ''}
+          ${d.downloads ? `<span>↓ ${d.downloads.toLocaleString()}</span>` : ''}
+          ${d.author    ? `<span>by ${safeAuthor}</span>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function hfLoadFromSearch(datasetId) {
+  document.getElementById('hfInput').value = datasetId;
+  document.getElementById('hfSearchResults').innerHTML = '';
+  hfInspect();
+}
+
+function hfLoadFromSearchEncoded(encodedId) {
+  hfLoadFromSearch(decodeURIComponent(encodedId || ''));
+}
+
+function hfLoadFileFromEncoded(encodedPath) {
+  hfLoadFile(decodeURIComponent(encodedPath || ''));
+}
+
+// ═══════════════════════════════════════════════════════
 // UTILITIES
 // ═══════════════════════════════════════════════════════
 function showToast(msg, type = 'info') {
@@ -1251,6 +1851,15 @@ function formatSize(bytes) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // Init
@@ -1270,7 +1879,7 @@ loadLibrary();
     <a href="mailto:sales@syswisdom.ai">sales@syswisdom.ai</a>
   </div>
   <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #334155;">
-    © 2024 SysWisdom.AI LLC. All rights reserved. | Guardrails CO-INTELLIGENCE Platform
+    © 2026 SysWisdom.AI LLC. All rights reserved. | Guardrails CO-INTELLIGENCE Platform
   </div>
 </footer>
 </body>

@@ -6,7 +6,7 @@
 
 ---
 
-Welcome to SysWisdom.ai, including the Surf Guide App, Data Quality Scoring API, Surf Guide Network, and all related services (collectively, the "Platform"). By accessing or using the Platform, you agree to these Terms of Service ("Terms"). If you do not agree, please do not use the Platform.
+Welcome to SysWisdom.ai, including the Surf Guide App, Data Quality Score, Data Quality Scoring API, GuardRails, Surf Guide Network, and all related services (collectively, the "Platform"). By accessing or using the Platform, you agree to these Terms of Service ("Terms"). If you do not agree, please do not use the Platform.
 
 These Terms form a legal agreement between you ("User," "Customer," or "You") and SysWisdom.ai ("Company," "We," "Our").
 
@@ -16,7 +16,9 @@ These Terms form a legal agreement between you ("User," "Customer," or "You") an
 
 SysWisdom.ai offers:
 
+- Data Quality Score
 - Data Quality Scoring API
+- GuardRails
 - Surf Guide App and mobile tools
 - Surf Guide Network advertising listings
 - Insights, analytics, and related digital services

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GuardRails Help — SysWisdom.ai</title>
+<title>GuardRails Help: SysWisdom.ai</title>
 <style>
   :root {
     --navy:  #0f172a;
@@ -283,6 +283,7 @@
 
   <h3>Features</h3>
   <a href="#upload-tab">📤 Upload & Score</a>
+  <a href="#hf-datasets">🤗 Hugging Face Datasets</a>
   <a href="#review-tab">✅ Review Issues</a>
   <a href="#library-tab">📚 Fix Library</a>
   <a href="#report-tab">📋 Reports</a>
@@ -336,11 +337,11 @@
       <tr><td>Git</td><td>Any recent</td><td><code>git --version</code></td></tr>
     </table>
 
-    <h3>Step 1 — Clone the Repository</h3>
+    <h3>Step 1: Clone the Repository</h3>
     <pre><code>git clone https://github.com/syswisdom-ai-llc/syswisdomGuardRails.git
 cd syswisdomGuardRails</code></pre>
 
-    <h3>Step 2 — Install Dependencies</h3>
+    <h3>Step 2: Install Dependencies</h3>
     <pre><code>npm install</code></pre>
 
     <div class="callout callout-tip">
@@ -348,7 +349,7 @@ cd syswisdomGuardRails</code></pre>
       <div>You should see <strong>0 vulnerabilities</strong> at the end of the install. If you see any high or critical vulnerabilities, run <code>npm audit fix</code> before proceeding.</div>
     </div>
 
-    <h3>Step 3 — Configure Environment Variables</h3>
+    <h3>Step 3: Configure Environment Variables</h3>
     <p>Create a <code>.env</code> file in the project root:</p>
     <pre><code># .env — copy this and fill in your values
 
@@ -363,9 +364,9 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
       <div><strong>Never commit your .env file.</strong> It is already listed in <code>.gitignore</code>. Your API key gives full access to the SysWisdom analysis service.</div>
     </div>
 
-    <p>Your SysWisdom API key can be obtained at <strong>syswisdom.ai/guardrails</strong>. Store it securely — it is the key that authorizes file analysis.</p>
+    <p>Your SysWisdom API key can be obtained at <strong>syswisdom.ai/guardrails</strong>. Store it securely: it is the key that authorizes file analysis.</p>
 
-    <h3>Step 4 — Verify the Data Directory</h3>
+    <h3>Step 4: Verify the Data Directory</h3>
     <p>The project includes pre-loaded training files in the <code>Data/</code> folder. Confirm these exist:</p>
     <pre><code>ls Data/
 # You should see:
@@ -393,7 +394,7 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
 
     <div class="callout callout-tip">
       <span class="icon">💡</span>
-      <div>Use <strong>npm run dev</strong> during training sessions — it auto-restarts when you save changes to <code>server.js</code>.</div>
+      <div>Use <strong>npm run dev</strong> during training sessions: it auto-restarts when you save changes to <code>server.js</code>.</div>
     </div>
 
     <h3>Running the Test Suite</h3>
@@ -406,7 +407,7 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
   <!-- SECTION 3 — QUICK START                             -->
   <!-- ════════════════════════════════════════════════════ -->
   <section id="quick-start">
-    <h2>🚀 Quick Start — 60-Second Overview</h2>
+    <h2>🚀 Quick Start: 60-Second Overview</h2>
 
     <ol class="steps">
       <li>
@@ -435,7 +436,7 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
       </li>
       <li>
         <div class="step-body">
-          <strong>Review issues — this is where the wisdom happens</strong>
+          <strong>Review issues: this is where the wisdom happens</strong>
           <p>Click the <strong>Review Issues</strong> tab. For each detected issue, decide: real problem or false positive? Add your reasoning. This teaches the system your domain's quality standards.</p>
         </div>
       </li>
@@ -461,20 +462,20 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
 
     <h3>Training File</h3>
     <p>Use the surf quality dataset included in the project:</p>
-    <p><span class="file-chip">📄 Data/test.csv</span> — 5 rows, 4 columns: <code>Surf Date</code>, <code>Wave Height (ft)</code>, <code>Wind Speed</code>, <code>Surf Quality</code></p>
+    <p><span class="file-chip">📄 Data/test.csv</span>: 5 rows, 4 columns: <code>Surf Date</code>, <code>Wave Height (ft)</code>, <code>Wind Speed</code>, <code>Surf Quality</code></p>
 
     <h3>What You'll See</h3>
     <table>
       <tr><th>Score</th><th>Expected Value</th><th>What It Means</th></tr>
-      <tr><td>Overall</td><td><span class="score-pill score-green">84.0</span></td><td>Good baseline — issues are detectable and fixable</td></tr>
-      <tr><td>Completeness</td><td><span class="score-pill score-yellow">80.0</span></td><td>Surf Date is 80% missing — CRITICAL gap</td></tr>
+      <tr><td>Overall</td><td><span class="score-pill score-green">84.0</span></td><td>Good baseline: issues are detectable and fixable</td></tr>
+      <tr><td>Completeness</td><td><span class="score-pill score-yellow">80.0</span></td><td>Surf Date is 80% missing: CRITICAL gap</td></tr>
       <tr><td>Consistency</td><td><span class="score-pill score-yellow">87.5</span></td><td>Surf Date has mixed format types</td></tr>
       <tr><td>Validity</td><td><span class="score-pill score-green">85.0</span></td><td>Wave Height values flagged as outliers (20%)</td></tr>
     </table>
 
     <h3>Step-by-Step Walkthrough</h3>
 
-    <h4>Step 1 — Upload</h4>
+    <h4>Step 1: Upload</h4>
     <ol class="steps">
       <li>
         <div class="step-body">
@@ -496,41 +497,41 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
       </li>
     </ol>
 
-    <h4>Step 2 — Review the Three Issues</h4>
+    <h4>Step 2: Review the Three Issues</h4>
     <p>You will see three issue cards. Work through each one as a quality professional:</p>
 
-    <h3>Issue #1 — Missing Surf Date Values (CRITICAL)</h3>
+    <h3>Issue #1: Missing Surf Date Values (CRITICAL)</h3>
     <div class="callout callout-danger">
       <span class="icon">🚨</span>
       <div><strong>What the AI found:</strong> 80% of rows in the "Surf Date" column have no value. Without dates, surf conditions cannot be correlated to tide or weather data.</div>
     </div>
-    <p><strong>Trainer guidance — approve this one:</strong></p>
+    <p><strong>Trainer guidance: approve this one:</strong></p>
     <ol class="steps">
       <li><div class="step-body"><strong>Click "✓ Real Issue"</strong><p>This is a genuine data gap.</p></div></li>
       <li><div class="step-body"><strong>Add context in the reasoning field:</strong><p>"Date field required for all surf reports. Without dates, cannot correlate to tide and weather. Must fix before data goes to forecasting model."</p></div></li>
-      <li><div class="step-body"><strong>Rate the suggested fix</strong><p>The AI suggests backfilling from source system. Click "👍 Good Fix" — it is the right approach here.</p></div></li>
+      <li><div class="step-body"><strong>Rate the suggested fix</strong><p>The AI suggests backfilling from source system. Click "👍 Good Fix": it is the right approach here.</p></div></li>
       <li><div class="step-body"><strong>Click "Submit Approval"</strong><p>Confidence increases from 87.5% → 95%. This approval is now stored as institutional knowledge.</p></div></li>
     </ol>
 
-    <h3>Issue #2 — Mixed Data Types in Surf Date (HIGH)</h3>
+    <h3>Issue #2: Mixed Data Types in Surf Date (HIGH)</h3>
     <div class="callout callout-warn">
       <span class="icon">⚠️</span>
-      <div><strong>What the AI found:</strong> The Surf Date column contains multiple formats — some rows use YYYY-MM-DD, others use Unix timestamps. This breaks downstream parsing.</div>
+      <div><strong>What the AI found:</strong> The Surf Date column contains multiple formats: some rows use YYYY-MM-DD, others use Unix timestamps. This breaks downstream parsing.</div>
     </div>
-    <p><strong>Trainer guidance — approve and enhance:</strong></p>
+    <p><strong>Trainer guidance: approve and enhance:</strong></p>
     <ol class="steps">
       <li><div class="step-body"><strong>Click "✓ Real Issue"</strong></div></li>
       <li><div class="step-body"><strong>Add context:</strong><p>"Dates are coming from 3 different CSV sources. Some are YYYY-MM-DD, others are Unix timestamps. This is a data pipeline integration issue."</p></div></li>
-      <li><div class="step-body"><strong>Add a better fix suggestion:</strong><p>"Also validate in schema at source — prevent mixed types upstream before they enter the pipeline."</p></div></li>
+      <li><div class="step-body"><strong>Add a better fix suggestion:</strong><p>"Also validate in schema at source: prevent mixed types upstream before they enter the pipeline."</p></div></li>
       <li><div class="step-body"><strong>Submit</strong><p>Your enhanced fix is saved to the Fix Library. Future analyses of date-column issues will show your team's recommendation first.</p></div></li>
     </ol>
 
-    <h3>Issue #3 — Wave Height Outliers (MEDIUM)</h3>
+    <h3>Issue #3: Wave Height Outliers (MEDIUM)</h3>
     <div class="callout callout-info">
       <span class="icon">ℹ️</span>
-      <div><strong>What the AI found:</strong> 20% of Wave Height values are statistical outliers. The API's generic model flagged these as suspicious — but is it right for your domain?</div>
+      <div><strong>What the AI found:</strong> 20% of Wave Height values are statistical outliers. The API's generic model flagged these as suspicious: but is it right for your domain?</div>
     </div>
-    <p><strong>Trainer guidance — reject this one (domain knowledge):</strong></p>
+    <p><strong>Trainer guidance: reject this one (domain knowledge):</strong></p>
     <ol class="steps">
       <li><div class="step-body"><strong>Click "✗ False Positive"</strong></div></li>
       <li><div class="step-body"><strong>Add context:</strong><p>"For our coastal region, 20ft+ waves are rare but real during winter swells. This is valid data, not an error. The machine does not have seasonal domain knowledge."</p></div></li>
@@ -539,18 +540,18 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
 
     <div class="callout callout-wisdom">
       <span class="icon">🧠</span>
-      <div><strong>What just happened:</strong> You taught the system something no generic AI knows — that 20ft waves are normal in your domain. This domain exception is now stored and will be referenced in every future analysis of similar data. This is the Wisdom Formula at work.</div>
+      <div><strong>What just happened:</strong> You taught the system something no generic AI knows: that 20ft waves are normal in your domain. This domain exception is now stored and will be referenced in every future analysis of similar data. This is the Wisdom Formula at work.</div>
     </div>
 
-    <h4>Step 3 — View the Fix Library</h4>
+    <h4>Step 3: View the Fix Library</h4>
     <p>Click the <strong>Fix Library</strong> tab. You will see three new entries created from your approvals:</p>
     <ul style="margin-left:20px;font-size:14px;line-height:2;">
-      <li><code>fix_SURF_001</code> — Missing Surf Date Values (confidence: 95%)</li>
-      <li><code>fix_SURF_002</code> — Mixed Data Types in Date Column (confidence: 92%)</li>
-      <li><code>fix_SURF_003</code> — Wave Height Domain Exception (confidence: 98%)</li>
+      <li><code>fix_SURF_001</code>: Missing Surf Date Values (confidence: 95%)</li>
+      <li><code>fix_SURF_002</code>: Mixed Data Types in Date Column (confidence: 92%)</li>
+      <li><code>fix_SURF_003</code>: Wave Height Domain Exception (confidence: 98%)</li>
     </ul>
 
-    <h4>Step 4 — Generate a Report</h4>
+    <h4>Step 4: Generate a Report</h4>
     <p>Click <strong>Report → Generate Quality Report</strong>. Download the plain-text report and share it with your team. The report includes confidence scores, who approved each finding, and the reasoning your team captured.</p>
 
     <p><strong>Expected outcome:</strong> You have established a quality baseline (84.0), captured three domain-specific knowledge items, and your Fix Library is seeded for future analyses.</p>
@@ -563,50 +564,50 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
   <section id="scenario-slop">
     <div class="scenario-header">
       <div class="tag">Scenario 2 · Data Quality Degradation</div>
-      <h2>🗑️ Slop Data — When Good Data Goes Bad</h2>
+      <h2>🗑️ Slop Data: When Good Data Goes Bad</h2>
       <p>Experience what happens when data quality gradually deteriorates. This scenario uses e-commerce pricing data that degrades from perfect to dangerously sloppy over a period of months.</p>
-      <div class="wow">"Slop isn't noise — it's a slow leak. By the time you notice, the pipeline is already wrong."</div>
+      <div class="wow">"Slop isn't noise: it's a slow leak. By the time you notice, the pipeline is already wrong."</div>
     </div>
 
     <h3>What Is Slop Data?</h3>
-    <p>Slop data is data that appears valid on the surface but contains subtle quality failures — inconsistent formats, partially missing values, mixed types, or values just barely outside acceptable ranges. Unlike catastrophic failures, slop accumulates silently and is the primary cause of model drift and AI hallucinations.</p>
+    <p>Slop data is data that appears valid on the surface but contains subtle quality failures: inconsistent formats, partially missing values, mixed types, or values just barely outside acceptable ranges. Unlike catastrophic failures, slop accumulates silently and is the primary cause of model drift and AI hallucinations.</p>
 
     <div class="callout callout-warn">
       <span class="icon">⚠️</span>
-      <div><strong>Why slop is dangerous:</strong> At 95% quality your model still produces reasonable outputs. At 85% it starts making wrong recommendations. At 68% it is actively misleading — but it keeps running, no errors, no alerts. Slop fails silently.</div>
+      <div><strong>Why slop is dangerous:</strong> At 95% quality your model still produces reasonable outputs. At 85% it starts making wrong recommendations. At 68% it is actively misleading: but it keeps running, no errors, no alerts. Slop fails silently.</div>
     </div>
 
-    <h3>Training Files — E-Commerce Pricing Degradation</h3>
+    <h3>Training Files: E-Commerce Pricing Degradation</h3>
     <p>The project includes six months of e-commerce pricing data at progressively declining quality:</p>
 
     <div class="timeline">
       <div class="month-card mc-perfect">
-        <div class="month">Month 1 — Jan</div>
+        <div class="month">Month 1: Jan</div>
         <div class="score">100%</div>
         <div class="status">✅ Perfect baseline</div>
       </div>
       <div class="month-card mc-perfect">
-        <div class="month">Month 2 — Feb</div>
+        <div class="month">Month 2: Feb</div>
         <div class="score">97%</div>
         <div class="status">✅ Minor issues begin</div>
       </div>
       <div class="month-card mc-warning">
-        <div class="month">Month 3 — Mar</div>
+        <div class="month">Month 3: Mar</div>
         <div class="score">93%</div>
         <div class="status">⚠️ Format drift starting</div>
       </div>
       <div class="month-card mc-warning">
-        <div class="month">Month 4 — May</div>
+        <div class="month">Month 4: May</div>
         <div class="score">85%</div>
         <div class="status">⚠️ Slop accumulating</div>
       </div>
       <div class="month-card mc-danger">
-        <div class="month">Month 5 — Jun</div>
+        <div class="month">Month 5: Jun</div>
         <div class="score">68%</div>
         <div class="status">🚨 Dangerous territory</div>
       </div>
       <div class="month-card mc-perfect">
-        <div class="month">Month 6 — Jul</div>
+        <div class="month">Month 6: Jul</div>
         <div class="score">100%</div>
         <div class="status">✅ After cleanup</div>
       </div>
@@ -614,7 +615,7 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
 
     <h3>How to Run This Scenario</h3>
 
-    <h4>Phase A — Establish the Perfect Baseline</h4>
+    <h4>Phase A: Establish the Perfect Baseline</h4>
     <ol class="steps">
       <li>
         <div class="step-body">
@@ -636,40 +637,40 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
       </li>
     </ol>
 
-    <h4>Phase B — Watch the Slop Accumulate</h4>
+    <h4>Phase B: Watch the Slop Accumulate</h4>
     <ol class="steps">
       <li>
         <div class="step-body">
-          <strong>Upload Month 2 (Feb — 97%)</strong>
-          <p>Small drops appear. Note which columns start drifting first — usually Price or Date format fields.</p>
+          <strong>Upload Month 2 (Feb, 97%)</strong>
+          <p>Small drops appear. Note which columns start drifting first: usually Price or Date format fields.</p>
         </div>
       </li>
       <li>
         <div class="step-body">
-          <strong>Upload Month 3 (Mar — 93%)</strong>
+          <strong>Upload Month 3 (Mar, 93%)</strong>
           <p>Format drift becomes visible. The AI will flag consistency issues. Approve these and add context: "Supplier switched CSV format without notice."</p>
         </div>
       </li>
       <li>
         <div class="step-body">
-          <strong>Upload Month 4 (May — 85%)</strong>
-          <p>Now you are in slop territory. Missing values and type errors compound. Compare the score rings to Month 1 — the visual difference is striking.</p>
+          <strong>Upload Month 4 (May, 85%)</strong>
+          <p>Now you are in slop territory. Missing values and type errors compound. Compare the score rings to Month 1: the visual difference is striking.</p>
         </div>
       </li>
       <li>
         <div class="step-body">
-          <strong>Upload Month 5 (Jun — 68%)</strong>
+          <strong>Upload Month 5 (Jun, 68%)</strong>
           <p>Dangerous. At 68%, any AI model trained on this data would produce unreliable pricing recommendations. An e-commerce platform running on this data is likely losing money right now.</p>
         </div>
       </li>
     </ol>
 
-    <h4>Phase C — See the Recovery</h4>
+    <h4>Phase C: See the Recovery</h4>
     <ol class="steps">
       <li>
         <div class="step-body">
-          <strong>Upload Month 6 (Jul — 100%)</strong>
-          <p>After data team intervention, quality returns to baseline. Compare the score rings side-by-side using the History tab — see exactly when the problem started and when it was resolved.</p>
+          <strong>Upload Month 6 (Jul, 100%)</strong>
+          <p>After data team intervention, quality returns to baseline. Compare the score rings side-by-side using the History tab: see exactly when the problem started and when it was resolved.</p>
         </div>
       </li>
     </ol>
@@ -684,7 +685,7 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
       <tr><th>What Participants Learn</th><th>Why It Matters</th></tr>
       <tr><td>Quality degradation is gradual, not sudden</td><td>Teams miss it without a baseline to compare against</td></tr>
       <tr><td>Specific columns fail first</td><td>Knowing the fragile fields lets you monitor proactively</td></tr>
-      <tr><td>68% quality feels normal to the data pipeline</td><td>No errors are thrown — only the score reveals the problem</td></tr>
+      <tr><td>68% quality feels normal to the data pipeline</td><td>No errors are thrown: only the score reveals the problem</td></tr>
       <tr><td>Recovery is measurable</td><td>Guardrails proves the data team's cleanup worked</td></tr>
     </table>
   </section>
@@ -696,15 +697,15 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
   <section id="scenario-drift">
     <div class="scenario-header">
       <div class="tag">Scenario 3 · Model Drift</div>
-      <h2>📉 Drift Detection — When Your Model Stops Knowing What It Knows</h2>
+      <h2>📉 Drift Detection: When Your Model Stops Knowing What It Knows</h2>
       <p>Use the Drift Monitor to detect when data quality changes are causing your AI model's accuracy to silently degrade month over month.</p>
-      <div class="wow">"The model was 94% accurate in January. It's 71% accurate today. Nobody noticed. That's drift — and it's the most expensive bug that never throws an error."</div>
+      <div class="wow">"The model was 94% accurate in January. It's 71% accurate today. Nobody noticed. That's drift: and it's the most expensive bug that never throws an error."</div>
     </div>
 
     <h3>What Is Model Drift?</h3>
     <p>Drift occurs when the statistical properties of incoming data change from what the model was trained on. The model's code is unchanged, tests still pass, but its predictions become progressively wrong. Drift is the number one cause of AI model failures in production.</p>
 
-    <p>GuardRails detects drift by tracking human approval accuracy month over month. When the proportion of AI-detected issues that humans validate as real starts falling, it means the AI's detection is becoming less aligned with your domain — that's drift.</p>
+    <p>GuardRails detects drift by tracking human approval accuracy month over month. When the proportion of AI-detected issues that humans validate as real starts falling, it means the AI's detection is becoming less aligned with your domain: that's drift.</p>
 
     <h3>Prerequisites for This Scenario</h3>
     <div class="callout callout-info">
@@ -714,10 +715,10 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
 
     <h3>How to Run the Drift Detection Scenario</h3>
 
-    <h4>Step 1 — Run all six months from Scenario 2</h4>
+    <h4>Step 1: Run all six months from Scenario 2</h4>
     <p>Upload and approve issues for all six drift files in sequence. Make sure to approve issues that are genuine and reject any that are domain-specific false positives.</p>
 
-    <h4>Step 2 — Open the Drift Monitor tab</h4>
+    <h4>Step 2: Open the Drift Monitor tab</h4>
     <ol class="steps">
       <li>
         <div class="step-body">
@@ -734,21 +735,21 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
       <li>
         <div class="step-body">
           <strong>Look for the red drift alert</strong>
-          <p>If accuracy drops more than 10 percentage points in a single month, a red alert appears: <em>"Drift detected — accuracy dropped X%. Consider retraining."</em></p>
+          <p>If accuracy drops more than 10 percentage points in a single month, a red alert appears: <em>"Drift detected: accuracy dropped X%. Consider retraining."</em></p>
         </div>
       </li>
     </ol>
 
-    <h4>Step 3 — Interpret the Drift Signal</h4>
+    <h4>Step 3: Interpret the Drift Signal</h4>
     <table>
       <tr><th>Accuracy Trend</th><th>What It Means</th><th>Action Required</th></tr>
       <tr><td>Stable above 85%</td><td>Model is well-aligned with your data</td><td>Continue monitoring monthly</td></tr>
       <tr><td>Gradual decline 85% → 75%</td><td>Data is slowly shifting from training distribution</td><td>Queue retraining within 30 days</td></tr>
-      <tr><td>Sharp drop &gt;10% in one month</td><td>Something structural changed — supplier, format, domain</td><td>Immediate investigation required</td></tr>
+      <tr><td>Sharp drop &gt;10% in one month</td><td>Something structural changed: supplier, format, domain</td><td>Immediate investigation required</td></tr>
       <tr><td>Recovery after drop</td><td>Data team intervention worked</td><td>Export new training data to capture the improved baseline</td></tr>
     </table>
 
-    <h4>Step 4 — Export Training Data for Retraining</h4>
+    <h4>Step 4: Export Training Data for Retraining</h4>
     <ol class="steps">
       <li>
         <div class="step-body">
@@ -759,7 +760,7 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
       <li>
         <div class="step-body">
           <strong>Or click "Export as CSV"</strong>
-          <p>Same data in spreadsheet format — usable by data scientists in pandas, R, or Excel.</p>
+          <p>Same data in spreadsheet format: usable by data scientists in pandas, R, or Excel.</p>
         </div>
       </li>
       <li>
@@ -772,7 +773,7 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE</code></pre>
 
     <div class="callout callout-wisdom">
       <span class="icon">🧠</span>
-      <div><strong>Why this matters:</strong> Most teams detect model drift months after it starts — only when business metrics decline. GuardRails detects it in the data itself, before it reaches your model. Catching drift at month 3 (93%) costs hours to fix. Catching it at month 5 (68%) costs weeks.</div>
+      <div><strong>Why this matters:</strong> Most teams detect model drift months after it starts: only when business metrics decline. GuardRails detects it in the data itself, before it reaches your model. Catching drift at month 3 (93%) costs hours to fix. Catching it at month 5 (68%) costs weeks.</div>
     </div>
 
     <h3>The Drift Detection API</h3>
@@ -800,13 +801,13 @@ curl http://localhost:3000/training-export
   <section id="scenario-hallucination">
     <div class="scenario-header">
       <div class="tag">Scenario 4 · AI Readiness</div>
-      <h2>🤖 Hallucination Risk — Is Your Data Safe to Feed an AI?</h2>
-      <p>Discover how data quality issues translate directly into AI model failures: hallucinations, biased predictions, and incorrect recommendations — all caused by the data, not the model.</p>
+      <h2>🤖 Hallucination Risk: Is Your Data Safe to Feed an AI?</h2>
+      <p>Discover how data quality issues translate directly into AI model failures: hallucinations, biased predictions, and incorrect recommendations: all caused by the data, not the model.</p>
       <div class="wow">"Your AI model is only as good as the data it was trained on. Garbage in, confident hallucinations out."</div>
     </div>
 
     <h3>What Is an AI Hallucination?</h3>
-    <p>An AI hallucination is when a model produces output that is confidently stated but factually wrong or nonsensical. In data-driven models, hallucinations are almost always caused by data quality failures — the model learned from bad data and generalized that badness into its predictions.</p>
+    <p>An AI hallucination is when a model produces output that is confidently stated but factually wrong or nonsensical. In data-driven models, hallucinations are almost always caused by data quality failures: the model learned from bad data and generalized that badness into its predictions.</p>
 
     <p>Common hallucination triggers in data:</p>
     <table>
@@ -814,13 +815,13 @@ curl http://localhost:3000/training-export
       <tr><td>Null rate above 5%</td><td>Model fills gaps with statistically likely but wrong values</td><td>Wrong pricing, incorrect patient risk scores</td></tr>
       <tr><td>Mixed field formats</td><td>Model treats different formats as different categories</td><td>Fraud model misses patterns it learned in a different format</td></tr>
       <tr><td>Duplicate records</td><td>Model over-weights duplicated examples, creates bias</td><td>Product recommendations skewed toward duplicated items</td></tr>
-      <tr><td>Non-numeric values in numeric fields</td><td>Silent coercion to NaN or zero — model sees phantom zeros</td><td>Healthcare model predicts zero medication dosage</td></tr>
-      <tr><td>Unparseable dates</td><td>Model loses temporal context — seasonality disappears</td><td>Forecasting model treats all months as equal</td></tr>
+      <tr><td>Non-numeric values in numeric fields</td><td>Silent coercion to NaN or zero: model sees phantom zeros</td><td>Healthcare model predicts zero medication dosage</td></tr>
+      <tr><td>Unparseable dates</td><td>Model loses temporal context: seasonality disappears</td><td>Forecasting model treats all months as equal</td></tr>
     </table>
 
     <h3>Running the Hallucination Risk Scenario</h3>
 
-    <h4>Phase A — Upload a File Likely to Cause Hallucinations</h4>
+    <h4>Phase A: Upload a File Likely to Cause Hallucinations</h4>
     <ol class="steps">
       <li>
         <div class="step-body">
@@ -836,36 +837,36 @@ curl http://localhost:3000/training-export
       </li>
     </ol>
 
-    <h4>Phase B — Review Issues as an AI Risk Assessor</h4>
+    <h4>Phase B: Review Issues as an AI Risk Assessor</h4>
     <p>When reviewing issues, shift your mindset: instead of "Is this a data problem?" ask "Would this cause an AI model to learn the wrong thing?"</p>
     <ol class="steps">
       <li>
         <div class="step-body">
-          <strong>For every missing value issue — approve and tag it as "AI risk"</strong>
-          <p>Add context: "This null value would be imputed as the column mean — creating phantom data the model treats as real."</p>
+          <strong>For every missing value issue: approve and tag it as "AI risk"</strong>
+          <p>Add context: "This null value would be imputed as the column mean: creating phantom data the model treats as real."</p>
         </div>
       </li>
       <li>
         <div class="step-body">
-          <strong>For every format inconsistency — approve and explain the hallucination mechanism</strong>
-          <p>Add context: "Mixed price formats ($45 vs 45.00 vs 45,00) will be parsed differently by different pipeline stages — the model will see three separate data distributions where there should be one."</p>
+          <strong>For every format inconsistency: approve and explain the hallucination mechanism</strong>
+          <p>Add context: "Mixed price formats ($45 vs 45.00 vs 45,00) will be parsed differently by different pipeline stages: the model will see three separate data distributions where there should be one."</p>
         </div>
       </li>
       <li>
         <div class="step-body">
-          <strong>For duplicate records — approve with bias impact context</strong>
+          <strong>For duplicate records: approve with bias impact context</strong>
           <p>Add context: "Duplicated product records will cause the model to over-fit to those specific products. Recommendations will be systematically biased toward duplicated SKUs."</p>
         </div>
       </li>
     </ol>
 
-    <h4>Phase C — Understand the Hallucination Verdicts (Coming Soon: AI Readiness Score)</h4>
+    <h4>Phase C: Understand the Hallucination Verdicts (Coming Soon: AI Readiness Score)</h4>
     <p>The upcoming <strong>AI Readiness Score</strong> feature will automatically assess whether your data is safe for AI pipeline use. Until it ships, use these manual thresholds:</p>
 
     <div class="verdict verdict-green">
       <div class="vicon">🟢</div>
       <div>
-        <strong>AI Ready — Score 90+ with no null rate issues</strong>
+        <strong>AI Ready: Score 90+ with no null rate issues</strong>
         Your data meets the minimum quality threshold for AI pipeline use. Completeness is above 95%, types are consistent, no duplicate keys, numeric and date fields are well-formed.
       </div>
     </div>
@@ -873,7 +874,7 @@ curl http://localhost:3000/training-export
     <div class="verdict verdict-yellow">
       <div class="vicon">🟡</div>
       <div>
-        <strong>Needs Work — Score 75–89 or null rate 5–15%</strong>
+        <strong>Needs Work: Score 75–89 or null rate 5–15%</strong>
         Specific issues would cause AI model drift or incorrect predictions. The model can still run, but its outputs require human validation before acting on them.
       </div>
     </div>
@@ -881,12 +882,12 @@ curl http://localhost:3000/training-export
     <div class="verdict verdict-red">
       <div class="vicon">🔴</div>
       <div>
-        <strong>Not AI Ready — Score below 75 or null rate above 15%</strong>
+        <strong>Not AI Ready: Score below 75 or null rate above 15%</strong>
         This data would actively harm an AI model's accuracy. Training or running inference on this data will produce hallucinations. Do not feed this to a model without remediation.
       </div>
     </div>
 
-    <h4>Phase D — Demonstrate the Four Domain Models</h4>
+    <h4>Phase D: Demonstrate the Four Domain Models</h4>
     <p>The project includes four pre-built models that illustrate hallucination risk across different industries. Each model has its own training data in the <code>Data/</code> folder:</p>
 
     <table>
@@ -913,11 +914,11 @@ curl http://localhost:3000/training-export
       </tr>
     </table>
 
-    <p>Upload each training file and analyze it. Compare the scores — which domain's training data is riskiest? The model that trains on the lowest-quality data will produce the most hallucinations.</p>
+    <p>Upload each training file and analyze it. Compare the scores: which domain's training data is riskiest? The model that trains on the lowest-quality data will produce the most hallucinations.</p>
 
     <div class="callout callout-wisdom">
       <span class="icon">🧠</span>
-      <div><strong>The core insight:</strong> AI hallucinations are a data quality problem, not a model problem. Fixing hallucinations at the model layer is expensive and fragile. Fixing them at the data layer — before training — is fast, permanent, and provable. GuardRails gives you that proof.</div>
+      <div><strong>The core insight:</strong> AI hallucinations are a data quality problem, not a model problem. Fixing hallucinations at the model layer is expensive and fragile. Fixing them at the data layer: before training: is fast, permanent, and provable. GuardRails gives you that proof.</div>
     </div>
   </section>
 
@@ -933,7 +934,7 @@ curl http://localhost:3000/training-export
     <table>
       <tr><th>Ring</th><th>What It Measures</th><th>Healthy Range</th></tr>
       <tr><td><strong>Overall</strong></td><td>Combined weighted score across all dimensions</td><td>85+</td></tr>
-      <tr><td><strong>Completeness</strong></td><td>Missing value rate — how many fields have no value</td><td>90+</td></tr>
+      <tr><td><strong>Completeness</strong></td><td>Missing value rate: how many fields have no value</td><td>90+</td></tr>
       <tr><td><strong>Consistency</strong></td><td>Format and type uniformity within each column</td><td>85+</td></tr>
       <tr><td><strong>Validity</strong></td><td>Values within expected ranges, no outliers</td><td>80+</td></tr>
     </table>
@@ -948,32 +949,32 @@ curl http://localhost:3000/training-export
 
   <section id="review-tab">
     <h2>✅ Review Issues Tab</h2>
-    <p>This is where the intelligence lives. For each issue the AI detects, you decide whether it is real or a false positive for your domain. Your decision — and the reasoning you capture — becomes permanent institutional knowledge.</p>
+    <p>This is where the intelligence lives. For each issue the AI detects, you decide whether it is real or a false positive for your domain. Your decision: and the reasoning you capture: becomes permanent institutional knowledge.</p>
 
     <h3>Issue Severity Levels</h3>
     <table>
       <tr><th>Severity</th><th>Threshold</th><th>Action Required</th></tr>
-      <tr><td><span class="score-pill score-red">CRITICAL</span></td><td>Missing rate ≥ 50%</td><td>Block data from pipeline — do not proceed</td></tr>
+      <tr><td><span class="score-pill score-red">CRITICAL</span></td><td>Missing rate ≥ 50%</td><td>Block data from pipeline: do not proceed</td></tr>
       <tr><td><span class="score-pill score-yellow">HIGH</span></td><td>Missing rate ≥ 20%, or type inconsistency</td><td>Investigate before using in production</td></tr>
-      <tr><td><span class="score-pill score-blue">MEDIUM</span></td><td>Missing rate &lt; 20%, statistical outliers</td><td>Document and monitor — may be acceptable</td></tr>
+      <tr><td><span class="score-pill score-blue">MEDIUM</span></td><td>Missing rate &lt; 20%, statistical outliers</td><td>Document and monitor: may be acceptable</td></tr>
     </table>
 
     <h3>The Approval Workflow</h3>
     <ol class="steps">
       <li><div class="step-body"><strong>Read the issue description and confidence score</strong><p>Higher confidence (90%+) means the AI is very sure this is a real problem in most domains.</p></div></li>
-      <li><div class="step-body"><strong>Apply your domain knowledge</strong><p>Ask: is this actually a problem for our specific use case? The machine does not know your domain — you do.</p></div></li>
+      <li><div class="step-body"><strong>Apply your domain knowledge</strong><p>Ask: is this actually a problem for our specific use case? The machine does not know your domain: you do.</p></div></li>
       <li><div class="step-body"><strong>Click Real Issue or False Positive</strong><p>Either choice teaches the system something valuable.</p></div></li>
       <li><div class="step-body"><strong>Add your reasoning</strong><p>Do not skip this. Your explanation is the institutional knowledge that makes the system smarter for your entire team.</p></div></li>
-      <li><div class="step-body"><strong>Rate the suggested fix</strong><p>Good, Meh, or Wrong — your fix rating directly influences what the Fix Library recommends to others.</p></div></li>
+      <li><div class="step-body"><strong>Rate the suggested fix</strong><p>Good, Meh, or Wrong: your fix rating directly influences what the Fix Library recommends to others.</p></div></li>
     </ol>
   </section>
 
   <section id="library-tab">
     <h2>📚 Fix Library Tab</h2>
-    <p>A crowdsourced, voted knowledge base of approved fixes. Every approval contributes. Sorted by votes — the most-validated fixes appear first.</p>
+    <p>A crowdsourced, voted knowledge base of approved fixes. Every approval contributes. Sorted by votes: the most-validated fixes appear first.</p>
 
     <h3>Voting</h3>
-    <p>Click 👍 or 👎 on any fix card to vote. Votes reflect your team's collective confidence in each solution. Fixes with more votes appear higher in the list — your team's wisdom, self-organizing.</p>
+    <p>Click 👍 or 👎 on any fix card to vote. Votes reflect your team's collective confidence in each solution. Fixes with more votes appear higher in the list: your team's wisdom, self-organizing.</p>
 
     <h3>Adding a New Fix</h3>
     <p>Use the form at the bottom of the Fix Library tab to add a fix your team discovered that is not already captured. Include:</p>
@@ -993,7 +994,7 @@ curl http://localhost:3000/training-export
 
   <section id="history-tab">
     <h2>🕐 History Tab</h2>
-    <p>Every analysis is saved automatically. The History tab shows all past analyses with filename, date, score, and approval progress. Click any row to reload that analysis — you can continue approving issues from a previous session.</p>
+    <p>Every analysis is saved automatically. The History tab shows all past analyses with filename, date, score, and approval progress. Click any row to reload that analysis: you can continue approving issues from a previous session.</p>
   </section>
 
   <section id="drift-tab">
@@ -1010,8 +1011,8 @@ curl http://localhost:3000/training-export
     <div class="scenario-header">
       <div class="tag">Chaos Engineering · Powered by Chaos Toolkit</div>
       <h2>🔥 Chaos Data Mode</h2>
-      <p>Deliberately inject data corruption into your pipeline to discover how — and exactly where — quality failures break downstream systems and AI models.</p>
-      <div class="wow">"Don't wait for production to find your fragile fields. Break them on purpose — in a controlled environment — and fix them before they cost you."</div>
+      <p>Deliberately inject data corruption into your pipeline to discover how: and exactly where: quality failures break downstream systems and AI models.</p>
+      <div class="wow">"Don't wait for production to find your fragile fields. Break them on purpose: in a controlled environment: and fix them before they cost you."</div>
     </div>
 
     <h3>What Is Chaos Engineering for Data?</h3>
@@ -1019,7 +1020,7 @@ curl http://localhost:3000/training-export
 
     <div class="callout callout-info">
       <span class="icon">ℹ️</span>
-      <div><strong>Chaos Toolkit</strong> is the open-source Python framework powering GuardRails Chaos Mode. Experiments are defined as JSON or YAML, executed via the CLI, and can call any HTTP endpoint — including the GuardRails <code>/chaos-test</code> API.</div>
+      <div><strong>Chaos Toolkit</strong> is the open-source Python framework powering GuardRails Chaos Mode. Experiments are defined as JSON or YAML, executed via the CLI, and can call any HTTP endpoint: including the GuardRails <code>/chaos-test</code> API.</div>
     </div>
 
     <h3>Install Chaos Toolkit</h3>
@@ -1057,12 +1058,12 @@ chaos --version</code></pre>
     <h3>The Three Chaos Injections</h3>
     <table>
       <tr><th>Injection Type</th><th>What Happens</th><th>Fields Targeted</th></tr>
-      <tr><td><span class="score-pill score-red">NULL STORM</span></td><td>Randomly sets 10% of all field values to null/empty</td><td>All columns — reveals which are load-bearing</td></tr>
+      <tr><td><span class="score-pill score-red">NULL STORM</span></td><td>Randomly sets 10% of all field values to null/empty</td><td>All columns: reveals which are load-bearing</td></tr>
       <tr><td><span class="score-pill score-yellow">FORMAT CHAOS</span></td><td>Scrambles expected formats in key columns</td><td>Date, email, phone, ID fields specifically</td></tr>
-      <tr><td><span class="score-pill score-blue">DUPLICATE FLOOD</span></td><td>Randomly clones 5% of records and re-inserts them</td><td>Entire rows — tests deduplication resilience</td></tr>
+      <tr><td><span class="score-pill score-blue">DUPLICATE FLOOD</span></td><td>Randomly clones 5% of records and re-inserts them</td><td>Entire rows: tests deduplication resilience</td></tr>
     </table>
 
-    <h3>Running Chaos Mode — In-App</h3>
+    <h3>Running Chaos Mode: In-App</h3>
     <ol class="steps">
       <li>
         <div class="step-body">
@@ -1073,13 +1074,13 @@ chaos --version</code></pre>
       <li>
         <div class="step-body">
           <strong>Click "Run Chaos Test"</strong>
-          <p>Available as a button on the Upload tab after a successful analysis. The server makes a copy of your file — the original is never modified.</p>
+          <p>Available as a button on the Upload tab after a successful analysis. The server makes a copy of your file: the original is never modified.</p>
         </div>
       </li>
       <li>
         <div class="step-body">
           <strong>View Before vs After score rings</strong>
-          <p>Both sets of score rings render side by side. The delta between them is your <strong>Fragility Score</strong> — higher delta = more fragile pipeline.</p>
+          <p>Both sets of score rings render side by side. The delta between them is your <strong>Fragility Score</strong>: higher delta = more fragile pipeline.</p>
         </div>
       </li>
       <li>
@@ -1091,15 +1092,15 @@ chaos --version</code></pre>
       <li>
         <div class="step-body">
           <strong>Read the Gemini Fragility Report</strong>
-          <p>Gemini AI interprets <em>why</em> each fragile field failed and what downstream system — pricing model, fraud classifier, readmission predictor — would break first.</p>
+          <p>Gemini AI interprets <em>why</em> each fragile field failed and what downstream system: pricing model, fraud classifier, readmission predictor: would break first.</p>
         </div>
       </li>
     </ol>
 
-    <h3>Running Chaos Mode — Chaos Toolkit CLI</h3>
+    <h3>Running Chaos Mode: Chaos Toolkit CLI</h3>
     <p>For CI/CD integration, automated pipelines, or scheduled chaos runs, use the Chaos Toolkit CLI with a GuardRails experiment file.</p>
 
-    <h4>Step 1 — Create the experiment file</h4>
+    <h4>Step 1: Create the experiment file</h4>
     <p>Save this as <code>chaos-experiments/data-quality-baseline.json</code>:</p>
     <pre><code>{
   "version": "1.0.0",
@@ -1199,7 +1200,7 @@ chaos --version</code></pre>
   ]
 }</code></pre>
 
-    <h4>Step 2 — Run the experiment</h4>
+    <h4>Step 2: Run the experiment</h4>
     <pre><code># Run the chaos experiment
 chaos run chaos-experiments/data-quality-baseline.json
 
@@ -1210,7 +1211,7 @@ chaos --verbose run chaos-experiments/data-quality-baseline.json
 pip install chaostoolkit-reporting
 chaos report --export-format=html journal.json report.html</code></pre>
 
-    <h4>Step 3 — Interpret the output</h4>
+    <h4>Step 3: Interpret the output</h4>
     <pre><code>[2026-05-12 10:14:03 INFO] Validating the experiment's syntax
 [2026-05-12 10:14:03 INFO] Running experiment: GuardRails Data Quality Chaos Experiment
 [2026-05-12 10:14:03 INFO] Steady state hypothesis: Data quality score is at or above acceptable threshold
@@ -1231,7 +1232,7 @@ Experiment ended with status: deviated</code></pre>
 
     <div class="callout callout-warn">
       <span class="icon">⚠️</span>
-      <div><strong>"deviated" is not a failure — it's the point.</strong> A deviated result means your data pipeline is fragile under these conditions. That is the information you need. Fix the fragile fields, rerun, and work toward a <strong>"completed"</strong> result where steady state holds even through chaos.</div>
+      <div><strong>"deviated" is not a failure: it's the point.</strong> A deviated result means your data pipeline is fragile under these conditions. That is the information you need. Fix the fragile fields, rerun, and work toward a <strong>"completed"</strong> result where steady state holds even through chaos.</div>
     </div>
 
     <h3>Using YAML Instead of JSON</h3>
@@ -1297,20 +1298,20 @@ rollbacks:
     <h3>Chaos Experiment Results Guide</h3>
     <table>
       <tr><th>Result</th><th>Meaning</th><th>Action</th></tr>
-      <tr><td><span class="score-pill score-green">completed</span></td><td>Steady state held through all chaos injections</td><td>Pipeline is resilient — document and maintain</td></tr>
-      <tr><td><span class="score-pill score-yellow">deviated</span></td><td>Steady state broke — pipeline is fragile</td><td>Review fragile fields report and harden before next release</td></tr>
+      <tr><td><span class="score-pill score-green">completed</span></td><td>Steady state held through all chaos injections</td><td>Pipeline is resilient: document and maintain</td></tr>
+      <tr><td><span class="score-pill score-yellow">deviated</span></td><td>Steady state broke: pipeline is fragile</td><td>Review fragile fields report and harden before next release</td></tr>
       <tr><td><span class="score-pill score-red">failed</span></td><td>Experiment itself errored (server unreachable, etc.)</td><td>Fix experiment configuration, not the data</td></tr>
     </table>
 
     <div class="callout callout-wisdom">
       <span class="icon">🧠</span>
-      <div><strong>Chaos + Wisdom Formula:</strong> Every chaos experiment that reveals a fragile field adds to your institutional knowledge. Approve the fragility finding in the Review Issues tab, add a fix to the library, and your team will never be surprised by that failure mode again. Chaos makes the unknown known — the Wisdom Formula makes it permanently known.</div>
+      <div><strong>Chaos + Wisdom Formula:</strong> Every chaos experiment that reveals a fragile field adds to your institutional knowledge. Approve the fragility finding in the Review Issues tab, add a fix to the library, and your team will never be surprised by that failure mode again. Chaos makes the unknown known: the Wisdom Formula makes it permanently known.</div>
     </div>
   </section>
 
   <section id="ai-fixes">
     <h2>🤖 Coming Soon: AI-Generated Fix Suggestions</h2>
-    <p>After scoring, click <strong>Get Fix Code</strong> and receive ready-to-run code in three languages — Python, JavaScript, and SQL — tailored to the exact errors found in your file. Not generic templates: the code uses your actual column names and targets only the specific issues detected.</p>
+    <p>After scoring, click <strong>Get Fix Code</strong> and receive ready-to-run code in three languages: Python, JavaScript, and SQL: tailored to the exact errors found in your file. Not generic templates: the code uses your actual column names and targets only the specific issues detected.</p>
     <p>Each snippet includes a copy button. Powered by Google Gemini.</p>
   </section>
 
@@ -1320,15 +1321,15 @@ rollbacks:
 
     <div class="verdict verdict-green">
       <div class="vicon">🟢</div>
-      <div><strong>AI Ready</strong> — Data meets minimum quality threshold for AI pipeline use</div>
+      <div><strong>AI Ready</strong>: Data meets minimum quality threshold for AI pipeline use</div>
     </div>
     <div class="verdict verdict-yellow">
       <div class="vicon">🟡</div>
-      <div><strong>Needs Work</strong> — Specific issues would cause model drift or hallucination errors</div>
+      <div><strong>Needs Work</strong>: Specific issues would cause model drift or hallucination errors</div>
     </div>
     <div class="verdict verdict-red">
       <div class="vicon">🔴</div>
-      <div><strong>Not AI Ready</strong> — This data would actively harm an AI model's accuracy</div>
+      <div><strong>Not AI Ready</strong>: This data would actively harm an AI model's accuracy</div>
     </div>
 
     <p style="margin-top:16px;">Powered by Google Gemini, which explains in plain English exactly what type of model failure each data issue would cause.</p>
@@ -1338,6 +1339,62 @@ rollbacks:
   <!-- ════════════════════════════════════════════════════ -->
   <!-- API REFERENCE                                        -->
   <!-- ════════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <!-- HUGGING FACE DATASETS                                -->
+  <!-- ════════════════════════════════════════════════════ -->
+  <section id="hf-datasets">
+    <h2>🤗 Hugging Face Datasets</h2>
+
+    <p>GuardRails can pull datasets directly from <a href="https://huggingface.co/datasets" target="_blank" rel="noopener">HuggingFace Hub</a> and run them through the full quality analysis pipeline. No manual download required.</p>
+
+    <h3>Setup: Add Your API Key</h3>
+    <p>A <code>HUGGINGFACE_API_KEY</code> is optional for public datasets and required for gated ones. Add it to your <code>.env</code>:</p>
+    <pre><code># .env
+HUGGINGFACE_API_KEY=hf_your_token_here</code></pre>
+    <p>Generate a token at <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener">huggingface.co/settings/tokens</a>. Read-only access is sufficient.</p>
+
+    <h3>How to Use</h3>
+    <ol class="steps">
+      <li><div class="step-body"><strong>Switch to the Hugging Face tab</strong><p>On the Upload screen, click the <strong>🤗 Hugging Face Dataset</strong> tab.</p></div></li>
+      <li><div class="step-body"><strong>Search or enter a dataset ID</strong><p>Use the search box to find datasets by keyword (e.g. "tabular", "fraud", "ecommerce"), or type a dataset ID directly: <code>rajpurkar/squad</code> or a full URL like <code>https://huggingface.co/datasets/rajpurkar/squad</code>.</p></div></li>
+      <li><div class="step-body"><strong>Inspect the dataset</strong><p>Click <strong>Inspect</strong> to fetch metadata: license, gated status, description, and a list of .csv / .json files available.</p></div></li>
+      <li><div class="step-body"><strong>Review the license</strong><p>GuardRails displays the dataset license prominently. If the license is restrictive, a warning is shown. You are responsible for complying with the dataset license before loading.</p></div></li>
+      <li><div class="step-body"><strong>Click Load on a file</strong><p>Select a file and click <strong>Load</strong>. The file is streamed in-memory, analyzed by the SysWisdom API, and the results appear in the Review Issues tab.</p></div></li>
+    </ol>
+
+    <h3>License Compliance</h3>
+    <table>
+      <tr><th>License Type</th><th>Indicator</th><th>What It Means</th></tr>
+      <tr><td>MIT, Apache 2.0, CC-BY, CC0, OpenRAIL</td><td><span class="score-pill score-green">Open</span></td><td>Generally permissive. Safe for research and development use.</td></tr>
+      <tr><td>CC-BY-NC, research-only, custom</td><td><span class="score-pill score-yellow">Restricted</span></td><td>May prohibit commercial use. Review before loading.</td></tr>
+      <tr><td>Gated datasets</td><td><span class="score-pill score-red">Gated 🔒</span></td><td>Requires you to request access on huggingface.co first, then add a token to .env.</td></tr>
+      <tr><td>Unknown / not specified</td><td><span class="score-pill" style="background:#f8fafc;color:#475569;border:1px solid #cbd5e1">Unknown</span></td><td>Treat as restricted until you verify the license on huggingface.co.</td></tr>
+    </table>
+
+    <div class="callout callout-info" style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:16px;margin:16px 0;">
+      <strong style="color:#0369a1;">Privacy Note:</strong> Dataset content is processed in-memory and never stored on disk by GuardRails. Only the dataset name, license, and access timestamp are logged for compliance purposes.
+    </div>
+
+    <h3>Gated Datasets</h3>
+    <p>Some datasets on HuggingFace require you to agree to terms before downloading. To access them:</p>
+    <ol class="steps">
+      <li><div class="step-body"><strong>Request access</strong><p>Visit the dataset page on huggingface.co and click <em>Agree and request access</em>. Approval can be automatic or manual depending on the dataset author.</p></div></li>
+      <li><div class="step-body"><strong>Add your token to .env</strong><p>Once approved, generate a read token at <a href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener">huggingface.co/settings/tokens</a> and add it:<br><code>HUGGINGFACE_API_KEY=hf_xxxxxxxxxxxx</code></p></div></li>
+      <li><div class="step-body"><strong>Restart the server</strong><p>Run <code>npm start</code> again to load the new key. Then inspect and load the gated dataset normally.</p></div></li>
+    </ol>
+
+    <h3>API Endpoints (HuggingFace)</h3>
+    <table>
+      <tr><th>Endpoint</th><th>Description</th></tr>
+      <tr><td><code>GET /hf/search?q=QUERY</code></td><td>Search HuggingFace Hub datasets by keyword. Returns up to 20 results sorted by downloads.</td></tr>
+      <tr><td><code>GET /hf/inspect?dataset=OWNER/NAME</code></td><td>Fetch dataset metadata (license, gated status, description) and list of .csv/.json files.</td></tr>
+      <tr><td><code>POST /hf/load</code></td><td>Download a dataset file and run it through the full analysis pipeline. Body: <code>{dataset_id, file_path, reviewer}</code>.</td></tr>
+    </table>
+
+    <h3>Rate Limits</h3>
+    <p>HuggingFace Hub API requests without a token are limited to approximately 100 requests per hour per IP. With a <code>HUGGINGFACE_API_KEY</code>, limits are significantly higher. See <a href="https://huggingface.co/docs/hub/rate-limits" target="_blank" rel="noopener">huggingface.co/docs/hub/rate-limits</a>.</p>
+  </section>
+
   <section id="api">
     <h2>🔌 API Endpoints Reference</h2>
     <table>
@@ -1363,16 +1420,16 @@ rollbacks:
     <table>
       <tr><th>File</th><th>Rows</th><th>Use Case</th><th>Score</th></tr>
       <tr><td><span class="file-chip">test.csv</span></td><td>5</td><td>Scenario 1: First Analysis</td><td><span class="score-pill score-green">84.0</span></td></tr>
-      <tr><td><span class="file-chip">ecom_drift_month1_jan_perfect.csv</span></td><td>—</td><td>Drift baseline — perfect data</td><td><span class="score-pill score-green">100%</span></td></tr>
-      <tr><td><span class="file-chip">ecom_drift_month2_feb_97pct.csv</span></td><td>—</td><td>Drift — minor early issues</td><td><span class="score-pill score-green">97%</span></td></tr>
-      <tr><td><span class="file-chip">ecom_drift_month3_mar_93pct.csv</span></td><td>—</td><td>Drift — format drift begins</td><td><span class="score-pill score-yellow">93%</span></td></tr>
-      <tr><td><span class="file-chip">ecom_drift_month4_may_85pct.csv</span></td><td>—</td><td>Slop — accumulation phase</td><td><span class="score-pill score-yellow">85%</span></td></tr>
-      <tr><td><span class="file-chip">ecom_drift_month5_june_68pct.csv</span></td><td>—</td><td>Slop/Hallucination risk — dangerous</td><td><span class="score-pill score-red">68%</span></td></tr>
-      <tr><td><span class="file-chip">ecom_drift_month6_july_100pct.csv</span></td><td>—</td><td>Recovery — post-cleanup</td><td><span class="score-pill score-green">100%</span></td></tr>
-      <tr><td><span class="file-chip">ecommerce_pricing_training.csv</span></td><td>62</td><td>AI model training — pricing</td><td>—</td></tr>
-      <tr><td><span class="file-chip">fraud_detection_training.csv</span></td><td>70</td><td>AI model training — fraud</td><td>—</td></tr>
-      <tr><td><span class="file-chip">healthcare_readmission_training.csv</span></td><td>60</td><td>AI model training — healthcare</td><td>—</td></tr>
-      <tr><td><span class="file-chip">weather_stock_training.csv</span></td><td>60</td><td>AI model training — finance</td><td>—</td></tr>
+      <tr><td><span class="file-chip">ecom_drift_month1_jan_perfect.csv</span></td><td>—</td><td>Drift baseline: perfect data</td><td><span class="score-pill score-green">100%</span></td></tr>
+      <tr><td><span class="file-chip">ecom_drift_month2_feb_97pct.csv</span></td><td>—</td><td>Drift: minor early issues</td><td><span class="score-pill score-green">97%</span></td></tr>
+      <tr><td><span class="file-chip">ecom_drift_month3_mar_93pct.csv</span></td><td>—</td><td>Drift: format drift begins</td><td><span class="score-pill score-yellow">93%</span></td></tr>
+      <tr><td><span class="file-chip">ecom_drift_month4_may_85pct.csv</span></td><td>—</td><td>Slop: accumulation phase</td><td><span class="score-pill score-yellow">85%</span></td></tr>
+      <tr><td><span class="file-chip">ecom_drift_month5_june_68pct.csv</span></td><td>—</td><td>Slop/Hallucination risk: dangerous</td><td><span class="score-pill score-red">68%</span></td></tr>
+      <tr><td><span class="file-chip">ecom_drift_month6_july_100pct.csv</span></td><td>—</td><td>Recovery: post-cleanup</td><td><span class="score-pill score-green">100%</span></td></tr>
+      <tr><td><span class="file-chip">ecommerce_pricing_training.csv</span></td><td>62</td><td>AI model training: pricing</td><td>—</td></tr>
+      <tr><td><span class="file-chip">fraud_detection_training.csv</span></td><td>70</td><td>AI model training: fraud</td><td>—</td></tr>
+      <tr><td><span class="file-chip">healthcare_readmission_training.csv</span></td><td>60</td><td>AI model training: healthcare</td><td>—</td></tr>
+      <tr><td><span class="file-chip">weather_stock_training.csv</span></td><td>60</td><td>AI model training: finance</td><td>—</td></tr>
     </table>
   </section>
 
@@ -1400,7 +1457,7 @@ Where:
   Completeness   = Rules coverage across all columns
   Team_Experience = Number of files your team has analyzed</code></pre>
 
-    <p>The formula explains why early scores feel conservative and later scores feel authoritative — both are correct. Early on, wisdom is still building. Over time, each validation compounds, and the system becomes exponentially better at predicting what matters to your specific team in your specific domain.</p>
+    <p>The formula explains why early scores feel conservative and later scores feel authoritative: both are correct. Early on, wisdom is still building. Over time, each validation compounds, and the system becomes exponentially better at predicting what matters to your specific team in your specific domain.</p>
 
     <table>
       <tr><th>Phase</th><th>What Happens</th><th>Formula Behavior</th></tr>
