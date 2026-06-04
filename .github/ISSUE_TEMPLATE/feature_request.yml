@@ -1,0 +1,67 @@
+name: Feature Request
+description: Propose an enhancement for GuardRails
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your idea. Please focus on user problem, expected impact, and acceptance criteria.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Feature Summary
+      placeholder: One-line feature description
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What user problem does this solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: Describe your suggested approach.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Backend API
+        - Frontend UX
+        - Model Health
+        - Security
+        - Documentation
+        - CI/CD
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-Submission Checks
+      options:
+        - label: I searched existing issues first.
+          required: true
+        - label: This request does not include secrets or private data.
+          required: true

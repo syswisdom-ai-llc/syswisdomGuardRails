@@ -248,13 +248,15 @@ We appreciate pull requests, but the core platform remains proprietary. Here's w
 
 📧 Email: **info@syswisdom.ai**
 
+Please follow the full disclosure policy in [SECURITY.md](SECURITY.md).
+
 **Include**:
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
 - Any proposed fix
 
-We'll respond within 48 hours and work with you on a responsible disclosure timeline.
+We target acknowledgement within 3 business days and provide triage/remediation updates based on severity.
 
 ---
 
@@ -264,10 +266,10 @@ We'll respond within 48 hours and work with you on a responsible disclosure time
 
 By contributing to SysWisdom Guardrails, you agree that:
 
-- ✅ Your contributions will be owned by SysWisdom.AI LLC
-- ✅ Your code may be incorporated into the proprietary product
-- ✅ You grant SysWisdom.AI LLC non-exclusive rights to your feedback
-- ✅ You retain the right to fork/copy your own contributions for personal use
+- ✅ Your contributions are licensed under the repository's open-source license
+- ✅ You have the right to submit the contribution and license it accordingly
+- ✅ You grant maintainers the right to review, modify, and merge contributions
+- ✅ You grant SysWisdom.AI LLC non-exclusive rights to feedback and suggestions
 
 ### Our Obligations
 
@@ -314,7 +316,12 @@ We promise to:
 
 ### Bug Reports or Feature Requests?
 
-📧 **Email**: info@syswisdom.ai
+Use GitHub issue templates:
+
+- Bug report: `.github/ISSUE_TEMPLATE/bug_report.yml`
+- Feature request: `.github/ISSUE_TEMPLATE/feature_request.yml`
+
+For security vulnerabilities, do not open public issues. Email info@syswisdom.ai and follow SECURITY.md.
 
 ---
 

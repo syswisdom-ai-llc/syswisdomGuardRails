@@ -1,0 +1,77 @@
+name: Bug Report
+description: Report a reproducible bug in GuardRails
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve GuardRails. Please include enough detail for reproducibility.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Short Summary
+      placeholder: Brief description of the bug
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      description: Provide exact steps, inputs, and expected behavior.
+      placeholder: |
+        1. Go to ...
+        2. Upload ...
+        3. Click ...
+        4. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: App Version / Commit
+      placeholder: e.g., main@abcdef1
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Screenshots
+      description: Paste stack traces and screenshots if available.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-Submission Checks
+      options:
+        - label: I searched existing issues first.
+          required: true
+        - label: I removed sensitive data (tokens, credentials, customer data).
+          required: true
