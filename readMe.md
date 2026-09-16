@@ -542,35 +542,39 @@ The more your team uses Guardrails, the smarter it becomes.
 
 ---
 
-## � License & Legal
+## 📄 License & Legal
 
-### Commercial License
+### Apache License 2.0
 
 **© 2024 SysWisdom.AI LLC** • *Building with heart in Georgia*
 
-This project is proprietary software owned by SysWisdom.AI LLC. All rights reserved.
+This project is open source software licensed under the **Apache License 2.0**.  
+See the [`LICENSE`](LICENSE) file in the project root for the full license text.
 
-**License Type**: Proprietary Commercial License  
-**License File**: See `LICENSE` in the project root
+**License Type**: Apache License 2.0  
+**SPDX identifier**: `Apache-2.0`
 
 ### Usage Rights
 
+Under the Apache 2.0 license, you are free to:
+
 ✅ **You may**:
-- Use the Software for internal business purposes
-- Evaluate the Software (30-day trial period)
-- Integrate with your proprietary systems
-- Make modifications for your own use
+- Use the software for any purpose, including commercial use
+- Modify the source code
+- Distribute original or modified copies
+- Sublicense and include in proprietary products
+- Use privately without distributing
 
-❌ **You may not**:
-- Reproduce, distribute, or sell the Software
-- Reverse engineer or decompile the source code
-- Use the Software to create competing products
-- Sublicense or transfer rights to third parties
-- Publicly disclose performance metrics or benchmarks
+📋 **Requirements**:
+- Retain the original copyright notice and `LICENSE` file in any distribution
+- State significant changes made to the source code
+- Include the `NOTICE` file when distributing (see [`NOTICE`](NOTICE))
 
-### Commercial Use
+### Hosted API & Commercial Services
 
-For commercial licensing options, product integration, custom development, or enterprise deployment:
+The **SysWisdom Data Quality API** (the hosted backend this application calls) is a separate commercial service and is not covered by this open-source license. API access requires a key obtained from SysWisdom.AI LLC.
+
+For enterprise support, custom development, or commercial service agreements:
 
 📧 **Sales**: sales@syswisdom.ai  
 📧 **General**: info@syswisdom.ai
