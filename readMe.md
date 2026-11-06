@@ -5,6 +5,13 @@
 
 Transform data quality from reactive testing into proactive institutional knowledge. SysWisdom Guardrails enables quality professionals to build a feedback loop that compounds expertise over time using the **Wisdom Formula: (Experience / Wisdom) ^ Time**.
 
+## Also from SysWisdom
+
+SysWisdom also builds the [AI Quality Agent for accessibility](https://www.syswisdom.ai/), a human-led check of public AI chatbots against WCAG 2.1 AA, the standard in the ADA Title II web rule.
+
+- [Chatbot accessibility and ADA Title II FAQ](https://www.syswisdom.ai/faq)
+- [College chatbot accessibility under ADA Title II](https://www.syswisdom.ai/for/colleges)
+
 ---
 
 ## 🎯 Core Philosophy
